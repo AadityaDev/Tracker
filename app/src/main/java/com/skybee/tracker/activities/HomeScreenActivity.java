@@ -1,17 +1,27 @@
 package com.skybee.tracker.activities;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseActivity;
 import com.skybee.tracker.ui.customview.navigationtabbar.ntb.NavigationTabBar;
+import com.skybee.tracker.ui.fragments.Home;
+import com.skybee.tracker.ui.fragments.Map;
+import com.skybee.tracker.ui.fragments.Profile;
+import com.skybee.tracker.ui.fragments.Setting;
 
 import java.util.ArrayList;
 
-public class HomeScreenActivity extends BaseActivity {
+public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentInteractionListener, Map.OnFragmentInteractionListener,
+        Profile.OnFragmentInteractionListener, Setting.OnFragmentInteractionListener {
+
+    private FragmentPagerAdapter mPagerAdapter;
+    private ViewPager mViewPager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,28 +32,40 @@ public class HomeScreenActivity extends BaseActivity {
     }
 
     private void initializeUIComponents() {
-//        final ViewPager viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
-//        viewPager.setAdapter(new PagerAdapter() {
-//            @Override
-//            public int getCount() {
-//                return 4;
-//            }
-//
-//            @Override
-//            public boolean isViewFromObject(View view, Object object) {
-//                return view.equals(object);
-//            }
-//
-//            @Override
-//            public void destroyItem(ViewGroup container, int position, Object object) {
-//                ((ViewPager) container).removeView((View) object);
-//            }
-//
-////            @Override
-//            public Object instantiateItem(ViewGroup container, int position) {
-//                return super.instantiateItem(container, position);
-//            }
-//        });
+        // Create the adapter that will return a fragment for each section
+        mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            private final Fragment[] mFragments = new Fragment[]{
+                    new Home(),
+                    new Map(),
+                    new Profile(),
+                    new Setting(),
+            };
+            private final String[] mFragmentNames = new String[]{
+                    "Home",
+                    "Map",
+                    "Profile",
+                    "Settings"
+            };
+
+            @Override
+            public Fragment getItem(int position) {
+                return mFragments[position];
+            }
+
+            @Override
+            public int getCount() {
+                return mFragments.length;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return mFragmentNames[position];
+            }
+        };
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mPagerAdapter);
+
         final String[] colors = getResources().getStringArray(R.array.default_preview);
         final NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.ntb_horizontal);
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
@@ -115,10 +137,16 @@ public class HomeScreenActivity extends BaseActivity {
             }
         }, 500);
         navigationTabBar.setModelIndex(0);
+        navigationTabBar.setViewPager(mViewPager);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
