@@ -73,34 +73,30 @@ public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentI
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.mipmap.ic_launcher),
                         Color.parseColor(colors[0]))
-                        .selectedIcon(getResources().getDrawable(R.mipmap.ic_launcher))
                         .title("Heart")
                         .badgeTitle("NTB")
                         .build()
         );
         models.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.mipmap.ic_launcher),
-                        Color.parseColor(colors[0]))
-                        .selectedIcon(getResources().getDrawable(R.mipmap.ic_launcher))
+                        getResources().getDrawable(R.drawable.ic_place_24dp),
+                        Color.parseColor(colors[1]))
                         .title("Heart")
                         .badgeTitle("NTB")
                         .build()
         );
         models.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.mipmap.ic_launcher),
-                        Color.parseColor(colors[0]))
-                        .selectedIcon(getResources().getDrawable(R.mipmap.ic_launcher))
+                        getResources().getDrawable(R.drawable.ic_emoticon_24dp),
+                        Color.parseColor(colors[2]))
                         .title("Heart")
                         .badgeTitle("NTB")
                         .build()
         );
         models.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.mipmap.ic_launcher),
-                        Color.parseColor(colors[0]))
-                        .selectedIcon(getResources().getDrawable(R.mipmap.ic_launcher))
+                        getResources().getDrawable(R.drawable.ic_settings_24dp),
+                        Color.parseColor(colors[3]))
                         .title("Heart")
                         .badgeTitle("NTB")
                         .build()
@@ -136,8 +132,7 @@ public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentI
                 }
             }
         }, 500);
-        navigationTabBar.setModelIndex(0);
-        navigationTabBar.setViewPager(mViewPager);
+        navigationTabBar.setViewPager(mViewPager,0);
     }
 
     @Override

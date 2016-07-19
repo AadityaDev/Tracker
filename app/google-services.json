@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "235219237476",
+    "project_id": "tracker-86c83"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235219237476:android:17aedd6caaf827f7",
+        "android_client_info": {
+          "package_name": "com.skybee.tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235219237476-vm8jfndhtigu1dfb182vptr6h7pfjrgh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skybee.tracker",
+            "certificate_hash": "67AB88E063DC4C2C0A9C8C2B13B0AF5F23D86993"
+          }
+        },
+        {
+          "client_id": "235219237476-acsunp6rai7g6pdltq7135kd0vnc7h9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrWQf02TMxVaVXFCvCTDKzUKw-Hv3Szi0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

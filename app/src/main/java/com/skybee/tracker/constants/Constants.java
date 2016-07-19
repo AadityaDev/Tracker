@@ -18,4 +18,10 @@ public class Constants {
         public static final String LONGITUDE = "longitude";
         public static final String IS_ADMIN = "isAdmin";
     }
+
+    public class HeadingText{
+        public static final String CHECK_IN="CheckIn";
+        public static final String CHECK_LUNCH="LUNCH";
+        public static final String CHECK_OUT="CheckOut";
+    }
 }

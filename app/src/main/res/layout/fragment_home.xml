@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.skybee.tracker.ui.fragments.Home"
+    android:padding="@dimen/dimen_16dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/activity_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/check_in_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="@dimen/dimen_16sp"
+            />
+
+        <TextView
+            android:id="@+id/lunch_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_16sp"
+            android:layout_centerInParent="true"
+            />
+
+        <TextView
+            android:id="@+id/check_out_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="@dimen/dimen_16sp"
+            />
+    </RelativeLayout>
+
+    <com.skybee.tracker.ui.customview.StepperIndicator
+        android:id="@+id/stepper_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:stpi_stepCount="3"
+        android:layout_below="@+id/activity_heading"
+        />
+</RelativeLayout>
