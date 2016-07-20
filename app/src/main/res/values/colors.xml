@@ -6,4 +6,7 @@
     <color name="stpi_default_circle_color">#b3bdc2</color>
     <color name="stpi_default_primary_color">#00b47c</color>
     <color name="stpi_default_line_color">#b3bdc2</color>
+    <color name="light_green">#72d3b4</color>
+    <color name="white">#FFFFFF</color>
+
 </resources>

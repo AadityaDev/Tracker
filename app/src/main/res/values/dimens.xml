@@ -8,9 +8,22 @@
     <dimen name="stpi_default_line_stroke_width">2dp</dimen>
     <dimen name="stpi_default_line_margin">5dp</dimen>
 
+    <dimen name="dimen_6dp">6dp</dimen>
     <dimen name="dimen_16dp">16dp</dimen>
+    <dimen name="dimen_32dp">32dp</dimen>
+    <dimen name="dimen_36dp">36dp</dimen>
+    <dimen name="dimen_48dp">48dp</dimen>
     <dimen name="dimen_50dp">50dp</dimen>
+    <dimen name="dimen_60dp">60dp</dimen>
+    <dimen name="dimen_80dp">80dp</dimen>
+    <dimen name="dimen_100dp">100dp</dimen>
+    <dimen name="dimen_160dp">160dp</dimen>
+
+    <dimen name="dimen_300dp">300dp</dimen>
 
     <dimen name="dimen_12sp">12sp</dimen>
     <dimen name="dimen_16sp">16sp</dimen>
+    <dimen name="dimen_20sp">20sp</dimen>
+    <dimen name="dimen_24sp">24sp</dimen>
+    <dimen name="dimen_28sp">28sp</dimen>
 </resources>

@@ -136,14 +136,14 @@ public class Map extends Fragment implements OnMapReadyCallback {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
+            return;
+        }else {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setCompassEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.getMaxZoomLevel();
             mMap.getMinZoomLevel();
-            return;
-        }else {
-
         }
     }
 

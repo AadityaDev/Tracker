@@ -3,12 +3,18 @@ package com.skybee.tracker.ui.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.InterpolatorRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.skybee.tracker.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +35,15 @@ public class Profile extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ImageView userImage;
+
+    private TextView userName;
+
+    private TextView userCompany;
+    private TextView userLocation;
+    private TextView userEmail;
+    private TextView userMobileNumber;
 
     public Profile() {
         // Required empty public constructor
@@ -65,7 +80,14 @@ public class Profile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view=inflater.inflate(R.layout.fragment_profile, container, false);
+        userImage=(ImageView)view.findViewById(R.id.user_image);
+        userName=(TextView)view.findViewById(R.id.user_name);
+        userCompany=(TextView)view.findViewById(R.id.user_company);
+        userLocation=(TextView)view.findViewById(R.id.location_text);
+        userEmail=(TextView)view.findViewById(R.id.email_text);
+        userMobileNumber=(TextView)view.findViewById(R.id.mobile_num_text);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
