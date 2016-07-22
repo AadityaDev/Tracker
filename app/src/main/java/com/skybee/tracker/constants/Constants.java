@@ -20,8 +20,18 @@ public class Constants {
     }
 
     public class HeadingText{
+        public static final String EMPTY_CARD="EmptyCard";
         public static final String CHECK_IN="CheckIn";
-        public static final String CHECK_LUNCH="LUNCH";
+        public static final String CHECK_LUNCH="Lunch";
         public static final String CHECK_OUT="CheckOut";
+        public static final String CHECK_OFF="CheckOff";
+    }
+
+    public class Event{
+        public static final int EMPTY_CARD=0;
+        public static final int CHECK_IN=1;
+        public static final int CHECK_LUNCH=2;
+        public static final int CHECK_OUT=3;
+        public static final int CHECK_OFF=4;
     }
 }

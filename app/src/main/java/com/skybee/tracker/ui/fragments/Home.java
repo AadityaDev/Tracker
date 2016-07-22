@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,13 @@ import android.widget.TextView;
 
 import com.skybee.tracker.R;
 import com.skybee.tracker.constants.Constants;
+import com.skybee.tracker.model.TimeCard;
+import com.skybee.tracker.ui.adapters.TimeCardAdapter;
 import com.skybee.tracker.ui.customview.StepperIndicator;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +44,10 @@ public class Home extends Fragment {
     private TextView checkInText;
     private TextView lunchText;
     private TextView checkOutText;
+    private RecyclerView timeCards;
+    private List<TimeCard> timeCardList;
+    private LinearLayoutManager linearLayoutManager;
+    private TimeCardAdapter timeCardAdapter;
 
     public Home() {
         // Required empty public constructor
@@ -81,6 +93,20 @@ public class Home extends Fragment {
         lunchText.setText(Constants.HeadingText.CHECK_LUNCH);
         checkOutText=(TextView)view.findViewById(R.id.check_out_heading);
         checkOutText.setText(Constants.HeadingText.CHECK_OUT);
+        timeCards =(RecyclerView)view.findViewById(R.id.time_list);
+        timeCards.setHasFixedSize(true);
+        linearLayoutManager=new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        timeCards.setLayoutManager(linearLayoutManager);
+        timeCardList=new ArrayList<>();
+        timeCardAdapter=new TimeCardAdapter(timeCardList);
+        timeCards.setAdapter(timeCardAdapter);
+        for(int i=0;i<5;i++){
+            TimeCard timeCard=new TimeCard();
+//            timeCard.setEvent(Constants.HeadingText.CHECK_OFF);
+            timeCard.setTime(new Date());
+            timeCardList.add(timeCard);
+        }
         return view;
     }
 

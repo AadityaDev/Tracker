@@ -29,7 +29,6 @@
             app:ntb_titled="true"
             android:layout_alignParentBottom="true"
             >
-
         </com.skybee.tracker.ui.customview.navigationtabbar.ntb.NavigationTabBar>
 
     </RelativeLayout>

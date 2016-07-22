@@ -8,5 +8,10 @@
     <color name="stpi_default_line_color">#b3bdc2</color>
     <color name="light_green">#72d3b4</color>
     <color name="white">#FFFFFF</color>
+    <color name="orange">#FF5722</color>
+    <color name="teal">#009688</color>
+    <color name="green">#4CAF50</color>
+    <color name="yellow">#FFC107</color>
+    <color name="blue">#2196F3</color>
 
 </resources>
