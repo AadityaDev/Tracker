@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.skybee.tracker.R;
+import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.TimeCard;
 import com.skybee.tracker.ui.adapters.TimeCardAdapter;
+import com.skybee.tracker.ui.customview.ItemClickSupport;
 import com.skybee.tracker.ui.customview.StepperIndicator;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class Home extends Fragment {
     private List<TimeCard> timeCardList;
     private LinearLayoutManager linearLayoutManager;
     private TimeCardAdapter timeCardAdapter;
+    private int progress = 1;
 
     public Home() {
         // Required empty public constructor
@@ -84,29 +87,40 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_home, container, false);
-        stepperIndicator=(StepperIndicator)view.findViewById(R.id.stepper_indicator);
-        stepperIndicator.setCurrentStep(2);
-        checkInText=(TextView)view.findViewById(R.id.check_in_heading);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        stepperIndicator = (StepperIndicator) view.findViewById(R.id.stepper_indicator);
+        checkInText = (TextView) view.findViewById(R.id.check_in_heading);
         checkInText.setText(Constants.HeadingText.CHECK_IN);
-        lunchText=(TextView)view.findViewById(R.id.lunch_heading);
+        lunchText = (TextView) view.findViewById(R.id.lunch_heading);
         lunchText.setText(Constants.HeadingText.CHECK_LUNCH);
-        checkOutText=(TextView)view.findViewById(R.id.check_out_heading);
+        checkOutText = (TextView) view.findViewById(R.id.check_out_heading);
         checkOutText.setText(Constants.HeadingText.CHECK_OUT);
-        timeCards =(RecyclerView)view.findViewById(R.id.time_list);
+        timeCards = (RecyclerView) view.findViewById(R.id.time_list);
         timeCards.setHasFixedSize(true);
-        linearLayoutManager=new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         timeCards.setLayoutManager(linearLayoutManager);
-        timeCardList=new ArrayList<>();
-        timeCardAdapter=new TimeCardAdapter(timeCardList);
+        timeCardList = new ArrayList<>();
+        timeCardAdapter = new TimeCardAdapter(timeCardList);
         timeCards.setAdapter(timeCardAdapter);
-        for(int i=0;i<5;i++){
-            TimeCard timeCard=new TimeCard();
-//            timeCard.setEvent(Constants.HeadingText.CHECK_OFF);
-            timeCard.setTime(new Date());
-            timeCardList.add(timeCard);
-        }
+        addTimeCard();
+        ItemClickSupport.addTo(timeCards).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                if (timeCardList.get(position).getEvent() == null || timeCardList.get(position).getEvent().equals(Constants.HeadingText.EMPTY_CARD)) {
+                    if (timeCardList.size() <= Constants.NUMBER_OF_CARDS) {
+                        Utility.setEventType(timeCardList.get(position), timeCardList.size());
+                        timeCardList.get(position).setTime(new Date());
+                        timeCardAdapter.notifyDataSetChanged();
+                        stepperIndicator.setCurrentStep(progress);
+                        progress++;
+                        if(timeCardList.size()<Constants.NUMBER_OF_CARDS){
+                            addTimeCard();
+                        }
+                    }
+                }
+            }
+        });
         return view;
     }
 
@@ -139,7 +153,7 @@ public class Home extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
@@ -148,4 +162,11 @@ public class Home extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void addTimeCard() {
+        TimeCard timeCard = new TimeCard();
+        timeCard.setTime(new Date());
+        timeCardList.add(timeCard);
+    }
+
 }

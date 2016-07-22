@@ -5,17 +5,22 @@ import com.skybee.tracker.model.TimeCard;
 
 public class Utility {
 
-    public void setEventType(TimeCard timeCard,String eventType){
-        switch (eventType){
-            case Constants.HeadingText.CHECK_IN:
+    public static TimeCard setEventType(TimeCard timeCard, int size) {
+        switch (size) {
+            case 1:
                 timeCard.setEvent(Constants.HeadingText.CHECK_IN);
-            case Constants.HeadingText.CHECK_LUNCH:
+                break;
+            case 2:
                 timeCard.setEvent(Constants.HeadingText.CHECK_LUNCH);
-            case Constants.HeadingText.CHECK_OUT:
+                break;
+            case 3:
                 timeCard.setEvent(Constants.HeadingText.CHECK_OUT);
-            case Constants.HeadingText.CHECK_OFF:
+                break;
+            case 4:
                 timeCard.setEvent(Constants.HeadingText.CHECK_OFF);
+                break;
         }
+        return timeCard;
     }
 
 

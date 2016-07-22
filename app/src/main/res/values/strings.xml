@@ -5,4 +5,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout_text">LOGOUT</string>
+    <string name="add_check_in">Add CheckIn Time</string>
+    <string name="add_check_out">Add CheckOut Time</string>
+    <string name="add_check_lunch">Add Lunch Time</string>
+
 </resources>

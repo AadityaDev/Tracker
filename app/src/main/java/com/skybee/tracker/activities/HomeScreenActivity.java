@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseActivity;
 import com.skybee.tracker.ui.customview.navigationtabbar.ntb.NavigationTabBar;
+import com.skybee.tracker.ui.fragments.AdminFeed;
 import com.skybee.tracker.ui.fragments.Home;
 import com.skybee.tracker.ui.fragments.Map;
 import com.skybee.tracker.ui.fragments.Profile;
@@ -18,7 +19,7 @@ import com.skybee.tracker.ui.fragments.Setting;
 import java.util.ArrayList;
 
 public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentInteractionListener, Map.OnFragmentInteractionListener,
-        Profile.OnFragmentInteractionListener, Setting.OnFragmentInteractionListener {
+        Profile.OnFragmentInteractionListener, Setting.OnFragmentInteractionListener,AdminFeed.OnFragmentInteractionListener {
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;

@@ -20,7 +20,6 @@ import butterknife.Unbinder;
 public class TimeCardAdapter extends RecyclerView.Adapter<TimeCardAdapter.TimeCardViewHolder> {
 
     private List<TimeCard> timeCardList;
-    private Unbinder unbinder;
 
     public TimeCardAdapter(List<TimeCard> timeCardList) {
         this.timeCardList = timeCardList;
@@ -31,7 +30,6 @@ public class TimeCardAdapter extends RecyclerView.Adapter<TimeCardAdapter.TimeCa
         View itemView = null;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         itemView = layoutInflater.inflate(R.layout.time_card, parent, false);
-        unbinder = ButterKnife.bind(this, parent);
         return new TimeCardViewHolder(itemView);
     }
 
@@ -56,13 +54,11 @@ public class TimeCardAdapter extends RecyclerView.Adapter<TimeCardAdapter.TimeCa
                     default:
                         holder.cardBackground.setBackgroundResource(R.drawable.empty_card_background);
                         setEmptyCard(holder);
-                        holder.eventText.setText("Add Lunch");
                         break;
                 }
             } else {
                 holder.cardBackground.setBackgroundResource(R.drawable.empty_card_background);
                 setEmptyCard(holder);
-                holder.eventText.setText("Add Lunch");
             }
             if (timeCard.getTime() != null) {
                 holder.timeText.setText(timeCard.getTime().toString());
@@ -104,6 +100,13 @@ public class TimeCardAdapter extends RecyclerView.Adapter<TimeCardAdapter.TimeCa
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) timeCardViewHolder.eventText.getLayoutParams();
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
         timeCardViewHolder.eventText.setLayoutParams(layoutParams);
+        if(timeCardList.size()<=1){
+            timeCardViewHolder.eventText.setText(R.string.add_check_in);
+        }else if(timeCardList.size()<=2){
+            timeCardViewHolder.eventText.setText(R.string.add_check_lunch);
+        }else if(timeCardList.size()<=3){
+            timeCardViewHolder.eventText.setText(R.string.add_check_out);
+        }
     }
 
     public static class TimeCardViewHolder extends RecyclerView.ViewHolder {
