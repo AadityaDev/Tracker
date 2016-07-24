@@ -8,5 +8,30 @@
     <string name="add_check_in">Add CheckIn Time</string>
     <string name="add_check_out">Add CheckOut Time</string>
     <string name="add_check_lunch">Add Lunch Time</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="employee_text">Employee</string>
+    <string name="admin_text">Admin</string>
+    <string name="no_account_text">Don\'t have an account? register here.</string>
+    <string name="prompt_user_name">Name</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_mobile">Mobile</string>
+    <string name="prompt_registration_key">Registration Key</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_mobile">This mobile number is invalid</string>
+    <string name="error_invalid_name">This name is invalid</string>
+    <string name="error_invalid_registration_key">This registration key is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="title_activity_register">Sign in</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 
 </resources>

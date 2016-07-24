@@ -2,19 +2,19 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/employee_card"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dimen_160dp"
-    android:orientation="vertical"
-    >
+    android:layout_height="@dimen/dimen_140dp"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/dimen_16dp"
-        >
+        android:padding="@dimen/dimen_16dp">
 
         <com.skybee.tracker.ui.customview.CircularImageView
             android:id="@+id/employee_image"
             android:layout_width="@dimen/dimen_36dp"
-            android:layout_height="@dimen/dimen_36dp" />
+            android:layout_height="@dimen/dimen_36dp"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/employee_name"
@@ -22,25 +22,38 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/employee_image"
             android:layout_toRightOf="@+id/employee_image"
-            android:textSize="@dimen/dimen_24sp"
-            />
+            android:textSize="@dimen/dimen_24sp" />
 
         <ImageView
             android:id="@+id/location_icon"
             android:layout_width="@dimen/dimen_30dp"
             android:layout_height="@dimen/dimen_30dp"
             android:layout_below="@+id/employee_image"
-            android:background="@drawable/ic_place_24dp"
-            />
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:background="@drawable/ic_place_24dp" />
 
         <TextView
             android:id="@+id/employee_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_20sp"
-            android:layout_alignBottom="@+id/location_icon"
+            android:layout_below="@+id/employee_name"
+            android:layout_marginLeft="@dimen/dimen_6dp"
+            android:layout_marginStart="@dimen/dimen_6dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:layout_toEndOf="@+id/location_icon"
             android:layout_toRightOf="@+id/location_icon"
-            android:layout_toEndOf="@+id/location_icon" />
+            android:textSize="@dimen/dimen_20sp"
+            />
 
+        <TextView
+            android:id="@+id/employee_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="status"
+            android:textSize="@dimen/dimen_20sp"
+            />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

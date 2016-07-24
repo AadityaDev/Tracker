@@ -3,6 +3,7 @@ package com.skybee.tracker.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.User;
@@ -95,5 +96,12 @@ public class UserStore {
 
     double getDouble(final SharedPreferences prefs, final String key, final double defaultValue) {
         return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
+    }
+
+    public void logoutUser(Context context) {
+        editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        Toast.makeText(context, "You've been signed out", Toast.LENGTH_SHORT).show();
     }
 }

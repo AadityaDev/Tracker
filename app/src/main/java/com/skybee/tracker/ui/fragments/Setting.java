@@ -1,14 +1,18 @@
 package com.skybee.tracker.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.skybee.tracker.R;
+import com.skybee.tracker.activities.LoginActivity;
+import com.skybee.tracker.preferences.UserStore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +33,7 @@ public class Setting extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private RelativeLayout logoutButton;
 
     public Setting() {
         // Required empty public constructor
@@ -65,7 +70,25 @@ public class Setting extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        View view= inflater.inflate(R.layout.fragment_setting, container, false);
+
+
+        logoutButton=(RelativeLayout)view.findViewById(R.id.logout_section);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+        return view;
+    }
+
+    public void logout(){
+        UserStore userStore=new UserStore(getContext());
+        userStore.logoutUser(getContext());
+        Intent intent=new Intent(getContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
