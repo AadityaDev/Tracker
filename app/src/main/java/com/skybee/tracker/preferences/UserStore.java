@@ -1,0 +1,99 @@
+package com.skybee.tracker.preferences;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+
+import com.skybee.tracker.constants.Constants;
+import com.skybee.tracker.model.User;
+
+import static com.skybee.tracker.constants.Constants.EMPTY;
+import static com.skybee.tracker.constants.Constants.EMPTY_BOOLEAN;
+import static com.skybee.tracker.constants.Constants.EMPTY_DOUBLE;
+import static com.skybee.tracker.constants.Constants.EMPTY_LONG;
+
+public class UserStore {
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    public UserStore(Context context) {
+        sharedPreferences = context.getSharedPreferences(Constants.UserStore.PREF_NAME, Constants.UserStore.PRIVATE_MODE);
+    }
+
+    public User getUserDetails() {
+        User user = new User();
+        user.setId(sharedPreferences.getLong(Constants.UserStore.USER_ID, EMPTY_LONG));
+        user.setAuthToken(sharedPreferences.getString(Constants.UserStore.AUTH_TOKEN, EMPTY));
+        user.setAdmin(sharedPreferences.getBoolean(Constants.UserStore.IS_ADMIN, EMPTY_BOOLEAN));
+        user.setRegistrationCode(sharedPreferences.getString(Constants.UserStore.USER_REGISTRATION_KEY, EMPTY));
+        user.setUserEmail(sharedPreferences.getString(Constants.UserStore.USER_EMAIL, EMPTY));
+        user.setUserLatitude(getDouble(sharedPreferences, Constants.UserStore.LATITUDE, EMPTY_DOUBLE));
+        user.setUserLongitude(getDouble(sharedPreferences, Constants.UserStore.LONGITUDE, EMPTY_DOUBLE));
+        user.setUserMobileNumber(sharedPreferences.getString(Constants.UserStore.USER_MOBILE_NUMBER, EMPTY));
+        user.setUserName(sharedPreferences.getString(Constants.UserStore.USER_NAME, EMPTY));
+        user.setUserPassword(sharedPreferences.getString(Constants.UserStore.USER_PASSWORD, EMPTY));
+        return user;
+    }
+
+    public void saveId(@NonNull Long id) {
+        editor = sharedPreferences.edit();
+        editor.putLong(Constants.UserStore.USER_ID, id);
+        editor.apply();
+    }
+
+    public void saveAuthToken(@NonNull String authToken) {
+        editor = sharedPreferences.edit();
+        editor.putString(Constants.UserStore.AUTH_TOKEN, authToken);
+        editor.apply();
+    }
+
+    public void saveIsAdmin(@NonNull boolean isAdmin) {
+        editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.UserStore.IS_ADMIN, isAdmin);
+        editor.apply();
+    }
+
+    public void saveRegistrationCode(@NonNull String registrationKey) {
+        editor = sharedPreferences.edit();
+        editor.putString(Constants.UserStore.USER_REGISTRATION_KEY, registrationKey);
+        editor.apply();
+    }
+
+    public void saveUserEmail(@NonNull String userEmail) {
+        editor = sharedPreferences.edit();
+        editor.putString(Constants.UserStore.USER_EMAIL, userEmail);
+        editor.apply();
+    }
+
+    public void saveLatitude(@NonNull Double latitude) {
+        editor = sharedPreferences.edit();
+        putDouble(editor, Constants.UserStore.LATITUDE, latitude);
+        editor.apply();
+    }
+
+    public void saveLongitude(@NonNull Double longitude) {
+        editor = sharedPreferences.edit();
+        putDouble(editor, Constants.UserStore.LONGITUDE, longitude);
+        editor.apply();
+    }
+
+    public void saveUserMobileNumber(@NonNull String mobileNumber) {
+        editor = sharedPreferences.edit();
+        editor.putString(Constants.UserStore.USER_MOBILE_NUMBER, mobileNumber);
+        editor.apply();
+    }
+
+    public void saveUserName(@NonNull String userName) {
+        editor = sharedPreferences.edit();
+        editor.putString(Constants.UserStore.USER_NAME, userName);
+        editor.apply();
+    }
+
+    SharedPreferences.Editor putDouble(final SharedPreferences.Editor edit, final String key, final double value) {
+        return edit.putLong(key, Double.doubleToRawLongBits(value));
+    }
+
+    double getDouble(final SharedPreferences prefs, final String key, final double defaultValue) {
+        return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
+    }
+}

@@ -118,7 +118,6 @@ public class TimeCardAdapter extends RecyclerView.Adapter<TimeCardAdapter.TimeCa
 
         public TimeCardViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
             clockImage = (ImageView) itemView.findViewById(R.id.clock_image);
             timeText = (TextView) itemView.findViewById(R.id.time_text);
             eventText = (TextView) itemView.findViewById(R.id.event);

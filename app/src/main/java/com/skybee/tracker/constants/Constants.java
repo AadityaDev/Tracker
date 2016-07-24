@@ -1,23 +1,31 @@
 package com.skybee.tracker.constants;
 
+import android.location.Location;
+
 public class Constants {
 
     public static final int PAGE_NUMBER = 0;
     public static final int PAGE_SIZE = 10;
     public static final int NUMBER_OF_CARDS = 3;
+    public static final String EMPTY = "";
+    public static final Long EMPTY_LONG = 0l;
+    public static final boolean EMPTY_BOOLEAN = false;
+    public static final double EMPTY_DOUBLE = 0;
 
-    public class UserDetails {
-        public static final String IS_LOGGED_IN = "IsLoggedIn";
+    public class UserStore {
+        public static final String PREF_NAME = "userStore";
+        public static final String IS_LOGGED_IN = "isLoggedIn";
         public static final String AUTH_TOKEN = "authToken";
         public static final String USER_ID = "userId";
         public static final String USER_NAME = "userName";
         public static final String USER_EMAIL = "userEmail";
         public static final String USER_MOBILE_NUMBER = "userMobileNo";
         public static final String USER_PASSWORD = "userPassword";
-        public static final String USER_REGISTERATION_KEY = "registerationKey";
+        public static final String USER_REGISTRATION_KEY = "registrationKey";
         public static final String LATITUDE = "latitude";
         public static final String LONGITUDE = "longitude";
         public static final String IS_ADMIN = "isAdmin";
+        public static final int PRIVATE_MODE = 0;
     }
 
     public class HeadingText {

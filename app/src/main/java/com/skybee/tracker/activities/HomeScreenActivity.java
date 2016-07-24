@@ -8,7 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.skybee.tracker.R;
+import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseActivity;
+import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.customview.navigationtabbar.ntb.NavigationTabBar;
 import com.skybee.tracker.ui.fragments.AdminFeed;
 import com.skybee.tracker.ui.fragments.Home;
@@ -23,46 +25,81 @@ public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentI
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+    private UserStore userStore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+        userStore=new UserStore(getApplicationContext());
         initializeUIComponents();
     }
 
     private void initializeUIComponents() {
         // Create the adapter that will return a fragment for each section
-        mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            private final Fragment[] mFragments = new Fragment[]{
-                    new Home(),
-                    new Map(),
-                    new Profile(),
-                    new Setting(),
+        if(userStore.getUserDetails().isAdmin()){
+            mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+                private final Fragment[] mFragments = new Fragment[]{
+                        new Home(),
+                        new Map(),
+                        new Profile(),
+                        new Setting(),
+                };
+                private final String[] mFragmentNames = new String[]{
+                        "Home",
+                        "Map",
+                        "Profile",
+                        "Settings"
+                };
+
+                @Override
+                public Fragment getItem(int position) {
+                    return mFragments[position];
+                }
+
+                @Override
+                public int getCount() {
+                    return mFragments.length;
+                }
+
+                @Override
+                public CharSequence getPageTitle(int position) {
+                    return mFragmentNames[position];
+                }
             };
-            private final String[] mFragmentNames = new String[]{
-                    "Home",
-                    "Map",
-                    "Profile",
-                    "Settings"
+        }else {
+            mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+                private final Fragment[] mFragments = new Fragment[]{
+                        new AdminFeed(),
+                        new Map(),
+                        new Profile(),
+                        new Setting(),
+                };
+                private final String[] mFragmentNames = new String[]{
+                        "Admin",
+                        "Map",
+                        "Profile",
+                        "Settings"
+                };
+
+                @Override
+                public Fragment getItem(int position) {
+                    return mFragments[position];
+                }
+
+                @Override
+                public int getCount() {
+                    return mFragments.length;
+                }
+
+                @Override
+                public CharSequence getPageTitle(int position) {
+                    return mFragmentNames[position];
+                }
             };
+        }
 
-            @Override
-            public Fragment getItem(int position) {
-                return mFragments[position];
-            }
-
-            @Override
-            public int getCount() {
-                return mFragments.length;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return mFragmentNames[position];
-            }
-        };
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mPagerAdapter);

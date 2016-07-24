@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/employee_card"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_160dp"
+    android:orientation="vertical"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dimen_16dp"
+        >
+
+        <com.skybee.tracker.ui.customview.CircularImageView
+            android:id="@+id/employee_image"
+            android:layout_width="@dimen/dimen_36dp"
+            android:layout_height="@dimen/dimen_36dp" />
+
+        <TextView
+            android:id="@+id/employee_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/employee_image"
+            android:layout_toRightOf="@+id/employee_image"
+            android:textSize="@dimen/dimen_24sp"
+            />
+
+        <ImageView
+            android:id="@+id/location_icon"
+            android:layout_width="@dimen/dimen_30dp"
+            android:layout_height="@dimen/dimen_30dp"
+            android:layout_below="@+id/employee_image"
+            android:background="@drawable/ic_place_24dp"
+            />
+
+        <TextView
+            android:id="@+id/employee_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_20sp"
+            android:layout_alignBottom="@+id/location_icon"
+            android:layout_toRightOf="@+id/location_icon"
+            android:layout_toEndOf="@+id/location_icon" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
