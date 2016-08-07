@@ -18,16 +18,4 @@ public class API {
         public static final String SKYBEE_PLATFORM_ANDROID = "android";
     }
 
-    public static final String LOGIN_URL = SERVER_BASE + "login";
-    public static final String REGISTER_URL = SERVER_BASE + "clientsignup";
-    public static String ADMIN_REGISTER_URL = SERVER_BASE + "signup";
-    public static String INVITE_URL = SERVER_BASE + "invitesignup";
-    public static String GET_USER_URL = SERVER_BASE + "invitelist";
-    public static String HMDATA_URL = "http://www.helpforcomfort.com/HFC/rest_api/rest/hmdata/%s/%s";
-    public static String HMDATA_ALL_URL = "http://www.helpforcomfort.com/HFC/rest_api/rest/alldata/%s/%s";
-    public static String UPLOAD_ALL_DATA = "http://www.helpforcomfort.com/HFC/rest_api/rest/submitdata";
-    public static String UPLOAD_LOCATION_DATA = SERVER_BASE + "addlocation";
-    public static String GET_LOCATION_DATA = SERVER_BASE + "memberlocationlist?limitval=%s";
-    public static String GET_USER_LOCATION_DATA = SERVER_BASE + "userlocation";
-
 }

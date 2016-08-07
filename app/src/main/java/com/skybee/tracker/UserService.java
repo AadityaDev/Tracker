@@ -5,11 +5,13 @@ import android.util.Log;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
-import com.skybee.tracker.constants.API;
+import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.network.RequestGenerator;
 import com.skybee.tracker.network.RequestHandler;
+
+import org.json.JSONObject;
 
 import java.util.concurrent.Callable;
 
@@ -35,15 +37,23 @@ public class UserService {
 //        return futureTask;
 //    }
 
-    public ListenableFuture<User> authenticateUser(@NonNull final User user) {
+    public ListenableFuture<User> authenticateUser(@NonNull final User user, @NonNull final String url) {
         return ExecutorUtils.getBackgroundPool().submit(new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Request request = RequestGenerator.post(API.ADMIN_SIGN_UP, user.toString());
+                Gson gson = new Gson();
+                String userString = gson.toJson(user);
+                Request request = RequestGenerator.post(url, userString);
                 String body = RequestHandler.makeRequestAndValidate(request);
                 Log.d(TAG, body);
-                Gson gson = new Gson();
-                final User user = gson.fromJson(body, User.class);
+                JSONObject result = new JSONObject(body);
+                JSONObject data = new JSONObject();
+                if (body.contains(Constants.JsonConstants.DATA)) {
+                    data = Utility.getUserResultObject(body);
+                } else {
+
+                }
+                final User user = gson.fromJson(data.toString(), User.class);
                 return user;
             }
         });

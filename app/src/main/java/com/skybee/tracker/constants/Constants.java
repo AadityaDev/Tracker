@@ -12,6 +12,12 @@ public class Constants {
     public static final double EMPTY_DOUBLE = 0;
     public static final String ERROR = "Error";
 
+    public class AuthType {
+        public static final String ADMIN_SIGN_UP = "AdminSignUp";
+        public static final String EMPLOYEE_SIGN_UP = "EmployeeSignUp";
+        public static final String LOGIN = "LogIn";
+    }
+
     public class UserStore {
         public static final String PREF_NAME = "userStore";
         public static final String IS_LOGGED_IN = "isLoggedIn";
@@ -54,5 +60,11 @@ public class Constants {
         public static final String EXCEPTION = "Exception";
         public static final String JSON_EXCEPTION = "JsonException";
         public static final String HTTP_EXCEPTION = "HttpException";
+    }
+
+    public class JsonConstants {
+        public static final String CODE = "code";
+        public static final String DATA = "data";
+        public static final String MESSAGE = "message";
     }
 }

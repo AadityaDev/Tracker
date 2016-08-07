@@ -37,9 +37,8 @@ public class RequestGenerator {
 
     public static Request post(@NonNull String url, @NonNull String params) {
         Request.Builder builder = new Request.Builder().url(url);
-        addDefaultHeaders(builder);
         builder.addHeader(API.Headers.CONTENT_TYPE, API.Headers.ACCEPT_JSON);
-        RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN, params.toString());
+        RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN,params);
         Gson gson = new Gson();
         String s = gson.toJson(builder.post(body));
         return builder.post(body).build();
@@ -49,11 +48,10 @@ public class RequestGenerator {
         Request.Builder builder = new Request.Builder().url(url);
         addDefaultHeaders(builder);
         builder.addHeader(API.Headers.AUTHORIZATION_KEY, authToken);
-//        builder.addHeader(API.Headers.ACCEPT_KEY, "application/vnd.myrefers.v0+json");
         builder.addHeader(API.Headers.CONTENT_TYPE, API.Headers.ACCEPT_JSON);
         RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN, params.toString());
         Gson gson = new Gson();
-        String s = gson.toJson(builder.post(body));
+        String s = gson.toJson(body);
         return builder.post(body).build();
     }
 

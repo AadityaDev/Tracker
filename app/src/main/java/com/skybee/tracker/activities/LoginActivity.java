@@ -2,15 +2,11 @@ package com.skybee.tracker.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -22,10 +18,15 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.skybee.tracker.R;
+import com.skybee.tracker.Utility;
+import com.skybee.tracker.constants.API;
 import com.skybee.tracker.core.BaseActivity;
+import com.skybee.tracker.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,20 +35,15 @@ import java.util.regex.Pattern;
 public class LoginActivity extends BaseActivity {
 
     private static final int REQUEST_READ_CONTACTS = 0;
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
-
     // UI references.
     private AutoCompleteTextView emailView;
     private EditText passwordView;
     private View progressView;
     private View loginFormView;
     private TextView registerText;
+    private ProgressDialog progressDialog;
+    private RadioGroup radioGroup;
+    private RadioButton userType;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +64,7 @@ public class LoginActivity extends BaseActivity {
                 return false;
             }
         });
-
+        radioGroup = (RadioGroup) findViewById(R.id.user_type);
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -114,10 +110,6 @@ public class LoginActivity extends BaseActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors.
         emailView.setError(null);
         passwordView.setError(null);
@@ -154,9 +146,20 @@ public class LoginActivity extends BaseActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+            userType = (RadioButton) findViewById(selectedId);
+            User user = new User();
+            user.setUserEmail(emailView.getText().toString());
+            user.setUserPassword(passwordView.getText().toString());
+            user.setLogin_type(1);
+            progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+            if (userType.getText() == getResources().getString(R.string.admin_text)) {
+                user.setAdmin(true);
+                Utility.authenticate(getApplicationContext(), progressDialog, API.LOGIN, user);
+            } else {
+                user.setAdmin(false);
+                Utility.authenticate(getApplicationContext(), progressDialog, API.LOGIN, user);
+            }
         }
     }
 
@@ -170,42 +173,6 @@ public class LoginActivity extends BaseActivity {
         return password.length() > 4;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            progressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -215,24 +182,6 @@ public class LoginActivity extends BaseActivity {
         emailView.setAdapter(adapter);
     }
 
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
-
-    /**
-     * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
-     * the email text field with results on the main UI thread.
-     */
-    /**
-     * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
-     * the email text field with results on the main UI thread.
-     */
     class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
 
         @Override
@@ -254,57 +203,6 @@ public class LoginActivity extends BaseActivity {
         @Override
         protected void onPostExecute(List<String> emailAddressCollection) {
             addEmailsToAutoComplete(emailAddressCollection);
-        }
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                passwordView.setError(getString(R.string.error_incorrect_password));
-                passwordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }

@@ -13,6 +13,8 @@ public class User {
     private String userMobileNumber;
     private String userName;
     private String userPassword;
+    private transient int login_type;
+    private String device_id;
 
     public Long getId() {
         return id;
@@ -100,5 +102,21 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public int getLogin_type() {
+        return this.login_type;
+    }
+
+    public void setLogin_type(int login_type) {
+        this.login_type = login_type;
+    }
+
+    public String getDevice_id() {
+        return this.device_id;
+    }
+
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
     }
 }

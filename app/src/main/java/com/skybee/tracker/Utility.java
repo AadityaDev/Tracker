@@ -1,9 +1,26 @@
 package com.skybee.tracker;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.skybee.tracker.activities.HomeScreenActivity;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.TimeCard;
+import com.skybee.tracker.model.User;
+import com.skybee.tracker.preferences.UserStore;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Utility {
+
+    private static final String TAG = "Utility";
 
     public static TimeCard setEventType(TimeCard timeCard, int size) {
         switch (size) {
@@ -24,4 +41,41 @@ public class Utility {
     }
 
 
+    public static void authenticate(@NonNull final Context context, @NonNull final ProgressDialog progressDialog, @NonNull String url, @NonNull User user) {
+        ListenableFuture<User> authenticateUser = Factory.getUserService().authenticateUser(user, url);
+        Futures.addCallback(authenticateUser, new FutureCallback<User>() {
+            @Override
+            public void onSuccess(User result) {
+                if (result != null) {
+                    Log.d(TAG, result.toString());
+
+                    UserStore userStore = new UserStore(context);
+                    userStore.saveIsAdmin(result.isAdmin());
+                    userStore.saveAuthToken(result.getAuthToken());
+                    userStore.saveUserEmail(result.getUserEmail());
+                    userStore.saveUserEmail(result.getUserImage());
+                    userStore.saveUserMobileNumber(result.getUserMobileNumber());
+                    userStore.saveId(result.getId());
+                    userStore.saveRegistrationCode(result.getRegistrationCode());
+                    progressDialog.dismiss();
+
+                    Intent intent = new Intent(context, HomeScreenActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(TAG, Constants.ERROR);
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+    public static JSONObject getUserResultObject(String body) throws JSONException {
+        JSONObject jsonObject = new JSONObject(body);
+        JSONObject result = jsonObject.getJSONObject(Constants.JsonConstants.DATA);
+        return result;
+    }
 }
