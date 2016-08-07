@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDex;
 
-import butterknife.ButterKnife;
-
 public class AndroidApplication extends Application{
 
     private SharedPreferences userStore;

@@ -1,16 +1,16 @@
 package com.skybee.tracker.constants;
 
-import android.location.Location;
-
 public class Constants {
 
     public static final int PAGE_NUMBER = 0;
     public static final int PAGE_SIZE = 10;
     public static final int NUMBER_OF_CARDS = 3;
+    public static final int MOBILE_NUMBER_LENGTH = 10;
     public static final String EMPTY = "";
     public static final Long EMPTY_LONG = 0l;
     public static final boolean EMPTY_BOOLEAN = false;
     public static final double EMPTY_DOUBLE = 0;
+    public static final String ERROR = "Error";
 
     public class UserStore {
         public static final String PREF_NAME = "userStore";
@@ -48,5 +48,11 @@ public class Constants {
         public static final String AT_WORK = "AtWork";
         public static final String ABSENT = "Absent";
         public static final String ON_LEAVE = "OnLeave";
+    }
+
+    public class Exception {
+        public static final String EXCEPTION = "Exception";
+        public static final String JSON_EXCEPTION = "JsonException";
+        public static final String HTTP_EXCEPTION = "HttpException";
     }
 }

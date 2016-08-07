@@ -2,7 +2,6 @@ package com.skybee.tracker.core;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 

@@ -5,11 +5,11 @@ import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,7 +23,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.skybee.tracker.Factory;
 import com.skybee.tracker.R;
+import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseActivity;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
@@ -37,6 +42,7 @@ import java.util.regex.Pattern;
  */
 public class RegisterActivity extends BaseActivity {
 
+    private final String TAG = this.getClass().getSimpleName();
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -44,7 +50,7 @@ public class RegisterActivity extends BaseActivity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+//    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView emailView;
@@ -63,19 +69,19 @@ public class RegisterActivity extends BaseActivity {
         setContentView(R.layout.activity_register);
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
+//        populateAutoComplete();
 
         passwordView = (EditText) findViewById(R.id.password);
-        passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+//        passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+//                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+//                    attemptLogin();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
         nameView = (EditText) findViewById(R.id.user_name);
         mobileView = (EditText) findViewById(R.id.user_mobile_number);
         registrationKeyView = (EditText) findViewById(R.id.user_registration_key);
@@ -87,9 +93,8 @@ public class RegisterActivity extends BaseActivity {
             public void onClick(View view) {
                 UserStore userStore = new UserStore(getApplicationContext());
                 userStore.saveIsAdmin(true);
-                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
-                startActivity(intent);
-                startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+//                startActivity(intent);
                 attemptLogin();
             }
         });
@@ -98,9 +103,9 @@ public class RegisterActivity extends BaseActivity {
         progressView = findViewById(R.id.login_progress);
     }
 
-    private void populateAutoComplete() {
-        new SetupEmailAutoCompleteTask().execute(null, null);
-    }
+//    private void populateAutoComplete() {
+//        new SetupEmailAutoCompleteTask().execute(null, null);
+//    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -108,9 +113,9 @@ public class RegisterActivity extends BaseActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+//        if (mAuthTask != null) {
+//            return;
+//        }
 
         // Reset errors.
         emailView.setError(null);
@@ -145,21 +150,21 @@ public class RegisterActivity extends BaseActivity {
         }
 
         //Check for valid name
-        if (!TextUtils.isEmpty(name)) {
+        if (TextUtils.isEmpty(name)) {
             nameView.setError(getString(R.string.error_invalid_name));
             focusView = nameView;
             cancel = true;
         }
 
         //Check for valid mobile number
-        if (!TextUtils.isEmpty(mobile)) {
+        if (TextUtils.isEmpty(mobile) && mobile.length() < Constants.MOBILE_NUMBER_LENGTH) {
             mobileView.setError(getString(R.string.error_invalid_mobile));
             focusView = mobileView;
             cancel = true;
         }
 
-        //Check for valid name
-        if (!TextUtils.isEmpty(registrationKey)) {
+        //Check for registration name
+        if (TextUtils.isEmpty(registrationKey)) {
             registrationKeyView.setError(getString(R.string.error_invalid_registration_key));
             focusView = registrationKeyView;
             cancel = true;
@@ -172,11 +177,38 @@ public class RegisterActivity extends BaseActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            User user = new User();
             int selectedId = radioGroup.getCheckedRadioButtonId();
             userType = (RadioButton) findViewById(selectedId);
+            if (userType.getText() == getResources().getString(R.string.admin_text)) {
+                user.setAdmin(true);
+            } else {
+                user.setAdmin(false);
+            }
+            user.setUserName(nameView.getText().toString());
+            user.setUserEmail(emailView.getText().toString());
+            user.setUserMobileNumber(mobileView.getText().toString());
+            user.setUserPassword(passwordView.getText().toString());
+            user.setRegistrationCode(registrationKeyView.getText().toString());
+
+            ListenableFuture<User> authenticateUser = Factory.getUserService().authenticateUser(user);
+            Futures.addCallback(authenticateUser, new FutureCallback<User>() {
+                @Override
+                public void onSuccess(User result) {
+                    if (result != null) {
+                        Log.d(TAG, result.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    Log.d(TAG, Constants.ERROR);
+                }
+            });
+
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+//            mAuthTask = new UserLoginTask(email, password);
+//            mAuthTask.execute((Void) null);
         }
     }
 
@@ -266,58 +298,58 @@ public class RegisterActivity extends BaseActivity {
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                passwordView.setError(getString(R.string.error_incorrect_password));
-                passwordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
+//     */
+//    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+//
+//        private final String mEmail;
+//        private final String mPassword;
+//
+//        UserLoginTask(String email, String password) {
+//            mEmail = email;
+//            mPassword = password;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Void... params) {
+//            // TODO: attempt authentication against a network service.
+//
+//            try {
+//                // Simulate network access.
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
+//
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mEmail)) {
+//                    // Account exists, return true if the password matches.
+//                    return pieces[1].equals(mPassword);
+//                }
+//            }
+//
+//            // TODO: register the new account here.
+//            return true;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(final Boolean success) {
+//            mAuthTask = null;
+//            showProgress(false);
+//
+//            if (success) {
+//                finish();
+//            } else {
+//                passwordView.setError(getString(R.string.error_incorrect_password));
+//                passwordView.requestFocus();
+//            }
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            mAuthTask = null;
+//            showProgress(false);
+//        }
+//    }
 }
 

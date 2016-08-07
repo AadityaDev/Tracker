@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.skybee.tracker.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.

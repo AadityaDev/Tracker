@@ -14,9 +14,6 @@ import com.skybee.tracker.model.TimeCard;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 public class TimeCardAdapter extends RecyclerView.Adapter<TimeCardAdapter.TimeCardViewHolder> {
 
     private List<TimeCard> timeCardList;

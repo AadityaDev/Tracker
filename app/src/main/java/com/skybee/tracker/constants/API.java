@@ -2,6 +2,10 @@ package com.skybee.tracker.constants;
 
 public class API {
     public static final String SERVER_BASE = "http://www.impulse.webbzer.com/app/webroot/servicesApi/indextrackmzapp.php/";
+    public static final String ADMIN_SIGN_UP = "http://track.snoowa.com/v1/indextrackmzapp.php/adminsignup";
+    public static final String EMPLOYEE_SIGN_UP = "http://track.snoowa.com/v1/indextrackmzapp.php/employeesignup";
+    public static final String LOGIN = "http://track.snoowa.com/v1/indextrackmzapp.php/login";
+    public static final String EMPLOYEE_LIST = "http://track.snoowa.com/v1/indextrackmzapp.php/employeelist";
 
     public class Headers {
         public static final String ACCEPT_KEY = "Accept";
