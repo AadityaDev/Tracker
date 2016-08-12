@@ -14,6 +14,7 @@ import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.TimeCard;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
+import com.skybee.tracker.ui.dialog.ErrorDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,14 +49,13 @@ public class Utility {
             public void onSuccess(User result) {
                 if (result != null) {
                     Log.d(TAG, result.toString());
-
                     UserStore userStore = new UserStore(context);
                     userStore.saveIsAdmin(result.isAdmin());
                     userStore.saveAuthToken(result.getAuthToken());
                     userStore.saveUserEmail(result.getUserEmail());
-                    userStore.saveUserEmail(result.getUserImage());
+//                    userStore.saveUserEmail(result.getUserImage());
                     userStore.saveUserMobileNumber(result.getUserMobileNumber());
-                    userStore.saveId(result.getId());
+//                    userStore.saveId(result.getId());
                     userStore.saveRegistrationCode(result.getRegistrationCode());
                     progressDialog.dismiss();
 
@@ -69,6 +69,17 @@ public class Utility {
             public void onFailure(Throwable t) {
                 Log.d(TAG, Constants.ERROR);
                 progressDialog.dismiss();
+                ErrorDialog errorDialog;
+                if (t != null) {
+                    if (t.getMessage() != null) {
+                        errorDialog = new ErrorDialog(context, t.getMessage());
+                    } else {
+                        errorDialog = new ErrorDialog(context, Constants.ERROR_OCCURRED);
+                    }
+                } else {
+                    errorDialog = new ErrorDialog(context, Constants.ERROR_OCCURRED);
+                }
+                errorDialog.show();
             }
         });
     }

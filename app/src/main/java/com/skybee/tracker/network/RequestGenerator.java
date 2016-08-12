@@ -30,6 +30,7 @@ public class RequestGenerator {
         Request.Builder builder = new Request.Builder().url(url);
         addDefaultHeaders(builder);
         builder.addHeader("Authorization", token);
+        builder.addHeader("api_token", token);
         builder.addHeader("Content-Type", "application/json");
         Log.i("Get With Token", token);
         return builder.build();

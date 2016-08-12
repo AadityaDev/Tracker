@@ -11,6 +11,7 @@ public class Constants {
     public static final boolean EMPTY_BOOLEAN = false;
     public static final double EMPTY_DOUBLE = 0;
     public static final String ERROR = "Error";
+    public static final String ERROR_OCCURRED = "Error Occured!";
 
     public class AuthType {
         public static final String ADMIN_SIGN_UP = "AdminSignUp";
@@ -66,5 +67,6 @@ public class Constants {
         public static final String CODE = "code";
         public static final String DATA = "data";
         public static final String MESSAGE = "message";
+        public static final String ERROR = "error";
     }
 }
