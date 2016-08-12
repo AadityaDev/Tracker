@@ -64,9 +64,15 @@ public class Constants {
     }
 
     public class JsonConstants {
+        public static final String BRANCH_ID = "branch_id";
         public static final String CODE = "code";
         public static final String DATA = "data";
         public static final String MESSAGE = "message";
         public static final String ERROR = "error";
+        public static final String EMPLOYEE_ID = "employee_id";
+        public static final String EMAIL = "email";
+        public static final String NAME = "name";
+        public static final String MOBILE = "mobile";
+        public static final String API_TOKEN = "api_token";
     }
 }

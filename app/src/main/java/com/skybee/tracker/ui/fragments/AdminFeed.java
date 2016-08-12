@@ -27,6 +27,7 @@ import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.adapters.UserCardAdapter;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -110,12 +111,11 @@ public class AdminFeed extends Fragment {
         employeeCardList = new ArrayList<User>();
         employeeCardAdapter = new UserCardAdapter(employeeCardList);
         employeeCards.setAdapter(employeeCardAdapter);
-        handler=new Handler(Looper.getMainLooper()){
+        handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
             }
         };
-        setDummyData();
         getEmployeeList();
         return view;
     }
@@ -159,36 +159,48 @@ public class AdminFeed extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void setDummyData() {
-        for (int i = 0; i < 10; i++) {
-            User user = new User();
-            user.setId(1l);
-            user.setUserName("User" + i);
-            user.setUserLatitude(23.4);
-            user.setUserLongitude(56.9);
-            employeeCardList.add(user);
-        }
-    }
-
     public void getEmployeeList() {
         ListenableFuture<JSONObject> getEmployees = Factory.getUserService().employeeList(API.EMPLOYEE_LIST, user);
         Futures.addCallback(getEmployees, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
                 Log.d(TAG, result.toString());
-                progressDialog.dismiss();
-                if (result.has(Constants.JsonConstants.ERROR)) {
-                    if (result.has(Constants.JsonConstants.MESSAGE) && !result.isNull(Constants.JsonConstants.MESSAGE)) {
-                        try {
+                try {
+                    if (result.has(Constants.JsonConstants.ERROR)) {
+                        if (result.has(Constants.JsonConstants.MESSAGE) && !result.isNull(Constants.JsonConstants.MESSAGE)) {
                             message = result.getString(Constants.JsonConstants.MESSAGE);
-                        } catch (Exception e) {
-                            message = Constants.ERROR_OCCURRED;
+                            errorDialog = new ErrorDialog(getContext(), message);
+                            errorDialog.show();
                         }
-                        errorDialog = new ErrorDialog(getContext(), message);
-                        errorDialog.show();
                     }
-                }
+                    if (result.has(Constants.JsonConstants.DATA)) {
+                        JSONArray resultEmployeeList = new JSONArray();
+                        resultEmployeeList = result.getJSONArray(Constants.JsonConstants.DATA);
+                        for (int i = 0; i < resultEmployeeList.length(); i++) {
+                            JSONObject employeeJsonObject = resultEmployeeList.getJSONObject(i);
+                            if (employeeJsonObject != null) {
+                                User user = new User();
+                                if (employeeJsonObject.has(Constants.JsonConstants.EMAIL))
+                                    user.setUserEmail(employeeJsonObject.getString(Constants.JsonConstants.EMAIL));
+                                if (employeeJsonObject.has(Constants.JsonConstants.API_TOKEN))
+                                    user.setAuthToken(employeeJsonObject.getString(Constants.JsonConstants.API_TOKEN));
+                                if (employeeJsonObject.has(Constants.JsonConstants.NAME))
+                                    user.setUserName(employeeJsonObject.getString(Constants.JsonConstants.NAME));
+                                if (employeeJsonObject.has(Constants.JsonConstants.EMPLOYEE_ID))
+                                    user.setId(employeeJsonObject.getLong(Constants.JsonConstants.EMPLOYEE_ID));
+                                if (employeeJsonObject.has(Constants.JsonConstants.MOBILE))
+                                    user.setUserMobileNumber(employeeJsonObject.getString(Constants.JsonConstants.MOBILE));
+                                    if (employeeJsonObject.has(Constants.JsonConstants.BRANCH_ID))
+                                    user.setBranchId(employeeJsonObject.getLong(Constants.JsonConstants.BRANCH_ID));
+                                employeeCardList.add(user);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
 
+                }
+                employeeCardAdapter.notifyItemInserted(employeeCardList.size()-1);
+                progressDialog.dismiss();
             }
 
             @Override

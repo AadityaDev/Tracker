@@ -4,6 +4,7 @@ public class User {
 
     private Long id;
     private String authToken;
+    private Long branchId;
     private boolean isAdmin;
     private String registrationCode;
     private String userEmail;
@@ -30,6 +31,14 @@ public class User {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
+    }
+
+    public Long getBranchId() {
+        return this.branchId;
+    }
+
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
     public boolean isAdmin() {

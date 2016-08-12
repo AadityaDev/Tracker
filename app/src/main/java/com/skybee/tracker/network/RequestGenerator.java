@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class RequestGenerator {
-
+    public static String TAG = "RequestGenerator";
     public static final MediaType MEDIA_TYPE_MARKDOWN
             = MediaType.parse("application/json; charset=utf-8");
 
@@ -22,24 +22,23 @@ public class RequestGenerator {
     public static Request get(@NonNull String url) {
         Request.Builder builder = new Request.Builder().url(url);
         addDefaultHeaders(builder);
-        Log.i("Get With Token", builder.build().toString());
+        Log.i(TAG, builder.build().toString());
         return builder.build();
     }
 
     public static Request get(@NonNull String url, @NonNull String token) {
+        Log.i(TAG, token);
         Request.Builder builder = new Request.Builder().url(url);
         addDefaultHeaders(builder);
-        builder.addHeader("Authorization", token);
-        builder.addHeader("api_token", token);
-        builder.addHeader("Content-Type", "application/json");
-        Log.i("Get With Token", token);
+        builder.addHeader(API.Headers.AUTH_KEY, token);
+        builder.addHeader(API.Headers.CONTENT_TYPE, API.Headers.ACCEPT_JSON);
         return builder.build();
     }
 
     public static Request post(@NonNull String url, @NonNull String params) {
         Request.Builder builder = new Request.Builder().url(url);
         builder.addHeader(API.Headers.CONTENT_TYPE, API.Headers.ACCEPT_JSON);
-        RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN,params);
+        RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN, params);
         Gson gson = new Gson();
         String s = gson.toJson(builder.post(body));
         return builder.post(body).build();
@@ -60,7 +59,6 @@ public class RequestGenerator {
         Request.Builder builder = new Request.Builder().url(url);
         addDefaultHeaders(builder);
         builder.addHeader(API.Headers.AUTHORIZATION_KEY, authToken);
-//        builder.addHeader(API.Headers.ACCEPT_KEY, "application/vnd.myrefers.v0+json");
         builder.addHeader(API.Headers.CONTENT_TYPE, API.Headers.ACCEPT_JSON);
         RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN, params.toString());
         Gson gson = new Gson();

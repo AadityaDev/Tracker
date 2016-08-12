@@ -1,6 +1,8 @@
 package com.skybee.tracker.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -41,10 +43,20 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
                 holder.employeeName.setText(user.getUserName());
             }
             if (user.getUserLatitude() != 0 && user.getUserLongitude() != 0) {
-                holder.employeeLocation.setText(user.getUserLongitude() + user.getUserLatitude() + "");
+
             }
             if (user.getUserImage() != null) {
 //                holder.employeeImage.setImageResource();
+            }
+            if(user.getUserMobileNumber()!=null){
+                holder.employeeMobile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri number = Uri.parse("tel:"+user.getUserMobileNumber());
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                        view.getContext().startActivity(callIntent);
+                    }
+                });
             }
             holder.employeeCard.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,7 +85,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
         private TextView employeeName;
         private TextView employeeLocation;
         private TextView employeeStatus;
-        private ImageView employeeImage;
+        private ImageView employeeMobile;
         private CardView employeeCard;
 
         public UserCardViewHolder(Context context,View itemView) {
@@ -81,9 +93,10 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
             this.context=context;
             employeeCard=(CardView)itemView.findViewById(R.id.employee_card);
             employeeName = (TextView) itemView.findViewById(R.id.employee_name);
-            employeeLocation = (TextView) itemView.findViewById(R.id.employee_location);
+            employeeMobile=(ImageView)itemView.findViewById(R.id.mobile_image);
+//            employeeLocation = (TextView) itemView.findViewById(R.id.employee_location);
 //            employeeStatus=(TextView)itemView.findViewById(R.id.e);
-            employeeImage = (ImageView) itemView.findViewById(R.id.employee_image);
+//            employeeImage = (ImageView) itemView.findViewById(R.id.employee_image);
         }
     }
 }

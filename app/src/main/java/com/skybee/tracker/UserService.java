@@ -55,19 +55,19 @@ public class UserService {
 
                 }
                 final UserServer userServer = gson.fromJson(data.toString(), UserServer.class);
-                User userDetail=new User();
-                if(userServer!=null){
-                    if(userServer.getId()!=0)
+                User userDetail = new User();
+                if (userServer != null) {
+                    if (userServer.getId() != 0)
                         userDetail.setId(userServer.getId());
-                    if(userServer.getDevice_id()!=null)
+                    if (userServer.getDevice_id() != null)
                         userDetail.setDevice_id(userServer.getDevice_id());
-                    if(userServer.getRegistration_key()!=null)
+                    if (userServer.getRegistration_key() != null)
                         userDetail.setRegistrationCode(userServer.getRegistration_key());
-                    if(userServer.getPhone()!=null)
+                    if (userServer.getPhone() != null)
                         userDetail.setUserMobileNumber(userServer.getPhone());
-                    if(userServer.getApi_token()!=null)
+                    if (userServer.getApi_token() != null)
                         userDetail.setAuthToken(userServer.getApi_token());
-                    if(userServer.getName()!=null)
+                    if (userServer.getName() != null)
                         userDetail.setUserName(userServer.getName());
 
                 }
@@ -76,17 +76,15 @@ public class UserService {
         });
     }
 
-    public ListenableFuture<JSONObject> employeeList (@NonNull final String url,@NonNull final User user) {
+    public ListenableFuture<JSONObject> employeeList(@NonNull final String url, @NonNull final User user) {
         return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
             @Override
             public JSONObject call() throws Exception {
                 Log.d(TAG, user.getAuthToken());
-                UserServer userServer=new UserServer();
+                UserServer userServer = new UserServer();
                 userServer.setApi_token(user.getAuthToken());
                 Gson gson = new Gson();
-                String userString = gson.toJson(userServer);
-
-                Request request = RequestGenerator.get(url, userString);
+                Request request = RequestGenerator.get(url, user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
                 Log.d(TAG, body);
                 JSONObject result = new JSONObject(body);

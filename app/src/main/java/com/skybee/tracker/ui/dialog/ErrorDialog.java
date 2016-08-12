@@ -5,21 +5,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.skybee.tracker.R;
 
-public class ErrorDialog extends Dialog{
+public class ErrorDialog extends Dialog {
 
     private ErrorDialog errorDialog;
     private TextView errorMessage;
     private String message;
 
-    public ErrorDialog(@NonNull Context context,@NonNull String message) {
+    public ErrorDialog(@NonNull Context context, @NonNull String message) {
         super(context);
-        this.errorDialog=this;
-        this.message=message;
+        this.errorDialog = this;
+        this.message = message;
     }
 
     @Override
@@ -29,7 +28,7 @@ public class ErrorDialog extends Dialog{
         setContentView(R.layout.error_dialog);
         getWindow().setLayout(android.view.ViewGroup.LayoutParams.FILL_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        errorMessage=(TextView)findViewById(R.id.error_message);
+        errorMessage = (TextView) findViewById(R.id.error_message);
         errorMessage.setText(message);
     }
 
