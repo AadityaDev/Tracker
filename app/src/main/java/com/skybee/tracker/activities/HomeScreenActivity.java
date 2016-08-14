@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.skybee.tracker.R;
-import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseActivity;
+import com.skybee.tracker.core.BaseFragment;
 import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.customview.navigationtabbar.ntb.NavigationTabBar;
 import com.skybee.tracker.ui.fragments.AdminFeed;
@@ -20,8 +20,7 @@ import com.skybee.tracker.ui.fragments.Setting;
 
 import java.util.ArrayList;
 
-public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentInteractionListener, Map.OnFragmentInteractionListener,
-        Profile.OnFragmentInteractionListener, Setting.OnFragmentInteractionListener,AdminFeed.OnFragmentInteractionListener {
+public class HomeScreenActivity extends BaseActivity implements BaseFragment.OnFragmentInteractionListener {
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -32,13 +31,13 @@ public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        userStore=new UserStore(getApplicationContext());
+        userStore = new UserStore(getApplicationContext());
         initializeUIComponents();
     }
 
     private void initializeUIComponents() {
         // Create the adapter that will return a fragment for each section
-        if(userStore.getUserDetails().isAdmin()){
+        if (userStore.getUserDetails().isAdmin()) {
             mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
                 private final Fragment[] mFragments = new Fragment[]{
                         new Home(),
@@ -68,7 +67,7 @@ public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentI
                     return mFragmentNames[position];
                 }
             };
-        }else {
+        } else {
             mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
                 private final Fragment[] mFragments = new Fragment[]{
                         new AdminFeed(),
@@ -170,7 +169,7 @@ public class HomeScreenActivity extends BaseActivity implements Home.OnFragmentI
                 }
             }
         }, 500);
-        navigationTabBar.setViewPager(mViewPager,0);
+        navigationTabBar.setViewPager(mViewPager, 0);
     }
 
     @Override
