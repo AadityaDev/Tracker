@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.skybee.tracker.ui.fragments.Roaster">
+    tools:context="com.skybee.tracker.ui.fragments.RejectedRoaster">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -10,7 +10,7 @@
         android:layout_marginBottom="@dimen/dimen_50dp">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/accepted_roaster_list"
+            android:id="@+id/rejected_roaster_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

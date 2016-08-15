@@ -49,15 +49,15 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
         //Check already logged in
         UserStore userStore=new UserStore(getApplicationContext());
         user=userStore.getUserDetails();
         if(user!=null&&user.getAuthToken()!=null){
             Utility.startActivity(getApplicationContext());
+            finish();
         }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.email);

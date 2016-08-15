@@ -16,7 +16,7 @@ import com.skybee.tracker.ui.fragments.AdminFeed;
 import com.skybee.tracker.ui.fragments.Home;
 import com.skybee.tracker.ui.fragments.Map;
 import com.skybee.tracker.ui.fragments.Profile;
-import com.skybee.tracker.ui.fragments.Roaster;
+import com.skybee.tracker.ui.fragments.Roasters;
 import com.skybee.tracker.ui.fragments.Setting;
 
 import java.util.ArrayList;
@@ -136,14 +136,14 @@ public class HomeScreenActivity extends BaseActivity implements BaseFragment.OnF
                 private final Fragment[] mFragments = new Fragment[]{
                         new AdminFeed(),
                         new Map(),
-                        new Roaster(),
+                        new Roasters(),
                         new Profile(),
                         new Setting(),
                 };
                 private final String[] mFragmentNames = new String[]{
                         "Admin",
                         "Map",
-                        "Roaster",
+                        "Roasters",
                         "Profile",
                         "Settings"
                 };
