@@ -12,6 +12,7 @@ import com.skybee.tracker.core.BaseFragment;
 import com.skybee.tracker.model.RoasterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
+import com.skybee.tracker.ui.adapters.RoasterAdapter;
 import com.skybee.tracker.ui.adapters.UserCardAdapter;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class Roaster extends BaseFragment {
     private RecyclerView roasterCards;
     private LinearLayoutManager linearLayoutManager;
     private List<RoasterPojo> roasterCardList;
-    private UserCardAdapter employeeCardAdapter;
+    private RoasterAdapter roasterAdapter;
     private User user;
 
     @Override

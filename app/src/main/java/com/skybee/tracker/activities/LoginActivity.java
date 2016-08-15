@@ -27,6 +27,7 @@ import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.core.BaseActivity;
 import com.skybee.tracker.model.User;
+import com.skybee.tracker.preferences.UserStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,20 @@ public class LoginActivity extends BaseActivity {
     private ProgressDialog progressDialog;
     private RadioGroup radioGroup;
     private RadioButton userType;
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //Check already logged in
+        UserStore userStore=new UserStore(getApplicationContext());
+        user=userStore.getUserDetails();
+        if(user!=null&&user.getAuthToken()!=null){
+            Utility.startActivity(getApplicationContext());
+        }
+
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();

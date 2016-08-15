@@ -41,6 +41,12 @@ public class Utility {
         return timeCard;
     }
 
+    public static void startActivity(Context context){
+        Intent intent = new Intent(context, HomeScreenActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
 
     public static void authenticate(@NonNull final Context context, @NonNull final ProgressDialog progressDialog, @NonNull String url, @NonNull User user) {
         ListenableFuture<User> authenticateUser = Factory.getUserService().authenticateUser(user, url);
@@ -58,10 +64,7 @@ public class Utility {
 //                    userStore.saveId(result.getId());
                     userStore.saveRegistrationCode(result.getRegistrationCode());
                     progressDialog.dismiss();
-
-                    Intent intent = new Intent(context, HomeScreenActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                    startActivity(context);
                 }
             }
 
