@@ -1,6 +1,6 @@
 package com.skybee.tracker.model;
 
-public class RoasterPojo {
+public class RosterPojo {
     private long roster_id;
     private long customer_id;
     private long site_id;
@@ -25,6 +25,7 @@ public class RoasterPojo {
     private long site_task_id;
     private long taskId;
     private String TaskName;
+    private transient boolean isSelected;
 
     public long getRoster_id() {
         return this.roster_id;
@@ -216,5 +217,13 @@ public class RoasterPojo {
 
     public void setTaskName(String taskName) {
         this.TaskName = taskName;
+    }
+
+    public boolean isSelected() {
+        return this.isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.isSelected = selected;
     }
 }

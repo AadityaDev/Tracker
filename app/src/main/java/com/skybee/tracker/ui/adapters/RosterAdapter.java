@@ -5,19 +5,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.skybee.tracker.R;
-import com.skybee.tracker.model.RoasterPojo;
+import com.skybee.tracker.model.RosterPojo;
 
 import java.util.List;
 
-public class RoasterAdapter extends RecyclerView.Adapter<RoasterAdapter.RoasterViewHolder> {
+public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterViewHolder> {
 
-    public List<RoasterPojo> roasterList;
+    public List<RosterPojo> rosterList;
 
-    public RoasterAdapter(List<RoasterPojo> roasterList) {
-        this.roasterList = roasterList;
+    public RosterAdapter(List<RosterPojo> rosterList) {
+        this.rosterList = rosterList;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class RoasterAdapter extends RecyclerView.Adapter<RoasterAdapter.RoasterV
 
     @Override
     public void onBindViewHolder(RoasterViewHolder holder, int position) {
-        final RoasterPojo roaster = roasterList.get(position);
+        final RosterPojo roaster = rosterList.get(position);
         if (roaster != null) {
             if (roaster.getCompany_name() != null) {
                 holder.companyName.setText(roaster.getCompany_name());
@@ -44,15 +46,36 @@ public class RoasterAdapter extends RecyclerView.Adapter<RoasterAdapter.RoasterV
             if (roaster.getEmployeeName() != null) {
                 holder.customerCompanyLocation.setText(roaster.getEmployeeName());
             }
+            holder.checkBox.setOnCheckedChangeListener(null);
+            holder.checkBox.setChecked(roaster.isSelected());
+            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    roaster.setSelected(b);
+                }
+            });
         }
     }
 
     @Override
     public int getItemCount() {
-        return roasterList.size();
+        return rosterList.size();
+    }
+
+    public long[] getSelectedRoasterList(){
+        long[] selected=new long[]{};
+        int i=0;
+        for (RosterPojo rosterPojo:rosterList) {
+            if(rosterPojo.isSelected()){
+                selected[i]=rosterPojo.getRoster_id();
+                i=i+1;
+            }
+        }
+        return selected;
     }
 
     public static class RoasterViewHolder extends RecyclerView.ViewHolder {
+        private CheckBox checkBox;
         private Context context;
         private TextView companyName;
         private TextView companyEmployeeName;
@@ -62,6 +85,7 @@ public class RoasterAdapter extends RecyclerView.Adapter<RoasterAdapter.RoasterV
         public RoasterViewHolder(Context context, View itemView) {
             super(itemView);
             this.context = context;
+            checkBox=(CheckBox)itemView.findViewById(R.id.checkBox);
             companyName = (TextView) itemView.findViewById(R.id.company_name);
             companyEmployeeName = (TextView) itemView.findViewById(R.id.employee_name);
             customerCompanyName = (TextView) itemView.findViewById(R.id.customer_company_name);

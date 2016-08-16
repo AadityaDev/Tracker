@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.skybee.tracker.R;
-import com.skybee.tracker.model.RoasterPojo;
+import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
-import com.skybee.tracker.ui.adapters.RoasterAdapter;
+import com.skybee.tracker.ui.adapters.RosterAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ public class RejectedRoaster extends Fragment {
 
     private RecyclerView roasterCards;
     private LinearLayoutManager linearLayoutManager;
-    private List<RoasterPojo> roasterCardList;
-    private RoasterAdapter roasterAdapter;
+    private List<RosterPojo> roasterCardList;
+    private RosterAdapter rosterAdapter;
     private User user;
 
     @Override
@@ -39,8 +39,8 @@ public class RejectedRoaster extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         roasterCards.setLayoutManager(linearLayoutManager);
         roasterCardList=new ArrayList<>();
-        roasterAdapter=new RoasterAdapter(roasterCardList);
-        roasterCards.setAdapter(roasterAdapter);
+        rosterAdapter =new RosterAdapter(roasterCardList);
+        roasterCards.setAdapter(rosterAdapter);
         return view;
     }
 

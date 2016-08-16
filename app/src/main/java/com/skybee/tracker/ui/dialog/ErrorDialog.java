@@ -3,6 +3,7 @@ package com.skybee.tracker.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.view.Window;
 import android.widget.TextView;

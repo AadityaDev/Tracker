@@ -6,7 +6,11 @@ public class API {
     public static final String EMPLOYEE_SIGN_UP = "http://track.snoowa.com/v1/indextrackmzapp.php/employeesignup";
     public static final String LOGIN = "http://track.snoowa.com/v1/indextrackmzapp.php/login";
     public static final String EMPLOYEE_LIST = "http://track.snoowa.com/v1/indextrackmzapp.php/employeelist";
-    public static final String EMPLOYEE_ROASTER = "http://track.snoowa.com/v1/indextrackmzapp.php/rosterlist";
+    public static final String ROSTER_LIST = "http://track.snoowa.com/v1/indextrackmzapp.php/rosterlist";
+    public static final String ACCEPTED_ROSTER_LIST = "http://track.snoowa.com/v1/indextrackmzapp.php/rosterconfirmed";
+    public static final String REJECTED_ROSTER_LIST = "http://track.snoowa.com/v1/indextrackmzapp.php/rosterrejected";
+    public static final String ACCEPTED_ROSTER_ACTION = "http://track.snoowa.com/v1/indextrackmzapp.php/acceptresectroster";
+
 
     public class Headers {
         public static final String ACCEPT_KEY = "Accept";
@@ -18,6 +22,11 @@ public class API {
         public static final String CONTENT_TYPE = "Content-Type";
         public static final String SKYBEE_PLATFORM = "SKYBEE_PLATFORM";
         public static final String SKYBEE_PLATFORM_ANDROID = "android";
+    }
+
+    public class Roster {
+        public static final String CONFIRMED = "Confirmed";
+        public static final String REJECTED = "Rejected";
     }
 
 }

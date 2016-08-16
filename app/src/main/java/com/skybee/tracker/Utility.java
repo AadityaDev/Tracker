@@ -1,9 +1,9 @@
 package com.skybee.tracker;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -14,6 +14,7 @@ import com.skybee.tracker.activities.HomeScreenActivity;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.TimeCard;
 import com.skybee.tracker.model.User;
+import com.skybee.tracker.network.UIThreadExecutor;
 import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
 
@@ -23,6 +24,10 @@ import org.json.JSONObject;
 public class Utility {
 
     private static final String TAG = "Utility";
+    private static ErrorDialog errorDialog;
+    private static ErrorDialog getErrorDialog;
+    private static boolean error;
+
 
     public static TimeCard setEventType(TimeCard timeCard, int size) {
         switch (size) {
@@ -42,9 +47,9 @@ public class Utility {
         return timeCard;
     }
 
-    public static void startActivity(Context context){
+    public static void startActivity(Context context) {
         Intent intent = new Intent(context, HomeScreenActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -56,16 +61,26 @@ public class Utility {
             public void onSuccess(User result) {
                 if (result != null) {
                     Log.d(TAG, result.toString());
-                    UserStore userStore = new UserStore(context);
-                    userStore.saveIsAdmin(result.isAdmin());
-                    userStore.saveAuthToken(result.getAuthToken());
-                    userStore.saveUserEmail(result.getUserEmail());
+                    if (result.getAuthToken() != null) {
+                        UserStore userStore = new UserStore(context);
+                        userStore.saveIsAdmin(result.isAdmin());
+                        userStore.saveAuthToken(result.getAuthToken());
+                        userStore.saveUserEmail(result.getUserEmail());
 //                    userStore.saveUserEmail(result.getUserImage());
-                    userStore.saveUserMobileNumber(result.getUserMobileNumber());
+                        userStore.saveUserMobileNumber(result.getUserMobileNumber());
 //                    userStore.saveId(result.getId());
-                    userStore.saveRegistrationCode(result.getRegistrationCode());
-                    progressDialog.dismiss();
-                    startActivity(context);
+                        userStore.saveRegistrationCode(result.getRegistrationCode());
+                        progressDialog.dismiss();
+                        startActivity(context);
+                    } else {
+                        error=true;
+                        progressDialog.dismiss();
+                        errorDialog = new ErrorDialog(context, Constants.ERROR_OCCURRED);
+                        errorDialog.show();
+//                        Looper.prepare();
+//                        getErrorDialog=new ErrorDialog(context,Constants.ERROR_OCCURRED);
+//                        getErrorDialog.show();
+                    }
                 }
             }
 
@@ -73,7 +88,7 @@ public class Utility {
             public void onFailure(Throwable t) {
                 Log.d(TAG, Constants.ERROR);
                 progressDialog.dismiss();
-                ErrorDialog errorDialog;
+                error=true;
                 if (t != null) {
                     if (t.getMessage() != null) {
                         errorDialog = new ErrorDialog(context, t.getMessage());
@@ -86,6 +101,10 @@ public class Utility {
                 errorDialog.show();
             }
         });
+        if(authenticateUser.isDone()&&error){
+            errorDialog = new ErrorDialog(context, Constants.ERROR_OCCURRED);
+            errorDialog.show();
+        }
     }
 
     public static JSONObject getUserResultObject(String body) throws JSONException {

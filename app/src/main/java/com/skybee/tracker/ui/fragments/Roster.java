@@ -17,10 +17,10 @@ import com.skybee.tracker.R;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseFragment;
-import com.skybee.tracker.model.RoasterPojo;
+import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
-import com.skybee.tracker.ui.adapters.RoasterAdapter;
+import com.skybee.tracker.ui.adapters.RosterAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,12 +29,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Roaster extends BaseFragment {
+public class Roster extends BaseFragment {
 
     private RecyclerView roasterCards;
     private LinearLayoutManager linearLayoutManager;
-    private List<RoasterPojo> roasterCardList;
-    private RoasterAdapter roasterAdapter;
+    private List<RosterPojo> roasterCardList;
+    private RosterAdapter rosterAdapter;
     private User user;
 
     @Override
@@ -44,21 +44,21 @@ public class Roaster extends BaseFragment {
         user = new User();
         user = userStore.getUserDetails();
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_roaster, container, false);
+        View view = inflater.inflate(R.layout.fragment_roster, container, false);
         roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         roasterCards.setLayoutManager(linearLayoutManager);
         roasterCardList = new ArrayList<>();
-        roasterAdapter = new RoasterAdapter(roasterCardList);
-        roasterCards.setAdapter(roasterAdapter);
+        rosterAdapter = new RosterAdapter(roasterCardList);
+        roasterCards.setAdapter(rosterAdapter);
         getRoasterList();
         return view;
     }
 
     public void getRoasterList() {
-        ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.EMPLOYEE_ROASTER, user);
+        ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ROSTER_LIST, user);
         Futures.addCallback(getRoaster, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -70,14 +70,14 @@ public class Roaster extends BaseFragment {
                             JSONObject roasterJsonObject = resultRosterList.getJSONObject(i);
                             if (roasterJsonObject != null) {
                                 Gson gson=new Gson();
-                                final RoasterPojo roasterPojo=gson.fromJson(roasterJsonObject.toString(),RoasterPojo.class);
-                                if(roasterPojo!=null){
-                                    roasterCardList.add(roasterPojo);
+                                final RosterPojo rosterPojo =gson.fromJson(roasterJsonObject.toString(),RosterPojo.class);
+                                if(rosterPojo !=null){
+                                    roasterCardList.add(rosterPojo);
                                 }
                             }
                         }
                         if(roasterCardList.size()>=1)
-                            roasterAdapter.notifyItemInserted(roasterCardList.size()-1);
+                            rosterAdapter.notifyItemInserted(roasterCardList.size()-1);
                     }
                 } catch (JSONException jsonException) {
                     Log.d(getTAG(), Constants.Exception.JSON_EXCEPTION);

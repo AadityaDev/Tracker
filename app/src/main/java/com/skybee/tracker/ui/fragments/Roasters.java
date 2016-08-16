@@ -6,21 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseFragment;
-import com.skybee.tracker.model.RoasterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
-import com.skybee.tracker.ui.adapters.RoasterAdapter;
 import com.skybee.tracker.ui.customview.SlidingTabLayout;
-
-import java.util.List;
 
 public class Roasters extends BaseFragment {
 
@@ -40,7 +34,7 @@ public class Roasters extends BaseFragment {
         UserStore userStore = new UserStore(getContext());
         user = new User();
         user = userStore.getUserDetails();
-        View view = inflater.inflate(R.layout.fragment_roasters, container, false);
+        View view = inflater.inflate(R.layout.fragment_rosters, container, false);
         //creating view pager adapter
 //        adapter = new ViewPagerAdapter(getFragmentManager(), Titles, NumbOfTabs);
 //        //Assign the viewpager view
@@ -60,7 +54,7 @@ public class Roasters extends BaseFragment {
 
         fragmentTabHost=(FragmentTabHost)view.findViewById(R.id.tabhost);
         fragmentTabHost.setup(getContext(),getChildFragmentManager(),R.id.realtabcontent);
-        fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[0].toString()).setIndicator(Titles[0]),Roaster.class,null);
+        fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[0].toString()).setIndicator(Titles[0]),Roster.class,null);
         fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[1].toString()).setIndicator(Titles[1]),AcceptedRoaster.class,null);
         fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[2].toString()).setIndicator(Titles[2]),RejectedRoaster.class,null);
         return view;
@@ -94,8 +88,8 @@ class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                Roaster roaster=new Roaster();
-                return roaster;
+                Roster roster =new Roster();
+                return roster;
             case 1:
 
             case 2:

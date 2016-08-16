@@ -83,6 +83,7 @@ public class UserService {
                 Log.d(TAG, user.getAuthToken());
                 UserServer userServer = new UserServer();
                 userServer.setApi_token(user.getAuthToken());
+                Log.d(TAG,user.getAuthToken());
                 Request request = RequestGenerator.get(url, user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
                 JSONObject result = new JSONObject(body);
@@ -98,6 +99,7 @@ public class UserService {
                 Log.d(TAG, user.getAuthToken());
                 UserServer userServer = new UserServer();
                 userServer.setApi_token(user.getAuthToken());
+                Log.d(TAG,user.getAuthToken());
                 Request request = RequestGenerator.get(url, user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
                 JSONObject result = new JSONObject(body);
