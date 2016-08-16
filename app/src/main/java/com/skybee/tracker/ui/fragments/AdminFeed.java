@@ -64,11 +64,6 @@ public class AdminFeed extends BaseFragment {
         employeeCardList = new ArrayList<User>();
         employeeCardAdapter = new UserCardAdapter(employeeCardList);
         employeeCards.setAdapter(employeeCardAdapter);
-//        handler = new Handler(Looper.getMainLooper()) {
-//            @Override
-//            public void handleMessage(Message msg) {
-//            }
-//        };
         getEmployeeList();
         return view;
     }

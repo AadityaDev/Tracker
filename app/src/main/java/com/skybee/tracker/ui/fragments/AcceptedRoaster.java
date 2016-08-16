@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.skybee.tracker.R;
 import com.skybee.tracker.model.RoasterPojo;
+import com.skybee.tracker.model.User;
+import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.adapters.RoasterAdapter;
 
 import java.util.ArrayList;
@@ -21,11 +23,15 @@ public class AcceptedRoaster extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private List<RoasterPojo> roasterCardList;
     private RoasterAdapter roasterAdapter;
+    private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        UserStore userStore = new UserStore(getContext());
+        user = new User();
+        user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_accepted_roaster, container, false);
         roasterCards=(RecyclerView)view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);

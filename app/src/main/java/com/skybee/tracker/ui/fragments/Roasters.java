@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,8 @@ import java.util.List;
 
 public class Roasters extends BaseFragment {
 
+    private String TAG=this.getClass().getSimpleName();
+    private FragmentTabHost fragmentTabHost;
     private ViewPager pager;
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
@@ -39,21 +42,27 @@ public class Roasters extends BaseFragment {
         user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_roasters, container, false);
         //creating view pager adapter
-        adapter = new ViewPagerAdapter(getFragmentManager(), Titles, NumbOfTabs);
-        //Assign the viewpager view
-        pager = (ViewPager) view.findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-        //Assign sliding tab layout
-        tabs = (SlidingTabLayout) view.findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true);
-        //setting custom color
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.colorPrimaryDark);
-            }
-        });
-        tabs.setViewPager(pager);
+//        adapter = new ViewPagerAdapter(getFragmentManager(), Titles, NumbOfTabs);
+//        //Assign the viewpager view
+//        pager = (ViewPager) view.findViewById(R.id.pager);
+//        pager.setAdapter(adapter);
+//        //Assign sliding tab layout
+//        tabs = (SlidingTabLayout) view.findViewById(R.id.tabs);
+//        tabs.setDistributeEvenly(true);
+//        //setting custom color
+//        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+//            @Override
+//            public int getIndicatorColor(int position) {
+//                return getResources().getColor(R.color.colorPrimaryDark);
+//            }
+//        });
+//        tabs.setViewPager(pager);
+
+        fragmentTabHost=(FragmentTabHost)view.findViewById(R.id.tabhost);
+        fragmentTabHost.setup(getContext(),getChildFragmentManager(),R.id.realtabcontent);
+        fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[0].toString()).setIndicator(Titles[0]),Roaster.class,null);
+        fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[1].toString()).setIndicator(Titles[1]),AcceptedRoaster.class,null);
+        fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[2].toString()).setIndicator(Titles[2]),RejectedRoaster.class,null);
         return view;
     }
 

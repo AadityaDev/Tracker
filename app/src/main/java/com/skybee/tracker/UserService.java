@@ -83,14 +83,26 @@ public class UserService {
                 Log.d(TAG, user.getAuthToken());
                 UserServer userServer = new UserServer();
                 userServer.setApi_token(user.getAuthToken());
-                Gson gson = new Gson();
                 Request request = RequestGenerator.get(url, user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
-                Log.d(TAG, body);
                 JSONObject result = new JSONObject(body);
                 return result;
             }
         });
     }
 
+    public ListenableFuture<JSONObject> roasterList(@NonNull final String url, @NonNull final User user) {
+        return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                Log.d(TAG, user.getAuthToken());
+                UserServer userServer = new UserServer();
+                userServer.setApi_token(user.getAuthToken());
+                Request request = RequestGenerator.get(url, user.getAuthToken());
+                String body = RequestHandler.makeRequestAndValidate(request);
+                JSONObject result = new JSONObject(body);
+                return result;
+            }
+        });
+    }
 }

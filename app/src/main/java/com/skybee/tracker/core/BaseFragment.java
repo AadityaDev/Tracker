@@ -8,7 +8,8 @@ import android.support.v4.app.Fragment;
 
 import com.skybee.tracker.AndroidApplication;
 
-public class BaseFragment <T> extends Fragment{
+public class BaseFragment<T> extends Fragment {
+    private final String TAG = this.getClass().getSimpleName();
     protected Context context;
     protected AndroidApplication application;
     private OnFragmentInteractionListener onFragmentInteractionListener;
@@ -48,5 +49,9 @@ public class BaseFragment <T> extends Fragment{
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public String getTAG(){
+        return TAG;
     }
 }

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -52,7 +53,8 @@ public class LoginActivity extends BaseActivity {
         //Check already logged in
         UserStore userStore=new UserStore(getApplicationContext());
         user=userStore.getUserDetails();
-        if(user!=null&&user.getAuthToken()!=null){
+        Log.d("Token",userStore.getUserDetails().getAuthToken());
+        if(!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())){
             Utility.startActivity(getApplicationContext());
             finish();
         }
