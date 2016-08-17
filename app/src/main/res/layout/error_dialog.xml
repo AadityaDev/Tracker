@@ -10,8 +10,9 @@
         />
 
     <RelativeLayout
+        android:id="@+id/ok_section"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_60dp"
+        android:layout_height="@dimen/dimen_50dp"
         android:layout_below="@+id/error_message"
         >
 
@@ -31,7 +32,7 @@
             android:textSize="@dimen/dimen_16sp"
             android:textStyle="bold"
             android:layout_below="@+id/line_space"
-            android:layout_margin="@dimen/dimen_16dp"
+            android:layout_margin="@dimen/dimen_14dp"
             />
 
     </RelativeLayout>

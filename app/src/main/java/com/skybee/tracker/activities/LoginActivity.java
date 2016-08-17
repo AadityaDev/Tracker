@@ -166,10 +166,10 @@ public class LoginActivity extends BaseActivity {
             progressDialog = ProgressDialog.show(this, "", "Loading...", true);
             if (userType.getText() == getResources().getString(R.string.admin_text)) {
                 user.setAdmin(true);
-                Utility.authenticate(getApplicationContext(), progressDialog, API.LOGIN, user);
+                Utility.authenticate(getContext(), progressDialog, API.LOGIN, user);
             } else {
                 user.setAdmin(false);
-                Utility.authenticate(getApplicationContext(), progressDialog, API.LOGIN, user);
+                Utility.authenticate(getContext(), progressDialog, API.LOGIN, user);
             }
         }
     }

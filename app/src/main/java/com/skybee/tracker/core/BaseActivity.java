@@ -33,4 +33,8 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
     public void onClick(View view) {
 
     }
+
+    public Context getContext(){
+        return context;
+    }
 }

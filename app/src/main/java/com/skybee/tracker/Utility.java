@@ -3,18 +3,18 @@ package com.skybee.tracker;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
 import com.skybee.tracker.activities.HomeScreenActivity;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.TimeCard;
 import com.skybee.tracker.model.User;
-import com.skybee.tracker.network.UIThreadExecutor;
+import com.skybee.tracker.model.UserServer;
+import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
 
@@ -27,7 +27,7 @@ public class Utility {
     private static ErrorDialog errorDialog;
     private static ErrorDialog getErrorDialog;
     private static boolean error;
-
+    private static String errorMessage = null;
 
     public static TimeCard setEventType(TimeCard timeCard, int size) {
         switch (size) {
@@ -55,61 +55,90 @@ public class Utility {
 
 
     public static void authenticate(@NonNull final Context context, @NonNull final ProgressDialog progressDialog, @NonNull String url, @NonNull User user) {
-        ListenableFuture<User> authenticateUser = Factory.getUserService().authenticateUser(user, url);
-        Futures.addCallback(authenticateUser, new FutureCallback<User>() {
+        ListenableFuture<JSONObject> authenticateUser = Factory.getUserService().authenticateUser(user, url);
+        Futures.addCallback(authenticateUser, new FutureCallback<JSONObject>() {
             @Override
-            public void onSuccess(User result) {
-                if (result != null) {
-                    Log.d(TAG, result.toString());
-                    if (result.getAuthToken() != null) {
-                        UserStore userStore = new UserStore(context);
-                        userStore.saveIsAdmin(result.isAdmin());
-                        userStore.saveAuthToken(result.getAuthToken());
-                        userStore.saveUserEmail(result.getUserEmail());
-//                    userStore.saveUserEmail(result.getUserImage());
-                        userStore.saveUserMobileNumber(result.getUserMobileNumber());
-//                    userStore.saveId(result.getId());
-                        userStore.saveRegistrationCode(result.getRegistrationCode());
+            public void onSuccess(JSONObject result) {
+                try {
+                    JSONObject data = new JSONObject();
+                    Gson gson = new Gson();
+                    if (result.has(Constants.JsonConstants.DATA)) {
+                        data = Utility.getUserResultObject(result.toString());
+                        final UserServer userServer = gson.fromJson(data.toString(), UserServer.class);
+                        User userDetail = new User();
+                        if (userServer != null) {
+                            if (userServer.getId() != 0)
+                                userDetail.setId(userServer.getId());
+                            if (userServer.getDevice_id() != null)
+                                userDetail.setDevice_id(userServer.getDevice_id());
+                            if (userServer.getRegistration_key() != null)
+                                userDetail.setRegistrationCode(userServer.getRegistration_key());
+                            if (userServer.getPhone() != null)
+                                userDetail.setUserMobileNumber(userServer.getPhone());
+                            if (userServer.getApi_token() != null)
+                                userDetail.setAuthToken(userServer.getApi_token());
+                            if (userServer.getName() != null)
+                                userDetail.setUserName(userServer.getName());
+                            saveUserDetailsPreference(context, userDetail);
+                            progressDialog.dismiss();
+                            startActivity(context);
+                        }
+                    } else if (result.has(Constants.JsonConstants.MESSAGE)) {
                         progressDialog.dismiss();
-                        startActivity(context);
+                        errorMessage = result.getString(Constants.JsonConstants.MESSAGE);
+                        showErrorDialog(context, errorMessage);
                     } else {
-                        error=true;
                         progressDialog.dismiss();
-                        errorDialog = new ErrorDialog(context, Constants.ERROR_OCCURRED);
-                        errorDialog.show();
-//                        Looper.prepare();
-//                        getErrorDialog=new ErrorDialog(context,Constants.ERROR_OCCURRED);
-//                        getErrorDialog.show();
+                        errorMessage = Constants.ERROR_OCCURRED;
+                        showErrorDialog(context, errorMessage);
                     }
+                } catch (JSONException jsonException) {
+                    progressDialog.dismiss();
+                    errorMessage = Constants.ERROR_OCCURRED;
+                    showErrorDialog(context, errorMessage);
+                } catch (Exception e) {
+                    progressDialog.dismiss();
+                    errorMessage = Constants.ERROR_OCCURRED;
+                    showErrorDialog(context, errorMessage);
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d(TAG, Constants.ERROR);
-                progressDialog.dismiss();
-                error=true;
                 if (t != null) {
                     if (t.getMessage() != null) {
-                        errorDialog = new ErrorDialog(context, t.getMessage());
+                        errorMessage = t.getMessage();
                     } else {
-                        errorDialog = new ErrorDialog(context, Constants.ERROR_OCCURRED);
+                        errorMessage = Constants.ERROR_OCCURRED;
                     }
                 } else {
-                    errorDialog = new ErrorDialog(context, Constants.ERROR_OCCURRED);
+                    errorMessage = Constants.ERROR_OCCURRED;
                 }
-                errorDialog.show();
+                progressDialog.dismiss();
+                showErrorDialog(context, errorMessage);
             }
-        });
-        if(authenticateUser.isDone()&&error){
-            errorDialog = new ErrorDialog(context, Constants.ERROR_OCCURRED);
-            errorDialog.show();
-        }
+        }, ExecutorUtils.getUIThread());
     }
 
     public static JSONObject getUserResultObject(String body) throws JSONException {
         JSONObject jsonObject = new JSONObject(body);
         JSONObject result = jsonObject.getJSONObject(Constants.JsonConstants.DATA);
         return result;
+    }
+
+    public static void showErrorDialog(@NonNull Context context, @NonNull String messsage) {
+        errorDialog = new ErrorDialog(context, messsage);
+        errorDialog.show();
+    }
+
+    public static void saveUserDetailsPreference(@NonNull Context context, @NonNull User user) {
+        UserStore userStore = new UserStore(context);
+        userStore.saveIsAdmin(user.isAdmin());
+        userStore.saveAuthToken(user.getAuthToken());
+        userStore.saveUserEmail(user.getUserEmail());
+//                    userStore.saveUserEmail(result.getUserImage());
+        userStore.saveUserMobileNumber(user.getUserMobileNumber());
+//                    userStore.saveId(result.getId());
+        userStore.saveRegistrationCode(user.getRegistrationCode());
     }
 }

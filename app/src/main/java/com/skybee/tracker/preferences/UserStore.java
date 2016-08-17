@@ -17,7 +17,7 @@ public class UserStore {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    public UserStore(Context context) {
+    public UserStore(@NonNull Context context) {
         sharedPreferences = context.getSharedPreferences(Constants.UserStore.PREF_NAME, Constants.UserStore.PRIVATE_MODE);
     }
 

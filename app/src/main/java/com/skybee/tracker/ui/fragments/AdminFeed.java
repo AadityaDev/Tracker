@@ -24,6 +24,7 @@ import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseFragment;
 import com.skybee.tracker.model.User;
+import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.adapters.UserCardAdapter;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
@@ -50,12 +51,11 @@ public class AdminFeed extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        UserStore userStore = new UserStore(getContext());
+        View view = inflater.inflate(R.layout.fragment_admin_feed, container, false);
         user = new User();
-        user = userStore.getUserDetails();
+        user = getLocalUser();
         progressDialog = new ProgressDialog(getContext());
         progressDialog.show();
-        View view = inflater.inflate(R.layout.fragment_admin_feed, container, false);
         employeeCards = (RecyclerView) view.findViewById(R.id.employee_list);
         employeeCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -129,6 +129,6 @@ public class AdminFeed extends BaseFragment {
                 errorDialog = new ErrorDialog(getContext(), message);
                 errorDialog.show();
             }
-        });
+        }, ExecutorUtils.getUIThread());
     }
 }

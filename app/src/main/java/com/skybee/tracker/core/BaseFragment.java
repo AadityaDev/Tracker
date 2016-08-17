@@ -7,15 +7,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.skybee.tracker.AndroidApplication;
+import com.skybee.tracker.model.User;
+import com.skybee.tracker.preferences.UserStore;
+
 
 public class BaseFragment<T> extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
     protected Context context;
     protected AndroidApplication application;
     private OnFragmentInteractionListener onFragmentInteractionListener;
+    private User user;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        context=getActivity();
+        UserStore userStore=new UserStore(context);
+        user=userStore.getUserDetails();
         super.onCreate(savedInstanceState);
     }
 
@@ -54,4 +61,10 @@ public class BaseFragment<T> extends Fragment {
     public String getTAG(){
         return TAG;
     }
+
+    public Context getContext(){
+        return context;
+    }
+
+    public User getLocalUser(){return user;}
 }

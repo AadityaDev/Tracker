@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.Window;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.skybee.tracker.R;
@@ -14,6 +16,7 @@ public class ErrorDialog extends Dialog {
 
     private ErrorDialog errorDialog;
     private TextView errorMessage;
+    private RelativeLayout ok;
     private String message;
 
     public ErrorDialog(@NonNull Context context, @NonNull String message) {
@@ -31,6 +34,13 @@ public class ErrorDialog extends Dialog {
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         errorMessage = (TextView) findViewById(R.id.error_message);
         errorMessage.setText(message);
+        ok=(RelativeLayout)findViewById(R.id.ok_section);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                errorDialog.dismiss();
+            }
+        });
     }
 
 }
