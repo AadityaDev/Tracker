@@ -14,5 +14,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/shareRegistrationCode"
+            android:layout_width="@dimen/dimen_60dp"
+            android:layout_height="@dimen/dimen_60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/blue"
+            android:src="@drawable/ic_send"
+            android:layout_marginRight="@dimen/dimen_8dp"
+            android:layout_marginEnd="@dimen/dimen_8dp"
+            />
+
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

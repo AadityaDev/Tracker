@@ -2,6 +2,7 @@ package com.skybee.tracker.ui.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +15,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.skybee.tracker.GPSTracker;
+import com.skybee.tracker.LocationUtil;
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseFragment;
 
@@ -21,6 +26,11 @@ public class Map extends BaseFragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private static View view;
+    private Marker myLocation;
+    private GPSTracker gpsTracker;
+    private double latitude = 0;
+    private double longitude = 0;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +45,19 @@ public class Map extends BaseFragment implements OnMapReadyCallback {
         } catch (InflateException e) {
         /* map is already there, just return view as it is */
         }
+        gpsTracker=new GPSTracker(context);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(gpsTracker.canGetLocation()){
+            latitude=gpsTracker.getLatitude();
+            longitude=gpsTracker.getLongitude();
+        }else {
+            gpsTracker.showSettingsAlert();
+        }
     }
 
     @Override
@@ -62,11 +84,16 @@ public class Map extends BaseFragment implements OnMapReadyCallback {
 
             return;
         } else {
+//            LocationUtil locationUtil=new LocationUtil(getContext());
+//            locationUtil.showCurrentLocation();
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setCompassEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.getMaxZoomLevel();
             mMap.getMinZoomLevel();
+            LatLng latLng=new LatLng(latitude,longitude);
+            myLocation=mMap.addMarker(new MarkerOptions().position(latLng).title("Me"));
         }
     }
+
 }

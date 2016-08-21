@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.Html;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -75,6 +76,8 @@ public class Utility {
                                 userDetail.setRegistrationCode(userServer.getRegistration_key());
                             if (userServer.getPhone() != null)
                                 userDetail.setUserMobileNumber(userServer.getPhone());
+                            if(userServer.getMobile()!=null)
+                                userDetail.setUserMobileNumber(userServer.getMobile());
                             if (userServer.getAuthToken() != null)
                                 userDetail.setAuthToken(userServer.getAuthToken());
                             if (userServer.getName() != null)
@@ -137,6 +140,7 @@ public class Utility {
 
     public static void saveUserDetailsPreference(@NonNull Context context, @NonNull User user) {
         UserStore userStore = new UserStore(context);
+        userStore.saveUserName(user.getUserName());
         userStore.saveIsAdmin(user.isAdmin());
         userStore.saveAuthToken(user.getAuthToken());
         userStore.saveUserEmail(user.getUserEmail());
@@ -144,5 +148,14 @@ public class Utility {
         userStore.saveUserMobileNumber(user.getUserMobileNumber());
 //                    userStore.saveId(result.getId());
         userStore.saveRegistrationCode(user.getRegistrationCode());
+    }
+
+    public static void shareRegistrationCode(@NonNull Context context,@NonNull String registrationCode){
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\nDownload app from this url."
+                +"\nhttps://play.google.com/store/apps/details?id=com.recharge.myrecharge&hl=en"
+                +"\nRegistration Code: "+registrationCode);
+        context.startActivity(Intent.createChooser(sharingIntent,"Share registration code with employee."));
     }
 }

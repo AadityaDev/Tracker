@@ -3,6 +3,7 @@ package com.skybee.tracker.ui.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,6 +42,7 @@ public class AdminFeed extends BaseFragment {
     private ProgressDialog progressDialog;
     private String message;
     private RecyclerView employeeCards;
+    private FloatingActionButton floatingActionButton;
     private LinearLayoutManager linearLayoutManager;
     private List<User> employeeCardList;
     private UserCardAdapter employeeCardAdapter;
@@ -53,6 +55,13 @@ public class AdminFeed extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_admin_feed, container, false);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.show();
+        floatingActionButton=(FloatingActionButton)view.findViewById(R.id.shareRegistrationCode);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.shareRegistrationCode(getContext(),getLocalUser().getRegistrationCode());
+            }
+        });
         employeeCards = (RecyclerView) view.findViewById(R.id.employee_list);
         employeeCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());

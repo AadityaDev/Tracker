@@ -44,8 +44,6 @@ public class LoginActivity extends BaseActivity {
     private View loginFormView;
     private TextView registerText;
     private ProgressDialog progressDialog;
-    private RadioGroup radioGroup;
-    private RadioButton userType;
     private User user;
 
     @Override
@@ -76,7 +74,6 @@ public class LoginActivity extends BaseActivity {
                 return false;
             }
         });
-        radioGroup = (RadioGroup) findViewById(R.id.user_type);
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -157,20 +154,18 @@ public class LoginActivity extends BaseActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            int selectedId = radioGroup.getCheckedRadioButtonId();
-            userType = (RadioButton) findViewById(selectedId);
             User user = new User();
             user.setUserEmail(emailView.getText().toString());
             user.setUserPassword(passwordView.getText().toString());
             user.setLogin_type(1);
             progressDialog = ProgressDialog.show(this, "", "Loading...", true);
-            if (userType.getText() == getResources().getString(R.string.admin_text)) {
-                user.setAdmin(true);
+//            if (user == getResources().getString(R.string.admin_text)) {
+//                user.setAdmin(true);
                 Utility.authenticate(getContext(), progressDialog, API.LOGIN, user);
-            } else {
-                user.setAdmin(false);
-                Utility.authenticate(getContext(), progressDialog, API.LOGIN, user);
-            }
+//            } else {
+//                user.setAdmin(false);
+//                Utility.authenticate(getContext(), progressDialog, API.LOGIN, user);
+//            }
         }
     }
 

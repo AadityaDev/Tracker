@@ -25,37 +25,48 @@
                     android:layout_marginBottom="@dimen/dimen_16dp"
                     android:layout_marginTop="@dimen/dimen_16dp">
 
-                    <ImageView
+                    <com.skybee.tracker.ui.customview.CircularImageView
                         android:id="@+id/user_image"
                         android:layout_width="@dimen/dimen_80dp"
                         android:layout_height="@dimen/dimen_80dp"
+                        android:layout_margin="@dimen/dimen_6dp" />
+
+                    <TextView
+                        android:id="@+id/user_image_text"
+                        android:layout_width="@dimen/dimen_80dp"
+                        android:layout_height="@dimen/dimen_80dp"
                         android:layout_margin="@dimen/dimen_6dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:background="@drawable/circle"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:maxLength="1"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen_32sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_16dp"
                         android:layout_toEndOf="@+id/user_image"
                         android:layout_toRightOf="@+id/user_image"
                         android:singleLine="true"
                         android:text="NAme"
-                        android:textSize="@dimen/dimen_24sp"
-                        android:layout_marginTop="@dimen/dimen_16dp"
-                        />
+                        android:textSize="@dimen/dimen_24sp" />
 
                     <TextView
                         android:id="@+id/user_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/user_name"
+                        android:layout_marginTop="@dimen/dimen_6dp"
                         android:layout_toEndOf="@+id/user_image"
                         android:layout_toRightOf="@+id/user_image"
                         android:singleLine="true"
                         android:text="Email"
-                        android:textSize="@dimen/dimen_20sp"
-                        android:layout_marginTop="@dimen/dimen_6dp"
-                        />
+                        android:textSize="@dimen/dimen_20sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -110,15 +121,14 @@
                         android:id="@+id/company_facebook_url"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="facebook"
-                        android:textSize="@dimen/dimen_20sp"
-                        android:layout_centerInParent="true"
                         android:layout_alignBottom="@+id/company_facebook"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_toRightOf="@id/company_facebook"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
                         android:layout_toEndOf="@id/company_facebook"
-                        />
+                        android:layout_toRightOf="@id/company_facebook"
+                        android:text="facebook"
+                        android:textSize="@dimen/dimen_20sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -128,10 +138,9 @@
                     android:layout_below="@+id/company_facebook_section"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/dimen_16dp"
-                    android:background="@color/light_green"
-                    android:gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dimen_16dp"
-                    >
+                    android:background="@color/light_green"
+                    android:gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/logout_text"

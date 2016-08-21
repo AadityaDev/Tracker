@@ -19,6 +19,7 @@ public class Profile extends BaseFragment {
     private TextView userLocation;
     private TextView userEmail;
     private TextView userMobileNumber;
+    private TextView userImageText;
     private User user;
 
     @Override
@@ -32,10 +33,12 @@ public class Profile extends BaseFragment {
         userLocation = (TextView) view.findViewById(R.id.location_text);
         userEmail = (TextView) view.findViewById(R.id.email_text);
         userMobileNumber = (TextView) view.findViewById(R.id.mobile_num_text);
+        userImageText=(TextView)view.findViewById(R.id.user_image_text);
         user=getLocalUser();
         if(user!=null){
             if(user.getUserName()!=null)
                 userName.setText(user.getUserName());
+                userImageText.setText(String.valueOf(user.getUserName().charAt(0)));
             if(user.getUserEmail()!=null)
                 userEmail.setText(user.getUserEmail());
             if(user.getUserMobileNumber()!=null)

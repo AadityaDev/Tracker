@@ -1,22 +1,34 @@
 package com.skybee.tracker.core;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.skybee.tracker.AndroidApplication;
+import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
 
 
 public class BaseFragment<T> extends Fragment {
+
     private final String TAG = this.getClass().getSimpleName();
     protected Context context;
     protected AndroidApplication application;
     private OnFragmentInteractionListener onFragmentInteractionListener;
     private User user;
+    private GPSTracker gpsTracker;
+    private double latitude = 0;
+    private double longitude = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,4 +80,11 @@ public class BaseFragment<T> extends Fragment {
     }
 
     public User getLocalUser(){return user;}
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

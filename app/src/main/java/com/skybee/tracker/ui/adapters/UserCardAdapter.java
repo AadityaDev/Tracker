@@ -18,6 +18,7 @@ import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.User;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCardViewHolder> {
 
@@ -41,6 +42,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
         if (user != null) {
             if (user.getUserName() != null) {
                 holder.employeeName.setText(user.getUserName());
+                holder.employeeImageText.setText(String.valueOf(Character.toUpperCase(user.getUserName().charAt(0))));
             }
             if (user.getUserLatitude() != 0 && user.getUserLongitude() != 0) {
 
@@ -86,6 +88,8 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
         private TextView employeeLocation;
         private TextView employeeStatus;
         private ImageView employeeMobile;
+        private ImageView employeeImage;
+        private TextView employeeImageText;
         private CardView employeeCard;
 
         public UserCardViewHolder(Context context,View itemView) {
@@ -96,7 +100,8 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
             employeeMobile=(ImageView)itemView.findViewById(R.id.mobile_image);
 //            employeeLocation = (TextView) itemView.findViewById(R.id.employee_location);
 //            employeeStatus=(TextView)itemView.findViewById(R.id.e);
-//            employeeImage = (ImageView) itemView.findViewById(R.id.employee_image);
+            employeeImage = (ImageView) itemView.findViewById(R.id.employee_image);
+            employeeImageText=(TextView)itemView.findViewById(R.id.employee_image_text);
         }
     }
 }
