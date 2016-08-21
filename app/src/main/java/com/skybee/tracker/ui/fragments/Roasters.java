@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseFragment;
@@ -26,6 +27,7 @@ public class Roasters extends BaseFragment {
     CharSequence Titles[] = {"ROASTER", "ACCEPTED", "REJECTED"};
     int NumbOfTabs = 3;
     private User user;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

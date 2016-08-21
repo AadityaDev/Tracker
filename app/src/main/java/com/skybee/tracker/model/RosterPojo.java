@@ -3,6 +3,7 @@ package com.skybee.tracker.model;
 public class RosterPojo {
     private long roster_id;
     private long customer_id;
+    private long customer_site_id;
     private long site_id;
     private long employee_id;
     private String date;
@@ -10,22 +11,24 @@ public class RosterPojo {
     private String day;
     private String day_to;
     private String time_from;
+    private String time_to;
     private String status;
     private String CustomerName;
     private String company_name;
     private String designation;
-    private long customer_site_id;
     private String ShortName;
     private String CUSTOMERNAME;
     private String designation1;
     private double latitude;
     private double longitude;
     private double radius;
+    private String mobile;
     private String EmployeeName;
     private long site_task_id;
     private long taskId;
     private String TaskName;
     private transient boolean isSelected;
+
 
     public long getRoster_id() {
         return this.roster_id;
@@ -41,6 +44,14 @@ public class RosterPojo {
 
     public void setCustomer_id(long customer_id) {
         this.customer_id = customer_id;
+    }
+
+    public long getCustomer_site_id() {
+        return this.customer_site_id;
+    }
+
+    public void setCustomer_site_id(long customer_site_id) {
+        this.customer_site_id = customer_site_id;
     }
 
     public long getSite_id() {
@@ -99,6 +110,14 @@ public class RosterPojo {
         this.time_from = time_from;
     }
 
+    public String getTime_to() {
+        return time_to;
+    }
+
+    public void setTime_to(String time_to) {
+        this.time_to = time_to;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -129,14 +148,6 @@ public class RosterPojo {
 
     public void setDesignation(String designation) {
         this.designation = designation;
-    }
-
-    public long getCustomer_site_id() {
-        return this.customer_site_id;
-    }
-
-    public void setCustomer_site_id(long customer_site_id) {
-        this.customer_site_id = customer_site_id;
     }
 
     public String getShortName() {
@@ -185,6 +196,14 @@ public class RosterPojo {
 
     public void setRadius(double radius) {
         this.radius = radius;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getEmployeeName() {

@@ -1,6 +1,7 @@
 package com.skybee.tracker.ui.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +37,10 @@ public class Profile extends BaseFragment {
         userImageText=(TextView)view.findViewById(R.id.user_image_text);
         user=getLocalUser();
         if(user!=null){
-            if(user.getUserName()!=null)
+            if(!TextUtils.isEmpty(user.getUserName())) {
                 userName.setText(user.getUserName());
                 userImageText.setText(String.valueOf(user.getUserName().charAt(0)));
+            }
             if(user.getUserEmail()!=null)
                 userEmail.setText(user.getUserEmail());
             if(user.getUserMobileNumber()!=null)

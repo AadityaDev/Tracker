@@ -3,6 +3,7 @@ package com.skybee.tracker.ui.fragments;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -22,7 +23,7 @@ import com.skybee.tracker.LocationUtil;
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseFragment;
 
-public class Map extends BaseFragment implements OnMapReadyCallback {
+public class Map extends BaseFragment implements OnMapReadyCallback,LocationListener {
 
     private GoogleMap mMap;
     private static View view;
@@ -96,4 +97,23 @@ public class Map extends BaseFragment implements OnMapReadyCallback {
         }
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }

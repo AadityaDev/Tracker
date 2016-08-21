@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
-import com.skybee.tracker.constants.Constants;
+import com.skybee.tracker.model.RosterAction;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.model.UserServer;
 import com.skybee.tracker.network.ExecutorUtils;
@@ -83,7 +83,7 @@ public class UserService {
                 Log.d(TAG, user.getAuthToken());
                 UserServer userServer = new UserServer();
                 userServer.setApi_token(user.getAuthToken());
-                Log.d(TAG,user.getAuthToken());
+                Log.d(TAG, user.getAuthToken());
                 Request request = RequestGenerator.get(url, user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
                 JSONObject result = new JSONObject(body);
@@ -99,8 +99,26 @@ public class UserService {
                 Log.d(TAG, user.getAuthToken());
                 UserServer userServer = new UserServer();
                 userServer.setApi_token(user.getAuthToken());
-                Log.d(TAG,user.getAuthToken());
+                Log.d(TAG, user.getAuthToken());
                 Request request = RequestGenerator.get(url, user.getAuthToken());
+                String body = RequestHandler.makeRequestAndValidate(request);
+                JSONObject result = new JSONObject(body);
+                return result;
+            }
+        });
+    }
+
+    public ListenableFuture<JSONObject> acceptOrRejectRoster(@NonNull final String url, @NonNull final User user, @NonNull final String userAction,@NonNull final long[] ids) {
+        return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                Log.d(TAG, user.getAuthToken());
+                Gson gson = new Gson();
+                RosterAction rosterAction = new RosterAction();
+                rosterAction.setRoster_id(ids);
+                rosterAction.setStatus(userAction);
+                String rosterActionString = gson.toJson(rosterAction);
+                Request request = RequestGenerator.postWithToken(url, rosterActionString, user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
                 JSONObject result = new JSONObject(body);
                 return result;

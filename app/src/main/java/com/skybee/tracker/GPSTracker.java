@@ -1,5 +1,6 @@
 package com.skybee.tracker;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -81,6 +82,8 @@ public class GPSTracker extends Service implements LocationListener {
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
+                Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                context.startActivity(callGPSSettingIntent);
             } else {
                 this.canGetLocation = true;
                 // First get location from Network Provider
@@ -152,7 +155,6 @@ public class GPSTracker extends Service implements LocationListener {
         if(location != null){
             longitude = location.getLongitude();
         }
-
         // return longitude
         return longitude;
     }

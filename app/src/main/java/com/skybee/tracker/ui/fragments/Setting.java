@@ -2,7 +2,7 @@ package com.skybee.tracker.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +30,7 @@ public class Setting extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         userName = (TextView) view.findViewById(R.id.user_name);
         userEmail = (TextView) view.findViewById(R.id.user_email);
-        userImageText=(TextView)view.findViewById(R.id.user_image_text);
+        userImageText = (TextView) view.findViewById(R.id.user_image_text);
         logoutButton = (RelativeLayout) view.findViewById(R.id.logout_section);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,9 +40,10 @@ public class Setting extends BaseFragment {
         });
         user = getLocalUser();
         if (user != null) {
-            if (user.getUserName() != null)
+            if (!TextUtils.isEmpty(user.getUserName())) {
                 userName.setText(user.getUserName());
                 userImageText.setText(String.valueOf(user.getUserName().charAt(0)));
+            }
             if (user.getUserEmail() != null)
                 userEmail.setText(user.getUserEmail());
         }

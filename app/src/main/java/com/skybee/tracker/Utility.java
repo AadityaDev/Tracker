@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.text.Html;
+import android.util.Log;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -76,15 +76,15 @@ public class Utility {
                                 userDetail.setRegistrationCode(userServer.getRegistration_key());
                             if (userServer.getPhone() != null)
                                 userDetail.setUserMobileNumber(userServer.getPhone());
-                            if(userServer.getMobile()!=null)
-                                userDetail.setUserMobileNumber(userServer.getMobile());
+                            if (userServer.getMobileNo() != null)
+                                userDetail.setUserMobileNumber(userServer.getMobileNo());
                             if (userServer.getAuthToken() != null)
                                 userDetail.setAuthToken(userServer.getAuthToken());
                             if (userServer.getName() != null)
                                 userDetail.setUserName(userServer.getName());
-                            if(userServer.getUserEmail()!=null)
+                            if (userServer.getUserEmail() != null)
                                 userDetail.setUserEmail(userServer.getUserEmail());
-                            if(userServer.getUserType().equals("Admin"))
+                            if (userServer.getUserType().equals("Admin"))
                                 userDetail.setAdmin(true);
                             saveUserDetailsPreference(context, userDetail);
                             progressDialog.dismiss();
@@ -150,12 +150,54 @@ public class Utility {
         userStore.saveRegistrationCode(user.getRegistrationCode());
     }
 
-    public static void shareRegistrationCode(@NonNull Context context,@NonNull String registrationCode){
+    public static void shareRegistrationCode(@NonNull Context context, @NonNull String registrationCode) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\nDownload app from this url."
-                +"\nhttps://play.google.com/store/apps/details?id=com.recharge.myrecharge&hl=en"
-                +"\nRegistration Code: "+registrationCode);
-        context.startActivity(Intent.createChooser(sharingIntent,"Share registration code with employee."));
+                + "\nhttps://play.google.com/store/apps/details?id=com.recharge.myrecharge&hl=en"
+                + "\nRegistration Code: " + registrationCode);
+        context.startActivity(Intent.createChooser(sharingIntent, "Share registration code with employee."));
+    }
+
+    public static void checkProgressDialog(ProgressDialog progressDialog) {
+        if (progressDialog != null) {
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+        }
+    }
+
+    public static void rosterAction(final Context context, String url, String userAction, final ProgressDialog progressDialog, long[] ids) {
+        UserStore userStore = new UserStore(context);
+        User user = new User();
+        user = userStore.getUserDetails();
+        ListenableFuture<JSONObject> getRosterActionResult = Factory.getUserService().acceptOrRejectRoster(url, user, userAction, ids);
+        Futures.addCallback(getRosterActionResult, new FutureCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                Log.d(TAG, result.toString());
+                try {
+                    if (result.has(Constants.JsonConstants.MESSAGE)) {
+                        if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
+
+                        }
+                    }
+                } catch (JSONException jsonException) {
+                    errorMessage = Constants.ERROR_OCCURRED;
+                    progressDialog.dismiss();
+                    showErrorDialog(context, errorMessage);
+                } catch (Exception exception) {
+                    errorMessage = Constants.ERROR_OCCURRED;
+                    progressDialog.dismiss();
+                    showErrorDialog(context, errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                errorMessage = Constants.ERROR_OCCURRED;
+                progressDialog.dismiss();
+                showErrorDialog(context, errorMessage);
+            }
+        }, ExecutorUtils.getUIThread());
     }
 }

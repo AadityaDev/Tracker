@@ -16,7 +16,7 @@ public class API {
         public static final String ACCEPT_KEY = "Accept";
         public static final String ACCEPT_VALUE = "application/vnd.tracking.v0+json";
         public static final String ACCEPT_JSON = "application/json";
-        public static final String AUTHORIZATION_KEY = "Authorization";
+        public static final String AUTHORIZATION_KEY = "Auth";
         public static final String AUTH_KEY = "Auth";
         public static final String CAN_RENDER_HTML = "X-HTML-CanRender";
         public static final String CONTENT_TYPE = "Content-Type";

@@ -14,4 +14,6 @@
     <color name="yellow">#FFC107</color>
     <color name="blue">#2196F3</color>
     <color name="black">#000000</color>
+    <color name="material_red">#E74C3C</color>
+    <color name="material_green">#2ECC71</color>
 </resources>

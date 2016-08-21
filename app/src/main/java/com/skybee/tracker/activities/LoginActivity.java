@@ -19,8 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.skybee.tracker.R;
@@ -38,6 +36,7 @@ public class LoginActivity extends BaseActivity {
 
     private static final int REQUEST_READ_CONTACTS = 0;
     // UI references.
+    private TextView selectAll;
     private AutoCompleteTextView emailView;
     private EditText passwordView;
     private View progressView;
@@ -49,16 +48,18 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         //Check already logged in
-        UserStore userStore=new UserStore(getApplicationContext());
-        user=userStore.getUserDetails();
-        Log.d("Token",userStore.getUserDetails().getAuthToken());
-        if(!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())){
+        UserStore userStore = new UserStore(getApplicationContext());
+        user = userStore.getUserDetails();
+        Log.d("Token", userStore.getUserDetails().getAuthToken());
+        if (!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())) {
             Utility.startActivity(getApplicationContext());
             finish();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        selectAll=(TextView)findViewById(R.id.select_all_text);
+        selectAll.setVisibility(View.INVISIBLE);
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -159,13 +160,7 @@ public class LoginActivity extends BaseActivity {
             user.setUserPassword(passwordView.getText().toString());
             user.setLogin_type(1);
             progressDialog = ProgressDialog.show(this, "", "Loading...", true);
-//            if (user == getResources().getString(R.string.admin_text)) {
-//                user.setAdmin(true);
-                Utility.authenticate(getContext(), progressDialog, API.LOGIN, user);
-//            } else {
-//                user.setAdmin(false);
-//                Utility.authenticate(getContext(), progressDialog, API.LOGIN, user);
-//            }
+            Utility.authenticate(getContext(), progressDialog, API.LOGIN, user);
         }
     }
 

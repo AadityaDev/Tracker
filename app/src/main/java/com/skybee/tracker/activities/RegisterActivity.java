@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.skybee.tracker.R;
 import com.skybee.tracker.Utility;
@@ -35,12 +36,15 @@ public class RegisterActivity extends BaseActivity {
     private View loginFormView;
     private RadioGroup radioGroup;
     private RadioButton userType;
+    private TextView selectAll;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        selectAll=(TextView)findViewById(R.id.select_all_text);
+        selectAll.setVisibility(View.INVISIBLE);
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         passwordView = (EditText) findViewById(R.id.password);
         nameView = (EditText) findViewById(R.id.user_name);

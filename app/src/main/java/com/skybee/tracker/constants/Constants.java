@@ -74,5 +74,6 @@ public class Constants {
         public static final String NAME = "name";
         public static final String MOBILE = "mobile";
         public static final String API_TOKEN = "api_token";
+        public static final String SUCCESS = "success";
     }
 }

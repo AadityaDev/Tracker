@@ -11,13 +11,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.skybee.tracker.AndroidApplication;
 import com.skybee.tracker.GPSTracker;
+import com.skybee.tracker.R;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
-
 
 public class BaseFragment<T> extends Fragment {
 
@@ -29,6 +34,7 @@ public class BaseFragment<T> extends Fragment {
     private GPSTracker gpsTracker;
     private double latitude = 0;
     private double longitude = 0;
+    private TextView selectAll;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,11 +43,20 @@ public class BaseFragment<T> extends Fragment {
         user=new User();
         user=userStore.getUserDetails();
         super.onCreate(savedInstanceState);
+        gpsTracker=new GPSTracker(context);
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        if(gpsTracker.canGetLocation()){
+            latitude=gpsTracker.getLatitude();
+            longitude=gpsTracker.getLongitude();
+        }else {
+            gpsTracker.showSettingsAlert();
+        }
+        Log.d(TAG,"Location :"+latitude+" Long: "+longitude);
     }
 
     @Override

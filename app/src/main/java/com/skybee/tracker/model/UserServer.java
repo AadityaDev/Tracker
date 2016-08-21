@@ -8,7 +8,7 @@ public class UserServer {
     private String name;
     private String userEmail;
     private String phone;
-    private String mobile;
+    private String MobileNo;
     private String password;
     private String device_id;
     private String registration_key;
@@ -74,12 +74,12 @@ public class UserServer {
         this.phone = phone;
     }
 
-    public String getMobile() {
-        return this.mobile;
+    public String getMobileNo() {
+        return this.MobileNo;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setMobileNo(String mobileNo) {
+        this.MobileNo = mobileNo;
     }
 
     public String getPassword() {

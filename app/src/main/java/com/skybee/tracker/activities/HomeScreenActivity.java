@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseActivity;
@@ -26,6 +29,7 @@ public class HomeScreenActivity extends BaseActivity implements BaseFragment.OnF
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private UserStore userStore;
+    private TextView selectAll;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,8 @@ public class HomeScreenActivity extends BaseActivity implements BaseFragment.OnF
 
         userStore = new UserStore(getApplicationContext());
         initializeUIComponents();
+        selectAll=(TextView)findViewById(R.id.select_all_text);
+        selectAll.setVisibility(View.INVISIBLE);
     }
 
     private void initializeUIComponents() {
