@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseFragment;
+import com.skybee.tracker.model.User;
 
 public class Profile extends BaseFragment {
 
@@ -18,6 +19,7 @@ public class Profile extends BaseFragment {
     private TextView userLocation;
     private TextView userEmail;
     private TextView userMobileNumber;
+    private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,6 +32,17 @@ public class Profile extends BaseFragment {
         userLocation = (TextView) view.findViewById(R.id.location_text);
         userEmail = (TextView) view.findViewById(R.id.email_text);
         userMobileNumber = (TextView) view.findViewById(R.id.mobile_num_text);
+        user=getLocalUser();
+        if(user!=null){
+            if(user.getUserName()!=null)
+                userName.setText(user.getUserName());
+            if(user.getUserEmail()!=null)
+                userEmail.setText(user.getUserEmail());
+            if(user.getUserMobileNumber()!=null)
+                userMobileNumber.setText(user.getUserMobileNumber());
+            if(user.getUserLatitude()!=0&&user.getUserLongitude()!=0)
+                userLocation.setText(user.getUserLongitude()+" "+user.getUserLatitude());
+        }
         return view;
     }
 

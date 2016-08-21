@@ -41,13 +41,13 @@ public class HomeScreenActivity extends BaseActivity implements BaseFragment.OnF
         if (userStore.getUserDetails().isAdmin()) {
             mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
                 private final Fragment[] mFragments = new Fragment[]{
-                        new Home(),
+                        new AdminFeed(),
                         new Map(),
                         new Profile(),
                         new Setting(),
                 };
                 private final String[] mFragmentNames = new String[]{
-                        "Home",
+                        "Admin",
                         "Map",
                         "Profile",
                         "Settings"
@@ -134,14 +134,14 @@ public class HomeScreenActivity extends BaseActivity implements BaseFragment.OnF
         } else {
             mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
                 private final Fragment[] mFragments = new Fragment[]{
-                        new AdminFeed(),
+                        new Home(),
                         new Map(),
                         new Roasters(),
                         new Profile(),
                         new Setting(),
                 };
                 private final String[] mFragmentNames = new String[]{
-                        "Admin",
+                        "Home",
                         "Map",
                         "Roasters",
                         "Profile",

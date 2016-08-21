@@ -19,6 +19,7 @@ import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseFragment;
 import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
+import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.adapters.RosterAdapter;
 
@@ -91,7 +92,7 @@ public class Roster extends BaseFragment {
             public void onFailure(Throwable t) {
 
             }
-        });
+        }, ExecutorUtils.getUIThread());
     }
 
     public void onError() {

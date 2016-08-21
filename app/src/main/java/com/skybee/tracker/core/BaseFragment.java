@@ -22,6 +22,7 @@ public class BaseFragment<T> extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         context=getActivity();
         UserStore userStore=new UserStore(context);
+        user=new User();
         user=userStore.getUserDetails();
         super.onCreate(savedInstanceState);
     }

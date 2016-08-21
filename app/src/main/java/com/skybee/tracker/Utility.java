@@ -75,10 +75,14 @@ public class Utility {
                                 userDetail.setRegistrationCode(userServer.getRegistration_key());
                             if (userServer.getPhone() != null)
                                 userDetail.setUserMobileNumber(userServer.getPhone());
-                            if (userServer.getApi_token() != null)
-                                userDetail.setAuthToken(userServer.getApi_token());
+                            if (userServer.getAuthToken() != null)
+                                userDetail.setAuthToken(userServer.getAuthToken());
                             if (userServer.getName() != null)
                                 userDetail.setUserName(userServer.getName());
+                            if(userServer.getUserEmail()!=null)
+                                userDetail.setUserEmail(userServer.getUserEmail());
+                            if(userServer.getUserType().equals("Admin"))
+                                userDetail.setAdmin(true);
                             saveUserDetailsPreference(context, userDetail);
                             progressDialog.dismiss();
                             startActivity(context);

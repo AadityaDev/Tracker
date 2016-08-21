@@ -4,8 +4,9 @@ public class UserServer {
     private long id;
     private long s_id;
     private int login_type;
+    private String authToken;
     private String name;
-    private String email;
+    private String userEmail;
     private String phone;
     private String password;
     private String device_id;
@@ -14,6 +15,7 @@ public class UserServer {
     private int max_limit;
     private int status;
     private String api_token;
+    private String UserType;
 
     public long getId() {
         return this.id;
@@ -39,6 +41,14 @@ public class UserServer {
         this.login_type = login_type;
     }
 
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
     public String getName() {
         return name;
     }
@@ -47,12 +57,12 @@ public class UserServer {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getPhone() {
@@ -117,5 +127,13 @@ public class UserServer {
 
     public void setApi_token(String api_token) {
         this.api_token = api_token;
+    }
+
+    public String getUserType() {
+        return UserType;
+    }
+
+    public void setUserType(String userType) {
+        this.UserType = userType;
     }
 }
