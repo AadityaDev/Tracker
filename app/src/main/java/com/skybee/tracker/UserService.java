@@ -125,4 +125,17 @@ public class UserService {
             }
         });
     }
+
+    public ListenableFuture<JSONObject> customerSites(@NonNull final String url, @NonNull final User user) {
+        return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                Log.d(TAG, user.getAuthToken());
+                Request request = RequestGenerator.get(url, user.getAuthToken());
+                String body = RequestHandler.makeRequestAndValidate(request);
+                JSONObject result = new JSONObject(body);
+                return result;
+            }
+        });
+    }
 }

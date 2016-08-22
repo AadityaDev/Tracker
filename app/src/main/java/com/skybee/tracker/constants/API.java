@@ -1,6 +1,7 @@
 package com.skybee.tracker.constants;
 
 public class API {
+
     public static final String SERVER_BASE = "http://www.impulse.webbzer.com/app/webroot/servicesApi/indextrackmzapp.php/";
     public static final String ADMIN_SIGN_UP = "http://track.snoowa.com/v1/indextrackmzapp.php/adminsignup";
     public static final String EMPLOYEE_SIGN_UP = "http://track.snoowa.com/v1/indextrackmzapp.php/employeesignup";
@@ -10,7 +11,7 @@ public class API {
     public static final String ACCEPTED_ROSTER_LIST = "http://track.snoowa.com/v1/indextrackmzapp.php/rosterconfirmed";
     public static final String REJECTED_ROSTER_LIST = "http://track.snoowa.com/v1/indextrackmzapp.php/rosterrejected";
     public static final String ACCEPTED_ROSTER_ACTION = "http://track.snoowa.com/v1/indextrackmzapp.php/acceptresectroster";
-
+    public static final String CUSTOMER_SITES = "http://track.snoowa.com/v1/indextrackmzapp.php/customersites";
 
     public class Headers {
         public static final String ACCEPT_KEY = "Accept";

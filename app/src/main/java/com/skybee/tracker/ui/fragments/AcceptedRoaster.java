@@ -53,13 +53,15 @@ public class AcceptedRoaster extends BaseFragment {
         user = new User();
         user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_accepted_roaster, container, false);
-        roasterCards=(RecyclerView)view.findViewById(R.id.accepted_roaster_list);
+        progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
+        progressDialog.show();
+        roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         roasterCards.setLayoutManager(linearLayoutManager);
-        roasterCardList=new ArrayList<>();
-        rosterAdapter =new RosterAdapter(roasterCardList);
+        roasterCardList = new ArrayList<>();
+        rosterAdapter = new RosterAdapter(roasterCardList);
         roasterCards.setAdapter(rosterAdapter);
         getAcceptedRoasterList();
         return view;
@@ -86,32 +88,24 @@ public class AcceptedRoaster extends BaseFragment {
                         }
                         if (roasterCardList.size() >= 1)
                             rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
+                        Utility.checkProgressDialog(progressDialog);
                     }
                 } catch (JSONException jsonException) {
                     Log.d(getTAG(), Constants.Exception.JSON_EXCEPTION);
+                    Utility.checkProgressDialog(progressDialog);
                 } catch (Exception exception) {
                     Log.d(getTAG(), Constants.Exception.EXCEPTION);
+                    Utility.checkProgressDialog(progressDialog);
                 }
 
             }
 
             @Override
             public void onFailure(Throwable t) {
-                if (t != null) {
-                    if (t.getMessage() != null) {
-                        progressDialog.dismiss();
-                        errorMessage = t.getMessage();
-                        Utility.showErrorDialog(context, errorMessage);
-                    } else {
-                        progressDialog.dismiss();
-                        errorMessage = Constants.ERROR_OCCURRED;
-                        Utility.showErrorDialog(context, errorMessage);
-                    }
-                } else {
-                    progressDialog.dismiss();
-                    errorMessage = Constants.ERROR_OCCURRED;
-                    Utility.showErrorDialog(context, errorMessage);
-                }
+                Utility.checkProgressDialog(progressDialog);
+                errorMessage = Constants.ERROR_OCCURRED;
+                Utility.showErrorDialog(context, errorMessage);
+
             }
         }, ExecutorUtils.getUIThread());
     }

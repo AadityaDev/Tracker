@@ -1,7 +1,6 @@
 package com.skybee.tracker.ui.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -55,13 +53,14 @@ public class Roster extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_roster, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
+        progressDialog.show();
         roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         roasterCards.setLayoutManager(linearLayoutManager);
         roasterCardList = new ArrayList<>();
-        rosterAdapter = new RosterAdapter(roasterCardList);
+        rosterAdapter = new RosterAdapter(roasterCardList, true);
         roasterCards.setAdapter(rosterAdapter);
         getRoasterList();
         return view;
@@ -102,21 +101,9 @@ public class Roster extends BaseFragment {
 
             @Override
             public void onFailure(Throwable t) {
-                if (t != null) {
-                    if (t.getMessage() != null) {
-                        progressDialog.dismiss();
-                        errorMessage = t.getMessage();
-                        Utility.showErrorDialog(context, errorMessage);
-                    } else {
-                        progressDialog.dismiss();
-                        errorMessage = Constants.ERROR_OCCURRED;
-                        Utility.showErrorDialog(context, errorMessage);
-                    }
-                } else {
-                    progressDialog.dismiss();
-                    errorMessage = Constants.ERROR_OCCURRED;
-                    Utility.showErrorDialog(context, errorMessage);
-                }
+                Utility.checkProgressDialog(progressDialog);
+                errorMessage = Constants.ERROR_OCCURRED;
+                Utility.showErrorDialog(context, errorMessage);
             }
         }, ExecutorUtils.getUIThread());
     }
