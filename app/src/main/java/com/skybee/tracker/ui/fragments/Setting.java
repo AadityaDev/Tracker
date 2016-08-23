@@ -1,5 +1,6 @@
 package com.skybee.tracker.ui.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -56,6 +57,7 @@ public class Setting extends BaseFragment {
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        ((Activity)getContext()).finish();
     }
 
 }
