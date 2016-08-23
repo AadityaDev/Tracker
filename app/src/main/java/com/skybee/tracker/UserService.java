@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
+import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.RosterAction;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.model.UserServer;
@@ -108,7 +109,7 @@ public class UserService {
         });
     }
 
-    public ListenableFuture<JSONObject> acceptOrRejectRoster(@NonNull final String url, @NonNull final User user, @NonNull final String userAction,@NonNull final long[] ids) {
+    public ListenableFuture<JSONObject> acceptOrRejectRoster(@NonNull final String url, @NonNull final User user, @NonNull final String userAction, @NonNull final long[] ids) {
         return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
             @Override
             public JSONObject call() throws Exception {
@@ -132,6 +133,20 @@ public class UserService {
             public JSONObject call() throws Exception {
                 Log.d(TAG, user.getAuthToken());
                 Request request = RequestGenerator.get(url, user.getAuthToken());
+                String body = RequestHandler.makeRequestAndValidate(request);
+                JSONObject result = new JSONObject(body);
+                return result;
+            }
+        });
+    }
+
+    public ListenableFuture<JSONObject> markAttendance(@NonNull final String url, @NonNull final User user, @NonNull final AttendancePojo attendancePojo) {
+        return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                Gson gson = new Gson();
+                String params = gson.toJson(attendancePojo);
+                Request request = RequestGenerator.postWithToken(url, params, user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
                 JSONObject result = new JSONObject(body);
                 return result;

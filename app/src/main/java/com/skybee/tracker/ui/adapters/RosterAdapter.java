@@ -17,7 +17,10 @@ import com.skybee.tracker.R;
 import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
+import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.RosterPojo;
+import com.skybee.tracker.model.User;
+import com.skybee.tracker.preferences.UserStore;
 
 import java.util.List;
 
@@ -105,6 +108,21 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     }
                 });
             }
+            if(holder.markAttendance!=null){
+                holder.markAttendance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AttendancePojo attendancePojo=new AttendancePojo();
+                        if(roaster.getCustomer_site_id()!=0)
+                            attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
+                        UserStore userStore=new UserStore(holder.context);
+                        User user=new User();
+                        user=userStore.getUserDetails();
+                        ProgressDialog progressDialog=ProgressDialog.show(holder.context,"","Loading...",true);
+                        Utility.saveAttendance(holder.context,attendancePojo,user,progressDialog);
+                    }
+                });
+            }
         }
     }
 
@@ -123,6 +141,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private TextView locationText;
         private TextView customerName;
         private ImageView customerCall;
+        private TextView markAttendance;
         private LinearLayout acceptRoster;
         private LinearLayout rejectRoster;
 
@@ -139,6 +158,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
             acceptRoster = (LinearLayout) itemView.findViewById(R.id.accept_roster);
             rejectRoster = (LinearLayout) itemView.findViewById(R.id.reject_roster);
+            markAttendance = (TextView) itemView.findViewById(R.id.mark_attendance);
         }
     }
 }

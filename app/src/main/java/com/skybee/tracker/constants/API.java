@@ -12,6 +12,7 @@ public class API {
     public static final String REJECTED_ROSTER_LIST = "http://track.snoowa.com/v1/indextrackmzapp.php/rosterrejected";
     public static final String ACCEPTED_ROSTER_ACTION = "http://track.snoowa.com/v1/indextrackmzapp.php/acceptresectroster";
     public static final String CUSTOMER_SITES = "http://track.snoowa.com/v1/indextrackmzapp.php/customersites";
+    public static final String SAVE_ATTENDANCE = "http://track.snoowa.com/v1/indextrackmzapp.php/addattendance";
 
     public class Headers {
         public static final String ACCEPT_KEY = "Accept";

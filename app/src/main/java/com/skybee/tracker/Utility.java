@@ -11,7 +11,9 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.skybee.tracker.activities.HomeScreenActivity;
+import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
+import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.TimeCard;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.model.UserServer;
@@ -199,5 +201,22 @@ public class Utility {
                 showErrorDialog(context, errorMessage);
             }
         }, ExecutorUtils.getUIThread());
+    }
+
+    public static void saveAttendance(@NonNull final Context context,@NonNull AttendancePojo attendancePojo, @NonNull User user,@NonNull final ProgressDialog progressDialog){
+        ListenableFuture<JSONObject> saveLocationResult=Factory.getUserService().markAttendance(API.SAVE_ATTENDANCE,user,attendancePojo);
+        Futures.addCallback(saveLocationResult, new FutureCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject result) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                errorMessage = Constants.ERROR_OCCURRED;
+                progressDialog.dismiss();
+                showErrorDialog(context, errorMessage);
+            }
+        },ExecutorUtils.getUIThread());
     }
 }
