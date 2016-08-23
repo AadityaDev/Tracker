@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -176,7 +176,6 @@ public class Utility {
         Futures.addCallback(getRosterActionResult, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.d(TAG, result.toString());
                 try {
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
@@ -185,11 +184,11 @@ public class Utility {
                     }
                 } catch (JSONException jsonException) {
                     errorMessage = Constants.ERROR_OCCURRED;
-                    progressDialog.dismiss();
+                    Utility.checkProgressDialog(progressDialog);
                     showErrorDialog(context, errorMessage);
                 } catch (Exception exception) {
                     errorMessage = Constants.ERROR_OCCURRED;
-                    progressDialog.dismiss();
+                    Utility.checkProgressDialog(progressDialog);
                     showErrorDialog(context, errorMessage);
                 }
             }
@@ -197,26 +196,40 @@ public class Utility {
             @Override
             public void onFailure(Throwable t) {
                 errorMessage = Constants.ERROR_OCCURRED;
-                progressDialog.dismiss();
+                Utility.checkProgressDialog(progressDialog);
                 showErrorDialog(context, errorMessage);
             }
         }, ExecutorUtils.getUIThread());
     }
 
-    public static void saveAttendance(@NonNull final Context context,@NonNull AttendancePojo attendancePojo, @NonNull User user,@NonNull final ProgressDialog progressDialog){
-        ListenableFuture<JSONObject> saveLocationResult=Factory.getUserService().markAttendance(API.SAVE_ATTENDANCE,user,attendancePojo);
+    public static void saveAttendance(@NonNull final Context context, @NonNull AttendancePojo attendancePojo, @NonNull User user, @NonNull final ProgressDialog progressDialog) {
+        ListenableFuture<JSONObject> saveLocationResult = Factory.getUserService().markAttendance(API.SAVE_ATTENDANCE, user, attendancePojo);
         Futures.addCallback(saveLocationResult, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
-
+                try {
+                    if (result.has(Constants.JsonConstants.MESSAGE)) {
+                        if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
+                            Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (JSONException jsonException) {
+                    errorMessage = Constants.ERROR_OCCURRED;
+                    showErrorDialog(context, errorMessage);
+                } catch (Exception exception) {
+                    errorMessage = Constants.ERROR_OCCURRED;
+                    showErrorDialog(context, errorMessage);
+                } finally {
+                    Utility.checkProgressDialog(progressDialog);
+                }
             }
 
             @Override
             public void onFailure(Throwable t) {
                 errorMessage = Constants.ERROR_OCCURRED;
-                progressDialog.dismiss();
+                Utility.checkProgressDialog(progressDialog);
                 showErrorDialog(context, errorMessage);
             }
-        },ExecutorUtils.getUIThread());
+        }, ExecutorUtils.getUIThread());
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
 import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.API;
@@ -26,9 +28,11 @@ import java.util.List;
 
 public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterViewHolder> {
 
+    private GPSTracker gpsTracker;
     public List<RosterPojo> rosterList;
     private boolean isActionCard;
     private int isSiteCard;
+    private UserStore userStore;
 
     public RosterAdapter(List<RosterPojo> rosterList) {
         this.rosterList = rosterList;
@@ -39,9 +43,11 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         this.isActionCard = isActionCard;
     }
 
-    public RosterAdapter(List<RosterPojo> rosterList, int isSiteCard) {
+    public RosterAdapter(Context context, List<RosterPojo> rosterList, int isSiteCard) {
         this.rosterList = rosterList;
         this.isSiteCard = isSiteCard;
+        gpsTracker = new GPSTracker(context);
+        userStore = new UserStore(context);
     }
 
     @Override
@@ -108,18 +114,30 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     }
                 });
             }
-            if(holder.markAttendance!=null){
+            if (holder.markAttendance != null) {
                 holder.markAttendance.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AttendancePojo attendancePojo=new AttendancePojo();
-                        if(roaster.getCustomer_site_id()!=0)
+                        AttendancePojo attendancePojo = new AttendancePojo();
+                        if (roaster.getCustomer_site_id() != 0)
                             attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
-                        UserStore userStore=new UserStore(holder.context);
-                        User user=new User();
-                        user=userStore.getUserDetails();
-                        ProgressDialog progressDialog=ProgressDialog.show(holder.context,"","Loading...",true);
-                        Utility.saveAttendance(holder.context,attendancePojo,user,progressDialog);
+//                        UserStore userStore = new UserStore(holder.context);
+//                        User user = new User();
+//                        user = userStore.getUserDetails();
+                        if (userStore != null && gpsTracker != null) {
+                            User user = new User();
+                            user = userStore.getUserDetails();
+
+                            if (gpsTracker.getLatitude() != 0 && gpsTracker.getLongitude() != 0) {
+                                userStore.saveLatitude(gpsTracker.getLatitude());
+                                userStore.saveLongitude(gpsTracker.getLongitude());
+                                attendancePojo.setLattitude(gpsTracker.getLatitude());
+                                attendancePojo.setLongitude(gpsTracker.getLongitude());
+                                Log.d("Location Save", "Lat: " + gpsTracker.getLatitude() + "Longi: " + gpsTracker.getLongitude());
+                            }
+                            ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
+                            Utility.saveAttendance(holder.context, attendancePojo, user, progressDialog);
+                        }
                     }
                 });
             }

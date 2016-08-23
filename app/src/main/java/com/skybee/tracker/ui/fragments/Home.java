@@ -80,7 +80,7 @@ public class Home extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         timeCards.setLayoutManager(linearLayoutManager);
         roasterCardList = new ArrayList<>();
-        rosterAdapter = new RosterAdapter(roasterCardList,Constants.isSiteCard);
+        rosterAdapter = new RosterAdapter(getContext(),roasterCardList,Constants.isSiteCard);
         timeCards.setAdapter(rosterAdapter);
         getCustomerSite();
 //        addTimeCard();

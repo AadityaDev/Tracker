@@ -32,7 +32,6 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
     private double latitude = 0;
     private double longitude = 0;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
             latitude=gpsTracker.getLatitude();
             longitude=gpsTracker.getLongitude();
         }else {
-            gpsTracker.showSettingsAlert();
+            gpsTracker.showSettingsAlert(context);
         }
     }
 

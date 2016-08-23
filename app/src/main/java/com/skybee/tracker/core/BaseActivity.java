@@ -12,20 +12,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.skybee.tracker.AndroidApplication;
-import com.skybee.tracker.GPSTracker;
-import com.skybee.tracker.R;
 
 public class BaseActivity<T> extends FragmentActivity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -34,16 +28,8 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
     private final String TAG = this.getClass().getSimpleName();
     protected Context context;
     protected AndroidApplication application;
-    private GPSTracker gpsTracker;
-    private double latitude = 0;
-    private double longitude = 0;
     private FusedLocationProviderApi fusedLocationProviderApi = LocationServices.FusedLocationApi;
     private GoogleApiClient googleApiClient;
-    LocationRequest mLocationRequest;
-    Location mCurrentLocation;
-
-    private static final long INTERVAL = 1000 * 10;
-    private static final long FASTEST_INTERVAL = 1000 * 5;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +39,7 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
         context = this;
         application = (AndroidApplication) getApplicationContext();
         super.onCreate(savedInstanceState);
-        createLocationRequest();
+//        createLocationRequest();
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -65,7 +51,6 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
     protected void onStart() {
         super.onStart();
         googleApiClient.connect();
-        Log.d(TAG, "Location :" + latitude + " Long: " + longitude);
     }
 
     @Override
@@ -98,12 +83,12 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
         Log.d(TAG, "Connection Failed");
     }
 
-    protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
+//    protected void createLocationRequest() {
+//        mLocationRequest = new LocationRequest();
+//        mLocationRequest.setInterval(INTERVAL);
+//        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//    }
 
     private boolean isGooglePlayServicesAvailable() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -126,8 +111,8 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.
-                requestLocationUpdates(googleApiClient, mLocationRequest, this);
+//        PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.
+//                requestLocationUpdates(googleApiClient, mLocationRequest, this);
         Log.d(TAG, "Location update started ..............: ");
     }
 
@@ -139,10 +124,15 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
 
     @Override
     public void onLocationChanged(Location location) {
-        mCurrentLocation = location;
+
     }
 
-    public Location getLocation() {
-        return mCurrentLocation;
-    }
+//    @Override
+//    public void onLocationChanged(Location location) {
+//        mCurrentLocation = location;
+//    }
+//
+//    public Location getLocation() {
+//        return mCurrentLocation;
+//    }
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseActivity;
 import com.skybee.tracker.core.BaseFragment;
