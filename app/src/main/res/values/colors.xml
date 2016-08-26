@@ -18,4 +18,5 @@
     <color name="material_green">#44ac50</color>
     <color name="standard_light_blue">#2196F3</color>
     <color name="answer_grey">#585865</color>
+    <color name="light_gray">#fafafa</color>
 </resources>

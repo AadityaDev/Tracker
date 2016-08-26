@@ -44,6 +44,10 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
                 holder.employeeName.setText(user.getUserName());
                 holder.employeeImageText.setText(String.valueOf(Character.toUpperCase(user.getUserName().charAt(0))));
             }
+            if(user.getUserEmail()!=null){
+                if(holder.employeeEmail!=null)
+                    holder.employeeEmail.setText(user.getUserEmail());
+            }
             if (user.getUserLatitude() != 0 && user.getUserLongitude() != 0) {
 
             }
@@ -91,6 +95,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
         private ImageView employeeImage;
         private TextView employeeImageText;
         private CardView employeeCard;
+        private TextView employeeEmail;
 
         public UserCardViewHolder(Context context,View itemView) {
             super(itemView);
@@ -102,6 +107,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.UserCa
 //            employeeStatus=(TextView)itemView.findViewById(R.id.e);
             employeeImage = (ImageView) itemView.findViewById(R.id.employee_image);
             employeeImageText=(TextView)itemView.findViewById(R.id.employee_image_text);
+            employeeEmail=(TextView)itemView.findViewById(R.id.employee_mail);
         }
     }
 }

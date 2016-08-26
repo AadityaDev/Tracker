@@ -23,8 +23,8 @@
                     android:id="@+id/user_info_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_16dp">
+                    android:layout_margin="@dimen/dimen_16dp"
+                    >
 
                     <com.skybee.tracker.ui.customview.CircularImageView
                         android:id="@+id/user_image"
@@ -54,8 +54,8 @@
                         android:layout_toEndOf="@+id/user_image"
                         android:layout_toRightOf="@+id/user_image"
                         android:singleLine="true"
-                        android:text="NAme"
-                        android:textSize="@dimen/dimen_24sp" />
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/dimen_20sp" />
 
                     <TextView
                         android:id="@+id/user_email"
@@ -67,95 +67,128 @@
                         android:layout_toRightOf="@+id/user_image"
                         android:singleLine="true"
                         android:text="Email"
-                        android:textSize="@dimen/dimen_20sp" />
+                        android:textSize="@dimen/dimen_16sp" />
                 </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/company_line_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_1dp"
+                    android:layout_below="@+id/user_info_section"
+                    android:background="@color/colorPrimaryDark"
+                    />
 
                 <RelativeLayout
                     android:id="@+id/company_website_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_info_section"
-                    android:layout_marginBottom="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:layout_below="@+id/company_line_space"
                     android:padding="@dimen/dimen_16dp">
+
+                    <TextView
+                        android:id="@+id/company_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Company"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/dimen_20sp"
+                        android:singleLine="true"
+                        />
 
                     <ImageView
                         android:id="@+id/company_website"
-                        android:layout_width="@dimen/dimen_40dp"
-                        android:layout_height="@dimen/dimen_40dp"
-                        android:layout_margin="@dimen/dimen_6dp" />
+                        android:src="@drawable/ic_web_24dp"
+                        android:layout_width="@dimen/dimen_30dp"
+                        android:layout_height="@dimen/dimen_30dp"
+                        android:layout_margin="@dimen/dimen_6dp"
+                        android:layout_below="@+id/company_text"
+                        />
 
                     <TextView
                         android:id="@+id/company_website_url"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toEndOf="@+id/company_website"
-                        android:layout_toRightOf="@+id/company_website"
                         android:text="Website"
-                        android:textSize="@dimen/dimen_20sp" />
-
-                    <ImageView
-                        android:id="@+id/company_facebook_page"
-                        android:layout_width="@dimen/dimen_36dp"
-                        android:layout_height="@dimen/dimen_36dp"
-                        android:layout_margin="@dimen/dimen_6dp"
-                        android:src="@drawable/ic_web_24dp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/company_facebook_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/company_website_section"
-                    android:layout_marginBottom="@dimen/dimen_16dp"
-                    android:padding="@dimen/dimen_16dp">
-
-                    <ImageView
-                        android:id="@+id/company_facebook"
-                        android:layout_width="@dimen/dimen_36dp"
-                        android:layout_height="@dimen/dimen_36dp"
-                        android:layout_margin="@dimen/dimen_6dp"
-                        android:src="@drawable/ic_web_24dp" />
-
-                    <TextView
-                        android:id="@+id/company_facebook_url"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/company_facebook"
-                        android:layout_alignParentEnd="true"
+                        android:singleLine="true"
+                        android:textSize="@dimen/dimen_16sp"
+                        android:layout_alignTop="@+id/company_website"
                         android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_toEndOf="@id/company_facebook"
-                        android:layout_toRightOf="@id/company_facebook"
-                        android:text="facebook"
-                        android:textSize="@dimen/dimen_20sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/logout_section"
-                    android:layout_width="@dimen/dimen_300dp"
-                    android:layout_height="@dimen/dimen_50dp"
-                    android:layout_below="@+id/company_facebook_section"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_16dp"
-                    android:background="@color/light_green"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:id="@+id/logout_text"
-                        android:layout_width="@dimen/dimen_300dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/logout_text"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimen_28sp"
-                        android:textStyle="bold" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_toRightOf="@+id/company_website"
+                        android:layout_toEndOf="@+id/company_website"
+                        android:layout_marginTop="@dimen/dimen_4dp"
+                        />
 
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/company_facebook_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_1dp"
+                    android:layout_below="@+id/company_website_section"
+                    android:background="@color/colorPrimaryDark"
+                    />
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/company_facebook_section"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/company_facebook_space"-->
+                    <!--android:layout_marginBottom="@dimen/dimen_16dp"-->
+                    <!--android:padding="@dimen/dimen_16dp">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/company_facebook"-->
+                        <!--android:layout_width="@dimen/dimen_36dp"-->
+                        <!--android:layout_height="@dimen/dimen_36dp"-->
+                        <!--android:layout_margin="@dimen/dimen_6dp"-->
+                        <!--android:src="@drawable/ic_web_24dp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/company_facebook_url"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignBottom="@+id/company_facebook"-->
+                        <!--android:layout_alignParentEnd="true"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_centerInParent="true"-->
+                        <!--android:layout_toEndOf="@id/company_facebook"-->
+                        <!--android:layout_toRightOf="@id/company_facebook"-->
+                        <!--android:text="facebook"-->
+                        <!--android:textSize="@dimen/dimen_20sp" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/logout_facebook_space"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/dimen_1dp"-->
+                    <!--android:layout_below="@+id/company_facebook_section"-->
+                    <!--android:background="@color/colorPrimaryDark"-->
+                    <!--/>-->
             </RelativeLayout>
         </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/logout_section"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/light_green"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            >
+
+            <TextView
+                android:id="@+id/logout_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/logout_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_28sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 </FrameLayout>

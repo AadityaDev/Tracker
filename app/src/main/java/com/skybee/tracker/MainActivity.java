@@ -94,10 +94,10 @@ public class MainActivity extends BaseActivity
         userEmail=(TextView)headerView.findViewById(R.id.user_email);
         userName=(TextView)headerView.findViewById(R.id.user_name);
         if(user!=null){
-            if(TextUtils.isEmpty(user.getUserName())){
+            if(!TextUtils.isEmpty(user.getUserName())){
                 userName.setText(user.getUserName());
             }
-            if(TextUtils.isEmpty(user.getUserEmail())){
+            if(!TextUtils.isEmpty(user.getUserEmail())){
                 userEmail.setText(user.getUserEmail());
             }
         }
@@ -120,7 +120,6 @@ public class MainActivity extends BaseActivity
         employeeCardAdapter = new UserCardAdapter(employeeCardList);
         employeeCards.setAdapter(employeeCardAdapter);
         getEmployeeList();
-
     }
 
     @Override

@@ -1,8 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/light_gray"
     tools:context="com.skybee.tracker.ui.fragments.Profile">
 
     <RelativeLayout
@@ -21,7 +22,8 @@
                 <android.support.design.widget.CollapsingToolbarLayout
                     android:id="@+id/user_detail_section"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -53,11 +55,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/user_image"
-                            android:layout_margin="@dimen/dimen_6dp"
+                            android:layout_marginTop="@dimen/dimen_16dp"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:textAllCaps="true"
                             android:text="Name"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/dimen_24sp" />
 
                         <TextView
@@ -70,91 +73,162 @@
                             android:singleLine="true"
                             android:text="Company"
                             android:textAllCaps="true"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/dimen_20sp" />
 
                     </RelativeLayout>
                 </android.support.design.widget.CollapsingToolbarLayout>
 
-                <RelativeLayout
-                    android:id="@+id/location_section"
+                <TextView
+                    android:id="@+id/location_head_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_detail_section"
-                    android:layout_marginBottom="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_16dp"
-                    android:padding="@dimen/dimen_16dp">
+                    android:layout_margin="@dimen/dimen_8dp"
+                    android:singleLine="true"
+                    android:text="@string/location_head_text"
+                    android:textSize="@dimen/dimen_20sp" />
 
-                    <ImageView
-                        android:id="@+id/location_icon"
-                        android:layout_width="@dimen/dimen_24dp"
-                        android:layout_height="@dimen/dimen_24dp"
-                        android:layout_margin="@dimen/dimen_6dp"
-                        android:src="@drawable/ic_place_24dp" />
+                <android.support.v7.widget.CardView
+                    android:id="@+id/location_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_below="@+id/location_head_text"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:layout_marginEnd="@dimen/dimen_8dp"
+                    android:layout_marginLeft="@dimen/dimen_8dp"
+                    android:layout_marginRight="@dimen/dimen_8dp"
+                    android:layout_marginStart="@dimen/dimen_8dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/dimen_16dp"
+                    app:cardCornerRadius="@dimen/dimen_4dp">
 
-                    <TextView
-                        android:id="@+id/location_text"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toEndOf="@+id/location_icon"
-                        android:layout_toRightOf="@+id/location_icon"
-                        android:textSize="@dimen/dimen_20sp" />
+                        android:layout_height="match_parent">
 
-                </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/location_icon"
+                            android:layout_width="@dimen/dimen_32dp"
+                            android:layout_height="@dimen/dimen_32dp"
+                            android:layout_margin="@dimen/dimen_6dp"
+                            android:src="@drawable/ic_place_24dp"
+                            android:layout_centerVertical="true"
+                            />
 
-                <RelativeLayout
-                    android:id="@+id/email_section"
+                        <TextView
+                            android:id="@+id/location_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_toEndOf="@+id/location_icon"
+                            android:layout_toRightOf="@+id/location_icon"
+                            android:singleLine="true"
+                            android:layout_centerVertical="true"
+                            android:textSize="@dimen/dimen_16sp" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/email_head_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/location_section"
-                    android:layout_marginBottom="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_16dp"
-                    android:padding="@dimen/dimen_16dp">
+                    android:layout_margin="@dimen/dimen_8dp"
+                    android:singleLine="true"
+                    android:text="@string/email_head_text"
+                    android:textSize="@dimen/dimen_20sp" />
 
-                    <ImageView
-                        android:id="@+id/email_icon"
-                        android:layout_width="@dimen/dimen_24dp"
-                        android:layout_height="@dimen/dimen_24dp"
-                        android:layout_margin="@dimen/dimen_6dp"
-                        android:src="@drawable/ic_mail_24dp" />
+                <android.support.v7.widget.CardView
+                    android:id="@+id/email_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_below="@+id/email_head_text"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:layout_marginEnd="@dimen/dimen_8dp"
+                    android:layout_marginLeft="@dimen/dimen_8dp"
+                    android:layout_marginRight="@dimen/dimen_8dp"
+                    android:layout_marginStart="@dimen/dimen_8dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/dimen_16dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="@dimen/dimen_4dp">
 
-                    <TextView
-                        android:id="@+id/email_text"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toEndOf="@+id/email_icon"
-                        android:layout_toRightOf="@+id/email_icon"
-                        android:textSize="@dimen/dimen_20sp" />
+                        android:layout_height="match_parent">
 
-                </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/email_icon"
+                            android:layout_width="@dimen/dimen_32dp"
+                            android:layout_height="@dimen/dimen_32dp"
+                            android:layout_margin="@dimen/dimen_6dp"
+                            android:src="@drawable/ic_mail_24dp"
+                            android:layout_centerVertical="true"
+                            />
 
-                <RelativeLayout
-                    android:id="@+id/mobile_section"
+                        <TextView
+                            android:id="@+id/email_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_toEndOf="@+id/email_icon"
+                            android:layout_toRightOf="@+id/email_icon"
+                            android:singleLine="true"
+                            android:textSize="@dimen/dimen_16sp" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/mobile_head_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/email_section"
-                    android:layout_marginBottom="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_16dp"
-                    android:padding="@dimen/dimen_16dp">
+                    android:layout_margin="@dimen/dimen_8dp"
+                    android:singleLine="true"
+                    android:text="@string/mobile_head_text"
+                    android:textSize="@dimen/dimen_20sp" />
 
-                    <ImageView
-                        android:id="@+id/mobile_icon"
-                        android:layout_width="@dimen/dimen_24dp"
-                        android:layout_height="@dimen/dimen_24dp"
-                        android:layout_margin="@dimen/dimen_6dp"
-                        android:src="@drawable/ic_mobile_24dp" />
+                <android.support.v7.widget.CardView
+                    android:id="@+id/mobile_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_below="@+id/mobile_head_text"
+                    android:layout_marginBottom="@dimen/dimen_32dp"
+                    android:layout_marginEnd="@dimen/dimen_8dp"
+                    android:layout_marginLeft="@dimen/dimen_8dp"
+                    android:layout_marginRight="@dimen/dimen_8dp"
+                    android:layout_marginStart="@dimen/dimen_8dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/dimen_8dp"
+                    app:cardCornerRadius="@dimen/dimen_4dp">
 
-                    <TextView
-                        android:id="@+id/mobile_num_text"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toEndOf="@+id/mobile_icon"
-                        android:layout_toRightOf="@+id/mobile_icon"
-                        android:textSize="@dimen/dimen_20sp" />
+                        android:layout_height="match_parent">
 
-                </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/mobile_icon"
+                            android:layout_width="@dimen/dimen_32dp"
+                            android:layout_height="@dimen/dimen_32dp"
+                            android:layout_margin="@dimen/dimen_6dp"
+                            android:src="@drawable/ic_mobile_24dp"
+                            android:layout_centerVertical="true"
+                            />
+
+                        <TextView
+                            android:id="@+id/mobile_num_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_toEndOf="@+id/mobile_icon"
+                            android:layout_toRightOf="@+id/mobile_icon"
+                            android:textSize="@dimen/dimen_16sp" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
 
             </RelativeLayout>
 

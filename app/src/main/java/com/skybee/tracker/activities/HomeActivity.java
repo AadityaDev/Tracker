@@ -94,7 +94,6 @@ public class HomeActivity extends BaseActivity
 
         //drawer header
         View headerView=navigationView.getHeaderView(0);
-
         userEmail=(TextView)headerView.findViewById(R.id.user_email);
         userName=(TextView)headerView.findViewById(R.id.user_name);
         if(user!=null){

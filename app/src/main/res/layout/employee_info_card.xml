@@ -8,39 +8,45 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dimen_16dp">
+        android:padding="@dimen/dimen_8dp">
 
         <com.skybee.tracker.ui.customview.CircularImageView
             android:id="@+id/employee_image"
-            android:layout_width="@dimen/dimen_36dp"
-            android:layout_height="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_8dp" />
+            android:layout_width="@dimen/dimen_50dp"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/employee_image_text"
-            android:layout_width="@dimen/dimen_36dp"
-            android:layout_height="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_8dp"
+            android:layout_width="@dimen/dimen_50dp"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/circle"
             android:gravity="center"
-            android:textSize="@dimen/dimen_16sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:maxLines="1"
             android:maxLength="1"
-            />
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/employee_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_toEndOf="@+id/employee_image"
-            android:layout_toRightOf="@+id/employee_image"
-            android:textSize="@dimen/dimen_24sp"
             android:layout_marginLeft="@dimen/dimen_8dp"
             android:layout_marginStart="@dimen/dimen_8dp"
-            />
+            android:layout_toEndOf="@+id/employee_image"
+            android:layout_toLeftOf="@+id/mobile_image"
+            android:layout_toRightOf="@+id/employee_image"
+            android:layout_toStartOf="@+id/mobile_image"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            android:singleLine="true"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_20sp" />
 
         <!--<ImageView-->
         <!--android:id="@+id/mail_image"-->
@@ -59,14 +65,20 @@
             android:layout_height="@dimen/dimen_24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/employee_image"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:src="@drawable/ic_mobile_24dp" />
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_local_phone" />
 
         <TextView
             android:id="@+id/employee_mail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/employee_name"
+            android:layout_alignStart="@+id/employee_name"
+            android:layout_below="@+id/employee_name"
+            android:layout_toLeftOf="@+id/mobile_image"
+            android:layout_toStartOf="@+id/mobile_image"
+            android:singleLine="true"
+            android:textSize="@dimen/dimen_16sp" />
 
         <!--<ImageView-->
         <!--android:id="@+id/location_icon"-->
