@@ -4,13 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
-import com.skybee.tracker.activities.HomeScreenActivity;
+import com.skybee.tracker.activities.HomeActivity;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.AttendancePojo;
@@ -50,14 +51,19 @@ public class Utility {
         return timeCard;
     }
 
-    public static void startActivity(Context context) {
-        Intent intent = new Intent(context, HomeScreenActivity.class);
+    public static void startActivity(@NonNull Context context,@NonNull boolean isAdmin) {
+        Intent intent;
+        if(isAdmin==true){
+            intent=new Intent(context, MainActivity.class);
+        }else {
+            intent=new Intent(context, HomeActivity.class);
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
 
-    public static void authenticate(@NonNull final Context context, @NonNull final ProgressDialog progressDialog, @NonNull String url, @NonNull User user) {
+    public static void authenticate(@NonNull final Context context, @NonNull final ProgressDialog progressDialog, @NonNull String url, @NonNull final User user) {
         ListenableFuture<JSONObject> authenticateUser = Factory.getUserService().authenticateUser(user, url);
         Futures.addCallback(authenticateUser, new FutureCallback<JSONObject>() {
             @Override
@@ -90,7 +96,7 @@ public class Utility {
                                 userDetail.setAdmin(true);
                             saveUserDetailsPreference(context, userDetail);
                             progressDialog.dismiss();
-                            startActivity(context);
+                            startActivity(context,user.isAdmin());
                         }
                     } else if (result.has(Constants.JsonConstants.MESSAGE)) {
                         progressDialog.dismiss();
@@ -232,4 +238,5 @@ public class Utility {
             }
         }, ExecutorUtils.getUIThread());
     }
+
 }

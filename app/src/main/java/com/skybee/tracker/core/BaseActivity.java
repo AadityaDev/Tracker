@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -23,7 +25,7 @@ import com.skybee.tracker.AndroidApplication;
 
 public class BaseActivity<T> extends FragmentActivity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener,BaseFragment.OnFragmentInteractionListener {
 
     private final String TAG = this.getClass().getSimpleName();
     protected Context context;
@@ -45,12 +47,6 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        googleApiClient.connect();
     }
 
     @Override
@@ -127,6 +123,11 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
 
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
 //    @Override
 //    public void onLocationChanged(Location location) {
 //        mCurrentLocation = location;
@@ -135,4 +136,11 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
 //    public Location getLocation() {
 //        return mCurrentLocation;
 //    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

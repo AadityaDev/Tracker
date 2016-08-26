@@ -43,8 +43,6 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        selectAll=(TextView)findViewById(R.id.select_all_text);
-        selectAll.setVisibility(View.INVISIBLE);
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         passwordView = (EditText) findViewById(R.id.password);
         nameView = (EditText) findViewById(R.id.user_name);

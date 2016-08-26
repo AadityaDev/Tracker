@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:background="@color/green"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/nav_drawer_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_header_height"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:background="@drawable/side_nav_bar"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:src="@android:drawable/sym_def_app_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Android Studio"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="android.studio@android.com" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/blank_space1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="@dimen/dimen_8dp"
+            android:background="@color/white"
+            android:layout_below="@+id/nav_drawer_header"
+            ></RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/middle_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/blank_space1"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin">
+
+            <com.skybee.tracker.ui.customview.RippleView
+                android:id="@+id/home_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <ImageView
+                    android:id="@+id/home_nav_image"
+                    android:layout_width="@dimen/dimen_36dp"
+                    android:layout_height="@dimen/dimen_36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_home" />
+
+                <TextView
+                    android:id="@+id/home_nav_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_toEndOf="@+id/home_nav_image"
+                    android:layout_toRightOf="@+id/home_nav_image"
+                    android:text="@string/home_nav_text"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/dimen_14sp" />
+
+            </com.skybee.tracker.ui.customview.RippleView>
+
+            <!--<com.myrefers.engage.uicomponents.animation.RippleBackground-->
+            <!--android:id="@+id/profile_drawer"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:paddingBottom="@dimen/smallest_text_margin">-->
+
+            <!--<ImageView-->
+            <!--android:id="@+id/profile_nav_image"-->
+            <!--android:layout_width="@dimen/dimen_36dp"-->
+            <!--android:layout_height="@dimen/dimen_36dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:padding="2dp"-->
+            <!--android:src="@mipmap/ic_profile" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/profile_nav_text"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="@dimen/activity_horizontal_margin"-->
+            <!--android:layout_toEndOf="@+id/profile_nav_image"-->
+            <!--android:layout_toRightOf="@+id/profile_nav_image"-->
+            <!--android:text="@string/navigation_profile_text"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/dimen_16sp" />-->
+
+            <!--</com.myrefers.engage.uicomponents.animation.RippleBackground>-->
+
+            <com.skybee.tracker.ui.customview.RippleView
+                android:id="@+id/map_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/home_drawer">
+
+                <ImageView
+                    android:id="@+id/map_nav_image"
+                    android:layout_width="@dimen/dimen_36dp"
+                    android:layout_height="@dimen/dimen_36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_place_24dp" />
+
+                <TextView
+                    android:id="@+id/map_nav_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_toEndOf="@+id/map_nav_image"
+                    android:layout_toRightOf="@+id/map_nav_image"
+                    android:text="@string/map_nav_text"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/dimen_14sp" />
+
+            </com.skybee.tracker.ui.customview.RippleView>
+
+
+            <com.skybee.tracker.ui.customview.RippleView
+                android:id="@+id/profile_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/map_drawer">
+
+                <ImageView
+                    android:id="@+id/profile_nav_image"
+                    android:layout_width="@dimen/dimen_36dp"
+                    android:layout_height="@dimen/dimen_36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_emoticon_24dp" />
+
+                <TextView
+                    android:id="@+id/profile_nav_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_toEndOf="@+id/profile_nav_image"
+                    android:layout_toRightOf="@+id/profile_nav_image"
+                    android:text="@string/profile_nav_text"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/dimen_14sp" />
+
+            </com.skybee.tracker.ui.customview.RippleView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</ScrollView>

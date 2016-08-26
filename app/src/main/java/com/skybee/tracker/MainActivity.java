@@ -1,43 +1,59 @@
-package com.skybee.tracker.ui.fragments;
+package com.skybee.tracker;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gson.Gson;
-import com.skybee.tracker.Factory;
-import com.skybee.tracker.R;
-import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
-import com.skybee.tracker.core.BaseFragment;
+import com.skybee.tracker.core.BaseActivity;
 import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.network.ExecutorUtils;
+import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.adapters.RosterAdapter;
 import com.skybee.tracker.ui.adapters.UserCardAdapter;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
+import com.skybee.tracker.ui.fragments.AdminFeed;
+import com.skybee.tracker.ui.fragments.Map;
+import com.skybee.tracker.ui.fragments.Profile;
+import com.skybee.tracker.ui.fragments.Setting;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentInteractionListener{
+public class MainActivity extends BaseActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private Fragment fragment;
+    private UserStore userStore;
 
     private final String TAG = this.getClass().getSimpleName();
     private ErrorDialog errorDialog;
@@ -50,21 +66,52 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
     private UserCardAdapter employeeCardAdapter;
     private List<RosterPojo> roasterCardList;
     private RosterAdapter rosterAdapter;
+    private User user;
+    private TextView userName;
+    private TextView userEmail;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_admin_feed, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        userStore = new UserStore(getApplicationContext());
+        user=userStore.getUserDetails();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        drawer.setSelected(true);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
+
+        //drawer header
+        View headerView=navigationView.getHeaderView(0);
+        userEmail=(TextView)headerView.findViewById(R.id.user_email);
+        userName=(TextView)headerView.findViewById(R.id.user_name);
+        if(user!=null){
+            if(TextUtils.isEmpty(user.getUserName())){
+                userName.setText(user.getUserName());
+            }
+            if(TextUtils.isEmpty(user.getUserEmail())){
+                userEmail.setText(user.getUserEmail());
+            }
+        }
+
         progressDialog = new ProgressDialog(getContext());
         progressDialog.show();
-        floatingActionButton=(FloatingActionButton)view.findViewById(R.id.shareRegistrationCode);
+        floatingActionButton=(FloatingActionButton)findViewById(R.id.shareRegistrationCode);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utility.shareRegistrationCode(getContext(),getLocalUser().getRegistrationCode());
+                Utility.shareRegistrationCode(getContext(),user.getRegistrationCode());
             }
         });
-        employeeCards = (RecyclerView) view.findViewById(R.id.employee_list);
+        employeeCards = (RecyclerView) findViewById(R.id.employee_list);
         employeeCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -73,16 +120,56 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
         employeeCardAdapter = new UserCardAdapter(employeeCardList);
         employeeCards.setAdapter(employeeCardAdapter);
         getEmployeeList();
-        return view;
+
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_home) {
+            // Handle the camera action
+            getContext().startActivities(new Intent[]{new Intent(getContext(), MainActivity.class)});
+            ((Activity)getContext()).finish();
+        } else if (id == R.id.nav_map) {
+            fragment=new Map();
+            openFragment(fragment);
+        } else if (id == R.id.nav_profile) {
+            fragment=new Profile();
+            openFragment(fragment);
+        } else if (id == R.id.nav_settings) {
+            fragment=new Setting();
+            openFragment(fragment);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    public void openFragment(@NonNull final Fragment fragment) {
+        fragmentManager=getSupportFragmentManager();
+        fragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_view, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     public void getEmployeeList() {
-        ListenableFuture<JSONObject> getEmployees = Factory.getUserService().employeeList(API.EMPLOYEE_LIST, getLocalUser());
+        ListenableFuture<JSONObject> getEmployees = Factory.getUserService().employeeList(API.EMPLOYEE_LIST, user);
         Futures.addCallback(getEmployees, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -145,56 +232,4 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
         }, ExecutorUtils.getUIThread());
     }
 
-    public void getRoasterList() {
-        ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ROSTER_LIST, getLocalUser());
-        Futures.addCallback(getRoaster, new FutureCallback<JSONObject>() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                try {
-                    if (result.has(Constants.JsonConstants.DATA)) {
-                        JSONArray resultRosterList = new JSONArray();
-                        resultRosterList = result.getJSONArray(Constants.JsonConstants.DATA);
-                        for (int i = 0; i < resultRosterList.length(); i++) {
-                            JSONObject roasterJsonObject = resultRosterList.getJSONObject(i);
-                            if (roasterJsonObject != null) {
-                                Gson gson=new Gson();
-                                final RosterPojo rosterPojo =gson.fromJson(roasterJsonObject.toString(),RosterPojo.class);
-                                if(rosterPojo !=null){
-                                    roasterCardList.add(rosterPojo);
-                                }
-                            }
-                        }
-                        if(roasterCardList.size()>=1)
-                            rosterAdapter.notifyItemInserted(roasterCardList.size()-1);
-                    }
-                } catch (JSONException jsonException) {
-                    Log.d(getTAG(), Constants.Exception.JSON_EXCEPTION);
-                } catch (Exception exception) {
-                    Log.d(getTAG(), Constants.Exception.EXCEPTION);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d(TAG, "Error!");
-                progressDialog.dismiss();
-                if (t != null) {
-                    if (t.getMessage() != null) {
-                        message = t.getMessage();
-                    } else {
-                        message = Constants.ERROR_OCCURRED;
-                    }
-                } else {
-                    message = Constants.ERROR_OCCURRED;
-                }
-                Utility.showErrorDialog(getContext(), message);
-            }
-        }, ExecutorUtils.getUIThread());
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }

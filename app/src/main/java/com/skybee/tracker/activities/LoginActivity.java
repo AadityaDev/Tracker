@@ -52,14 +52,12 @@ public class LoginActivity extends BaseActivity {
         user = userStore.getUserDetails();
         Log.d("Token", userStore.getUserDetails().getAuthToken());
         if (!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())) {
-            Utility.startActivity(getApplicationContext());
+            Utility.startActivity(getApplicationContext(),user.isAdmin());
             finish();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        selectAll=(TextView)findViewById(R.id.select_all_text);
-        selectAll.setVisibility(View.INVISIBLE);
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();

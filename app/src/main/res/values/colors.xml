@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#2ecc71</color>
+    <color name="colorPrimaryDark">#FF44AC50</color>
+    <color name="colorAccent">#40ff91</color>
     <color name="stpi_default_circle_color">#b3bdc2</color>
     <color name="stpi_default_primary_color">#00b47c</color>
     <color name="stpi_default_line_color">#b3bdc2</color>
@@ -15,5 +15,7 @@
     <color name="blue">#2196F3</color>
     <color name="black">#000000</color>
     <color name="material_red">#E74C3C</color>
-    <color name="material_green">#2ECC71</color>
+    <color name="material_green">#44ac50</color>
+    <color name="standard_light_blue">#2196F3</color>
+    <color name="answer_grey">#585865</color>
 </resources>

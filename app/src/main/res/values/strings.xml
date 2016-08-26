@@ -35,4 +35,17 @@
         completions."
     </string>
 
+    <string name="home_nav_text">HOME</string>
+    <string name="profile_nav_text">PROFILE</string>
+    <string name="map_nav_text">MAP</string>
+    <string name="roster_nav_text">ROSTER</string>
+    <string name="settings_nav_text">SETTINGS</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_home">HomeActivity</string>
+
 </resources>
