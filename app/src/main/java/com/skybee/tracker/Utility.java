@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -51,12 +50,12 @@ public class Utility {
         return timeCard;
     }
 
-    public static void startActivity(@NonNull Context context,@NonNull boolean isAdmin) {
+    public static void startActivity(@NonNull Context context, @NonNull boolean isAdmin) {
         Intent intent;
-        if(isAdmin==true){
-            intent=new Intent(context, MainActivity.class);
-        }else {
-            intent=new Intent(context, HomeActivity.class);
+        if (isAdmin == true) {
+            intent = new Intent(context, MainActivity.class);
+        } else {
+            intent = new Intent(context, HomeActivity.class);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -95,24 +94,29 @@ public class Utility {
                             if (userServer.getUserType().equals("Admin"))
                                 userDetail.setAdmin(true);
                             saveUserDetailsPreference(context, userDetail);
-                            progressDialog.dismiss();
-                            startActivity(context,user.isAdmin());
+                            startActivity(context, userDetail.isAdmin());
                         }
+                        checkProgressDialog(progressDialog);
                     } else if (result.has(Constants.JsonConstants.MESSAGE)) {
-                        progressDialog.dismiss();
+                        checkProgressDialog(progressDialog);
                         errorMessage = result.getString(Constants.JsonConstants.MESSAGE);
                         showErrorDialog(context, errorMessage);
                     } else {
-                        progressDialog.dismiss();
+                        checkProgressDialog(progressDialog);
                         errorMessage = Constants.ERROR_OCCURRED;
                         showErrorDialog(context, errorMessage);
                     }
                 } catch (JSONException jsonException) {
-                    progressDialog.dismiss();
-                    errorMessage = Constants.ERROR_OCCURRED;
+                    checkProgressDialog(progressDialog);
+                    errorMessage = "JSON" + Constants.ERROR_OCCURRED;
                     showErrorDialog(context, errorMessage);
                 } catch (Exception e) {
-                    progressDialog.dismiss();
+                    checkProgressDialog(progressDialog);
+                    if (e != null) {
+                        if (e.getMessage() != null) {
+                            errorMessage = e.getMessage();
+                        }
+                    }
                     errorMessage = Constants.ERROR_OCCURRED;
                     showErrorDialog(context, errorMessage);
                 }
@@ -148,14 +152,24 @@ public class Utility {
 
     public static void saveUserDetailsPreference(@NonNull Context context, @NonNull User user) {
         UserStore userStore = new UserStore(context);
-        userStore.saveUserName(user.getUserName());
+        if (user.getUserName() != null) {
+            userStore.saveUserName(user.getUserName());
+        }
         userStore.saveIsAdmin(user.isAdmin());
-        userStore.saveAuthToken(user.getAuthToken());
-        userStore.saveUserEmail(user.getUserEmail());
+        if (user.getAuthToken() != null) {
+            userStore.saveAuthToken(user.getAuthToken());
+        }
+        if (user.getUserEmail() != null) {
+            userStore.saveUserEmail(user.getUserEmail());
+        }
 //                    userStore.saveUserEmail(result.getUserImage());
-        userStore.saveUserMobileNumber(user.getUserMobileNumber());
+        if (user.getUserMobileNumber() != null) {
+            userStore.saveUserMobileNumber(user.getUserMobileNumber());
+        }
 //                    userStore.saveId(result.getId());
-        userStore.saveRegistrationCode(user.getRegistrationCode());
+        if (user.getRegistrationCode() != null) {
+            userStore.saveRegistrationCode(user.getRegistrationCode());
+        }
     }
 
     public static void shareRegistrationCode(@NonNull Context context, @NonNull String registrationCode) {
@@ -188,6 +202,7 @@ public class Utility {
 
                         }
                     }
+                    Utility.checkProgressDialog(progressDialog);
                 } catch (JSONException jsonException) {
                     errorMessage = Constants.ERROR_OCCURRED;
                     Utility.checkProgressDialog(progressDialog);
@@ -214,19 +229,20 @@ public class Utility {
             @Override
             public void onSuccess(JSONObject result) {
                 try {
+                    checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
                             Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (JSONException jsonException) {
+                    checkProgressDialog(progressDialog);
                     errorMessage = Constants.ERROR_OCCURRED;
                     showErrorDialog(context, errorMessage);
                 } catch (Exception exception) {
+                    checkProgressDialog(progressDialog);
                     errorMessage = Constants.ERROR_OCCURRED;
                     showErrorDialog(context, errorMessage);
-                } finally {
-                    Utility.checkProgressDialog(progressDialog);
                 }
             }
 

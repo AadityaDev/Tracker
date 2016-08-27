@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skybee.tracker.GPSTracker;
@@ -78,13 +78,16 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 holder.taskName.setText(roaster.getTaskName());
             }
             if (!TextUtils.isEmpty(roaster.getDate()) && !TextUtils.isEmpty(roaster.getDate_to())) {
-                holder.workDate.setText("Date:" + roaster.getDate() + " - " + roaster.getDate_to());
+                holder.workDate.setText("Date: " + roaster.getDate() + " - " + roaster.getDate_to());
             }
             if (!TextUtils.isEmpty(roaster.getTime_from()) && !TextUtils.isEmpty(roaster.getTime_to())) {
-                holder.workTime.setText("Time:" + roaster.getTime_from() + " - " + roaster.getTime_to());
+                holder.workTime.setText("Time: " + roaster.getTime_from() + " - " + roaster.getTime_to());
             }
             if (!TextUtils.isEmpty(roaster.getDay()) && !TextUtils.isEmpty(roaster.getDay_to())) {
-                holder.workDay.setText("Day:" + roaster.getDay() + " - " + roaster.getDay_to());
+                holder.workDay.setText("Day: " + roaster.getDay() + " - " + roaster.getDay_to());
+            }
+            if (!TextUtils.isEmpty(roaster.getTotal_hours())) {
+                holder.workDay.setText("Total Hours: " + roaster.getTotal_hours());
             }
             if (holder.customerCall != null && !TextUtils.isEmpty(roaster.getMobile())) {
                 holder.customerCall.setOnClickListener(new View.OnClickListener() {
@@ -160,8 +163,8 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private TextView customerName;
         private ImageView customerCall;
         private TextView markAttendance;
-        private LinearLayout acceptRoster;
-        private LinearLayout rejectRoster;
+        private CardView acceptRoster;
+        private CardView rejectRoster;
 
         public RoasterViewHolder(Context context, View itemView) {
             super(itemView);
@@ -174,8 +177,8 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             locationText = (TextView) itemView.findViewById(R.id.location_text);
             customerName = (TextView) itemView.findViewById(R.id.customer_name);
             customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
-            acceptRoster = (LinearLayout) itemView.findViewById(R.id.accept_roster);
-            rejectRoster = (LinearLayout) itemView.findViewById(R.id.reject_roster);
+            acceptRoster = (CardView) itemView.findViewById(R.id.accept_roster);
+            rejectRoster = (CardView) itemView.findViewById(R.id.reject_roster);
             markAttendance = (TextView) itemView.findViewById(R.id.mark_attendance);
         }
     }

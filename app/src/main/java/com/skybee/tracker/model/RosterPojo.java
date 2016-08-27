@@ -27,6 +27,7 @@ public class RosterPojo {
     private long site_task_id;
     private long taskId;
     private String TaskName;
+    private String total_hours;
     private transient boolean isSelected;
 
 
@@ -236,6 +237,14 @@ public class RosterPojo {
 
     public void setTaskName(String taskName) {
         this.TaskName = taskName;
+    }
+
+    public String getTotal_hours() {
+        return total_hours;
+    }
+
+    public void setTotal_hours(String total_hours) {
+        this.total_hours = total_hours;
     }
 
     public boolean isSelected() {

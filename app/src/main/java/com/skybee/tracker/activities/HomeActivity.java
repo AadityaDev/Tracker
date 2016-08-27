@@ -41,6 +41,7 @@ import com.skybee.tracker.ui.dialog.ErrorDialog;
 import com.skybee.tracker.ui.fragments.AdminFeed;
 import com.skybee.tracker.ui.fragments.Map;
 import com.skybee.tracker.ui.fragments.Profile;
+import com.skybee.tracker.ui.fragments.Roasters;
 import com.skybee.tracker.ui.fragments.Roster;
 import com.skybee.tracker.ui.fragments.Setting;
 
@@ -79,6 +80,8 @@ public class HomeActivity extends BaseActivity
         setContentView(R.layout.activity_home);
         userStore = new UserStore(getApplicationContext());
         user = userStore.getUserDetails();
+
+//        getActionBar().setTitle(R.string.app_name);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -86,6 +89,8 @@ public class HomeActivity extends BaseActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitle(R.string.app_name);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -164,7 +169,7 @@ public class HomeActivity extends BaseActivity
             fragment = new Map();
             openFragment(fragment);
         } else if (id == R.id.nav_date) {
-            fragment = new Roster();
+            fragment = new Roasters();
             openFragment(fragment);
         } else if (id == R.id.nav_profile) {
             fragment = new Profile();

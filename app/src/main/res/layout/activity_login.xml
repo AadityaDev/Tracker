@@ -80,14 +80,13 @@
                 android:background="@drawable/login_button_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/dimen_30dp"
                 android:text="@string/action_sign_in"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimen_24sp"
+                android:textSize="@dimen/dimen_20sp"
                 android:textStyle="bold"
                 android:textAllCaps="true"
-                android:padding="@dimen/dimen_10dp"
-                android:layout_margin="@dimen/dimen_16dp"
+                android:padding="@dimen/dimen_14dp"
                 android:layout_gravity="center_horizontal" />
 
             <TextView

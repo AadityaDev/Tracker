@@ -14,6 +14,7 @@ import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -52,7 +53,7 @@ public class LoginActivity extends BaseActivity {
         user = userStore.getUserDetails();
         Log.d("Token", userStore.getUserDetails().getAuthToken());
         if (!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())) {
-            Utility.startActivity(getApplicationContext(),user.isAdmin());
+            Utility.startActivity(getApplicationContext(), user.isAdmin());
             finish();
         }
         super.onCreate(savedInstanceState);
@@ -91,6 +92,7 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private void populateAutoComplete() {

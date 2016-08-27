@@ -5,11 +5,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ public class RegisterActivity extends BaseActivity {
     private RadioGroup radioGroup;
     private RadioButton userType;
     private TextView selectAll;
+    private ImageView backButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,11 +59,23 @@ public class RegisterActivity extends BaseActivity {
             public void onClick(View view) {
                 UserStore userStore = new UserStore(getApplicationContext());
                 userStore.saveIsAdmin(true);
-                attemptLogin();
+                try {
+                    attemptLogin();
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
             }
         });
         loginFormView = findViewById(R.id.login_form);
         progressView = findViewById(R.id.login_progress);
+        backButton = (ImageView) findViewById(R.id.back_button);
+        backButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private void attemptLogin() {
@@ -129,10 +145,10 @@ public class RegisterActivity extends BaseActivity {
             user.setDevice_id(telephonyManager.getDeviceId());
             if (userType.getText() == getResources().getString(R.string.admin_text)) {
                 user.setAdmin(true);
-                Utility.authenticate(getApplicationContext(), progressDialog, API.ADMIN_SIGN_UP, user);
+                Utility.authenticate(getContext(), progressDialog, API.ADMIN_SIGN_UP, user);
             } else {
                 user.setAdmin(false);
-                Utility.authenticate(getApplicationContext(), progressDialog, API.EMPLOYEE_SIGN_UP, user);
+                Utility.authenticate(getContext(), progressDialog, API.EMPLOYEE_SIGN_UP, user);
             }
         }
     }
