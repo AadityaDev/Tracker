@@ -91,7 +91,7 @@
                 android:id="@+id/location_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/work_day"
+                android:layout_below="@+id/work_hours"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:layout_toEndOf="@+id/location_icon"
                 android:layout_toRightOf="@+id/location_icon"

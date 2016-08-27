@@ -24,6 +24,7 @@ public class RosterPojo {
     private double radius;
     private String mobile;
     private String EmployeeName;
+    private String address;
     private long site_task_id;
     private long taskId;
     private String TaskName;
@@ -213,6 +214,14 @@ public class RosterPojo {
 
     public void setEmployeeName(String employeeName) {
         this.EmployeeName = employeeName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public long getSite_task_id() {

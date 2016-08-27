@@ -87,7 +87,10 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 holder.workDay.setText("Day: " + roaster.getDay() + " - " + roaster.getDay_to());
             }
             if (!TextUtils.isEmpty(roaster.getTotal_hours())) {
-                holder.workDay.setText("Total Hours: " + roaster.getTotal_hours());
+                holder.workDay.setText("Work Hours: " + roaster.getTotal_hours());
+            }
+            if (!TextUtils.isEmpty(roaster.getAddress())) {
+                holder.locationText.setText(roaster.getAddress());
             }
             if (holder.customerCall != null && !TextUtils.isEmpty(roaster.getMobile())) {
                 holder.customerCall.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +165,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private TextView locationText;
         private TextView customerName;
         private ImageView customerCall;
-        private TextView markAttendance;
+        private CardView markAttendance;
         private CardView acceptRoster;
         private CardView rejectRoster;
 
@@ -179,7 +182,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
             acceptRoster = (CardView) itemView.findViewById(R.id.accept_roster);
             rejectRoster = (CardView) itemView.findViewById(R.id.reject_roster);
-            markAttendance = (TextView) itemView.findViewById(R.id.mark_attendance);
+            markAttendance = (CardView) itemView.findViewById(R.id.mark_attendance);
         }
     }
 }

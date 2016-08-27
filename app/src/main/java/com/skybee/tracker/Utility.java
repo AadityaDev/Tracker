@@ -197,12 +197,12 @@ public class Utility {
             @Override
             public void onSuccess(JSONObject result) {
                 try {
+                    Utility.checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
-
+                            Toast.makeText(context,"Your attendance is marked",Toast.LENGTH_SHORT).show();
                         }
                     }
-                    Utility.checkProgressDialog(progressDialog);
                 } catch (JSONException jsonException) {
                     errorMessage = Constants.ERROR_OCCURRED;
                     Utility.checkProgressDialog(progressDialog);
