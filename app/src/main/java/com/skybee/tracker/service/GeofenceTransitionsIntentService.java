@@ -99,7 +99,6 @@ public class GeofenceTransitionsIntentService extends IntentService {
             sendNotification(geofenceTransitionDetails);
             Log.i(TAG, geofenceTransitionDetails);
             AttendancePojo attendancePojo = new AttendancePojo();
-
             Utility.saveNotPresent(getBaseContext(), attendancePojo);
         } else {
             // Log the error.

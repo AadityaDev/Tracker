@@ -33,6 +33,9 @@ public class UserStore {
         user.setUserMobileNumber(sharedPreferences.getString(Constants.UserStore.USER_MOBILE_NUMBER, EMPTY));
         user.setUserName(sharedPreferences.getString(Constants.UserStore.USER_NAME, EMPTY));
         user.setUserPassword(sharedPreferences.getString(Constants.UserStore.USER_PASSWORD, EMPTY));
+        user.setCompanyLatitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LATITUDE, EMPTY_DOUBLE));
+        user.setCompanyLongitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LONGITUDE, EMPTY_DOUBLE));
+        user.setCompanyRadius(sharedPreferences.getInt(Constants.UserStore.COMPANY_RADIUS,Constants.DEFAULT_RADIUS));
         return user;
     }
 
@@ -87,6 +90,24 @@ public class UserStore {
     public void saveUserName(@NonNull String userName) {
         editor = sharedPreferences.edit();
         editor.putString(Constants.UserStore.USER_NAME, userName);
+        editor.apply();
+    }
+
+    public void saveCompanyLatitude(@NonNull Double latitude) {
+        editor = sharedPreferences.edit();
+        putDouble(editor, Constants.UserStore.COMPANY_LATITUDE, latitude);
+        editor.apply();
+    }
+
+    public void saveCompanyLongitude(@NonNull Double longitude) {
+        editor = sharedPreferences.edit();
+        putDouble(editor, Constants.UserStore.COMPANY_LONGITUDE, longitude);
+        editor.apply();
+    }
+
+    public void saveCompanyRadius(@NonNull int companyRadius) {
+        editor = sharedPreferences.edit();
+        putDouble(editor, Constants.UserStore.COMPANY_RADIUS, companyRadius);
         editor.apply();
     }
 

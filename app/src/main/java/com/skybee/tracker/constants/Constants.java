@@ -14,6 +14,7 @@ public class Constants {
     public static final Long EMPTY_LONG = 0l;
     public static final boolean EMPTY_BOOLEAN = false;
     public static final double EMPTY_DOUBLE = 0;
+    public static final int DEFAULT_RADIUS = 500;
     public static final String ERROR = "Error";
     public static final String ERROR_OCCURRED = "Error Occured!";
     public static final int IS_PRESENT = 1;
@@ -36,6 +37,9 @@ public class Constants {
         public static final String USER_REGISTRATION_KEY = "registrationKey";
         public static final String LATITUDE = "latitude";
         public static final String LONGITUDE = "longitude";
+        public static final String COMPANY_LATITUDE = "companyLatitude";
+        public static final String COMPANY_LONGITUDE = "companyLongitude";
+        public static final String COMPANY_RADIUS = "companyRadius";
         public static final String IS_ADMIN = "isAdmin";
         public static final int PRIVATE_MODE = 0;
     }

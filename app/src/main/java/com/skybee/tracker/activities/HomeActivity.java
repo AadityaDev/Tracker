@@ -127,8 +127,7 @@ public class HomeActivity extends BaseActivity
             userStore.saveLongitude(gpsTracker.getLongitude());
         }
          // Def
-            LAT_LNG_HASH_MAP.put("LOCATION", new LatLng(user.getUserLatitude(), user.getUserLongitude()));
-
+        LAT_LNG_HASH_MAP.put("LOCATION", new LatLng(user.getCompanyLatitude(), user.getCompanyLongitude()));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -465,9 +464,9 @@ public class HomeActivity extends BaseActivity
 
                     // Set the circular region of this geofence.
                     .setCircularRegion(
-                            entry.getValue().latitude,
-                            entry.getValue().longitude,
-                            Constants.GEOFENCE_RADIUS_IN_METERS
+                            user.getCompanyLatitude(),
+                            user.getCompanyLongitude(),
+                            user.getCompanyRadius()
                     )
 
                     // Set the expiration duration of the geofence. This geofence gets automatically
