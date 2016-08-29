@@ -1,5 +1,9 @@
 package com.skybee.tracker.constants;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.HashMap;
+
 public class Constants {
 
     public static final int PAGE_NUMBER = 0;
@@ -12,6 +16,7 @@ public class Constants {
     public static final double EMPTY_DOUBLE = 0;
     public static final String ERROR = "Error";
     public static final String ERROR_OCCURRED = "Error Occured!";
+    public static final int IS_PRESENT = 1;
 
     public class AuthType {
         public static final String ADMIN_SIGN_UP = "AdminSignUp";
@@ -77,6 +82,38 @@ public class Constants {
         public static final String SUCCESS = "success";
     }
 
-    public static final int rosterCard=0;
-    public static final int isSiteCard=1;
+    public static final int rosterCard = 0;
+    public static final int isSiteCard = 1;
+
+    public static class Geometry {
+        public static double MinLatitude = -90.0;
+        public static double MaxLatitude = 90.0;
+        public static double MinLongitude = -180.0;
+        public static double MaxLongitude = 180.0;
+        public static double MinRadius = 0.01; // kilometers
+        public static double MaxRadius = 20.0; // kilometers
+    }
+
+    public static class SharedPrefs {
+        public static String Geofences = "SHARED_PREFS_GEOFENCES";
+    }
+
+    public static final String PACKAGE_NAME = "com.google.android.gms.location.Geofence";
+
+    public static final String SHARED_PREFERENCES_NAME = PACKAGE_NAME + ".SHARED_PREFERENCES_NAME";
+
+    public static final String GEOFENCES_ADDED_KEY = PACKAGE_NAME + ".GEOFENCES_ADDED_KEY";
+
+    /**
+     * Used to set an expiration time for a geofence. After this amount of time Location Services
+     * stops tracking the geofence.
+     */
+    public static final long GEOFENCE_EXPIRATION_IN_HOURS = 12;
+
+    /**
+     * For this sample, geofences expire after twelve hours.
+     */
+    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS =
+            GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
+    public static final float GEOFENCE_RADIUS_IN_METERS = 1209; // 1 mile, 1.6 km
 }

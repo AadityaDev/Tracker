@@ -96,7 +96,7 @@
                 android:layout_toEndOf="@+id/location_icon"
                 android:layout_toRightOf="@+id/location_icon"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen_14sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
         </RelativeLayout>
 

@@ -127,18 +127,15 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                         AttendancePojo attendancePojo = new AttendancePojo();
                         if (roaster.getCustomer_site_id() != 0)
                             attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
-//                        UserStore userStore = new UserStore(holder.context);
-//                        User user = new User();
-//                        user = userStore.getUserDetails();
                         if (userStore != null && gpsTracker != null) {
                             User user = new User();
                             user = userStore.getUserDetails();
-
                             if (gpsTracker.getLatitude() != 0 && gpsTracker.getLongitude() != 0) {
                                 userStore.saveLatitude(gpsTracker.getLatitude());
                                 userStore.saveLongitude(gpsTracker.getLongitude());
                                 attendancePojo.setLattitude(gpsTracker.getLatitude());
                                 attendancePojo.setLongitude(gpsTracker.getLongitude());
+                                attendancePojo.setLoginStatus(Constants.IS_PRESENT);
                                 Log.d("Location Save", "Lat: " + gpsTracker.getLatitude() + "Longi: " + gpsTracker.getLongitude());
                             }
                             ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);

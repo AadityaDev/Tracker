@@ -80,7 +80,7 @@
             android:layout_marginTop="@dimen/dimen_8dp"
             android:layout_toEndOf="@+id/location_icon"
             android:layout_toRightOf="@+id/location_icon"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="@dimen/dimen_16sp" />
 
         <RelativeLayout

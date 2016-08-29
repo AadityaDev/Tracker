@@ -35,10 +35,15 @@
     <application
         android:name=".AndroidApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver android:name=".receiver.LoactionReceiver">
+            <intent-filter>
+                <action android:name="android.location.PROVIDERS_CHANGED" />
+                <category android:name="android.intent.category.DEFAULT" />            </intent-filter>
+        </receiver>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -73,10 +78,10 @@
                 android:value="com.skybee.tracker.activities.LoginActivity" />
         </activity>
 
-        <service
-            android:name=".GPSTracker"
-            android:enabled="true" />
+        <service android:name=".service.GeofenceTransitionsIntentService"
+            android:enabled="true"/>
 
+        <service android:name=".GPSTracker"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

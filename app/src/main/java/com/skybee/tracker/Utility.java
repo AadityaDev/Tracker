@@ -176,7 +176,7 @@ public class Utility {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\nDownload app from this url."
-                + "\nhttps://play.google.com/store/apps/details?id=com.recharge.myrecharge&hl=en"
+                + "\nhttp://track.snoowa.com/app/"
                 + "\nRegistration Code: " + registrationCode);
         context.startActivity(Intent.createChooser(sharingIntent, "Share registration code with employee."));
     }
@@ -232,7 +232,7 @@ public class Utility {
                     checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
-                            Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_LONG).show();
                         }
                     }
                 } catch (JSONException jsonException) {
@@ -254,5 +254,31 @@ public class Utility {
             }
         }, ExecutorUtils.getUIThread());
     }
+
+    public static void saveNotPresent(@NonNull final Context context, @NonNull AttendancePojo attendancePojo) {
+        UserStore userStore=new UserStore(context);
+        User user=new User();
+        user=userStore.getUserDetails();
+        ListenableFuture<JSONObject> saveLocationResult = Factory.getUserService().markAttendance(API.SAVE_ATTENDANCE, user, attendancePojo);
+        Futures.addCallback(saveLocationResult, new FutureCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    if (result.has(Constants.JsonConstants.MESSAGE)) {
+                        if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
+
+                        }
+                    }
+                } catch (JSONException jsonException) {
+                } catch (Exception exception) {
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        }, ExecutorUtils.getUIThread());
+    }
+
 
 }

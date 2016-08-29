@@ -15,6 +15,8 @@ public class Factory {
     private static OkHttpClient okHttpClient;
     @GuardedBy("LOCK")
     private static UserService userService;
+    @GuardedBy("LOCK")
+//    private static GeofenceController geofenceController;
 
     public static OkHttpClient getOkHttpClient() {
         synchronized (LOCK) {
@@ -37,4 +39,12 @@ public class Factory {
         return userService;
     }
 
+//    public static GeofenceController getGeofenceController() {
+//        synchronized (LOCK) {
+//            if (geofenceController == null) {
+//                geofenceController = new GeofenceController();
+//            }
+//            return geofenceController;
+//        }
+//    }
 }
