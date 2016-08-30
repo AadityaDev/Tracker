@@ -1,11 +1,13 @@
 package com.skybee.tracker;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.google.android.gms.location.Geofence;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -23,6 +25,9 @@ import com.skybee.tracker.ui.dialog.ErrorDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utility {
 
@@ -200,7 +205,7 @@ public class Utility {
                     Utility.checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
-                            Toast.makeText(context,"Your attendance is marked",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (JSONException jsonException) {
@@ -233,6 +238,8 @@ public class Utility {
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
                             Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_LONG).show();
+                            context.startActivity(new Intent(context,HomeActivity.class));
+                            ((Activity)context).finish();
                         }
                     }
                 } catch (JSONException jsonException) {
@@ -256,9 +263,9 @@ public class Utility {
     }
 
     public static void saveNotPresent(@NonNull final Context context, @NonNull AttendancePojo attendancePojo) {
-        UserStore userStore=new UserStore(context);
-        User user=new User();
-        user=userStore.getUserDetails();
+        UserStore userStore = new UserStore(context);
+        User user = new User();
+        user = userStore.getUserDetails();
         ListenableFuture<JSONObject> saveLocationResult = Factory.getUserService().markAttendance(API.SAVE_ATTENDANCE, user, attendancePojo);
         Futures.addCallback(saveLocationResult, new FutureCallback<JSONObject>() {
             @Override
@@ -280,5 +287,31 @@ public class Utility {
         }, ExecutorUtils.getUIThread());
     }
 
+    public static void populateGeofenceList(List<Geofence> geofenceList, @NonNull User user) {
+        if (geofenceList == null)
+            geofenceList = new ArrayList<>();
+        geofenceList.add(new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId(Constants.GEOFENCES_LOCATION)
+
+                // Set the circular region of this geofence.
+                .setCircularRegion(
+                        user.getCompanyLatitude(),
+                        user.getCompanyLongitude(),
+                        user.getCompanyRadius()
+                )
+                // Set the expiration duration of the geofence. This geofence gets automatically
+                // removed after this period of time.
+                .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+
+                // Set the transition types of interest. Alerts are only generated for these
+                // transition. We track entry and exit transitions in this sample.
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+
+                // Create the geofence.
+                .build());
+    }
 
 }

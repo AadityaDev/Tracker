@@ -167,7 +167,6 @@ public class HomeActivity extends BaseActivity
         timeCards.setAdapter(rosterAdapter);
         getCustomerSite();
 
-
         // Empty list for storing geofences.
         mGeofenceList = new ArrayList<Geofence>();
 
@@ -303,8 +302,10 @@ public class HomeActivity extends BaseActivity
                         }
                         if (roasterCardList.size() >= 1)
                             rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
+
                         Utility.checkProgressDialog(progressDialog);
                     }
+                    Utility.checkProgressDialog(progressDialog);
                 } catch (JSONException jsonException) {
                     Log.d(TAG, Constants.Exception.JSON_EXCEPTION);
                     Utility.checkProgressDialog(progressDialog);
@@ -451,34 +452,18 @@ public class HomeActivity extends BaseActivity
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    /**
-     * This sample hard codes geofence data. A real app might dynamically create geofences based on
-     * the user's location.
-     */
     public void populateGeofenceList() {
         for (java.util.Map.Entry<String, LatLng> entry : LAT_LNG_HASH_MAP.entrySet()) {
             mGeofenceList.add(new Geofence.Builder()
-                    // Set the request ID of the geofence. This is a string to identify this
-                    // geofence.
                     .setRequestId(entry.getKey())
-
-                    // Set the circular region of this geofence.
                     .setCircularRegion(
                             user.getCompanyLatitude(),
                             user.getCompanyLongitude(),
                             user.getCompanyRadius()
                     )
-
-                    // Set the expiration duration of the geofence. This geofence gets automatically
-                    // removed after this period of time.
                     .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-
-                    // Set the transition types of interest. Alerts are only generated for these
-                    // transition. We track entry and exit transitions in this sample.
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
                             Geofence.GEOFENCE_TRANSITION_EXIT)
-
-                    // Create the geofence.
                     .build());
         }
     }

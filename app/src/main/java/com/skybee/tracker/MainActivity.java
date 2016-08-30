@@ -177,6 +177,7 @@ public class MainActivity extends BaseActivity
                     if (result.has(Constants.JsonConstants.ERROR)) {
                         if (result.has(Constants.JsonConstants.MESSAGE) && !result.isNull(Constants.JsonConstants.MESSAGE)) {
                             message = result.getString(Constants.JsonConstants.MESSAGE);
+                            Utility.checkProgressDialog(progressDialog);
                             errorDialog = new ErrorDialog(getContext(), message);
                             errorDialog.show();
                         }
@@ -205,12 +206,12 @@ public class MainActivity extends BaseActivity
                         }
                     }
                 } catch (Exception e) {
-                    progressDialog.dismiss();
+                    Utility.checkProgressDialog(progressDialog);
                     message = Constants.ERROR_OCCURRED;
                     Utility.showErrorDialog(getContext(), message);
                 }
                 employeeCardAdapter.notifyItemInserted(employeeCardList.size() - 1);
-                progressDialog.dismiss();
+                Utility.checkProgressDialog(progressDialog);
             }
 
             @Override
@@ -226,6 +227,7 @@ public class MainActivity extends BaseActivity
                 } else {
                     message = Constants.ERROR_OCCURRED;
                 }
+                Utility.checkProgressDialog(progressDialog);
                 Utility.showErrorDialog(getContext(), message);
             }
         }, ExecutorUtils.getUIThread());
