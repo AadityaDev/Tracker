@@ -35,7 +35,7 @@ public class UserStore {
         user.setUserPassword(sharedPreferences.getString(Constants.UserStore.USER_PASSWORD, EMPTY));
         user.setCompanyLatitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LATITUDE, EMPTY_DOUBLE));
         user.setCompanyLongitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LONGITUDE, EMPTY_DOUBLE));
-        user.setCompanyRadius(sharedPreferences.getInt(Constants.UserStore.COMPANY_RADIUS,Constants.DEFAULT_RADIUS));
+        user.setCompanyRadius(sharedPreferences.getLong(Constants.UserStore.COMPANY_RADIUS,Constants.DEFAULT_RADIUS));
         return user;
     }
 

@@ -18,7 +18,7 @@ public class User {
     private String device_id;
     private transient double companyLatitude;
     private transient double companyLongitude;
-    private transient int companyRadius;
+    private transient long companyRadius;
 
     public Long getId() {
         return id;
@@ -148,11 +148,11 @@ public class User {
         this.companyLongitude = companyLongitude;
     }
 
-    public int getCompanyRadius() {
+    public long getCompanyRadius() {
         return companyRadius;
     }
 
-    public void setCompanyRadius(int companyRadius) {
+    public void setCompanyRadius(long companyRadius) {
         this.companyRadius = companyRadius;
     }
 }

@@ -8,6 +8,16 @@
     tools:context="com.skybee.tracker.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <TextView
+        android:id="@+id/no_result_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No Employee Joined!!!"
+        android:textSize="@dimen/dimen_20sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        />
+
     <FrameLayout
         android:id="@+id/frame_view"
         android:layout_width="match_parent"

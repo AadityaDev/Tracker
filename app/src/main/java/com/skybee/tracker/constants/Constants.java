@@ -14,7 +14,7 @@ public class Constants {
     public static final Long EMPTY_LONG = 0l;
     public static final boolean EMPTY_BOOLEAN = false;
     public static final double EMPTY_DOUBLE = 0;
-    public static final int DEFAULT_RADIUS = 500;
+    public static final long DEFAULT_RADIUS = 500;
     public static final String ERROR = "Error";
     public static final String ERROR_OCCURRED = "Error Occured!";
     public static final int IS_PRESENT = 1;
@@ -83,7 +83,7 @@ public class Constants {
         public static final String NAME = "name";
         public static final String MOBILE = "mobile";
         public static final String API_TOKEN = "api_token";
-        public static final String SUCCESS = "success";
+        public static final String SUCCESS = "Success";
     }
 
     public static final int rosterCard = 0;

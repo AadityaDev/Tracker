@@ -86,6 +86,7 @@ public class HomeActivity extends BaseActivity
     private RosterAdapter rosterAdapter;
     private TextView userName;
     private TextView userEmail;
+    private TextView noResultFound;
 
     public static final HashMap<String, LatLng> LAT_LNG_HASH_MAP = new HashMap<String, LatLng>();
 
@@ -126,7 +127,7 @@ public class HomeActivity extends BaseActivity
             userStore.saveLatitude(gpsTracker.getLatitude());
             userStore.saveLongitude(gpsTracker.getLongitude());
         }
-         // Def
+        // Def
         LAT_LNG_HASH_MAP.put("LOCATION", new LatLng(user.getCompanyLatitude(), user.getCompanyLongitude()));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -142,15 +143,17 @@ public class HomeActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
 
+        noResultFound = (TextView) findViewById(R.id.no_result_text);
+        noResultFound.setVisibility(View.INVISIBLE);
         //drawer header
-        View headerView=navigationView.getHeaderView(0);
-        userEmail=(TextView)headerView.findViewById(R.id.user_email);
-        userName=(TextView)headerView.findViewById(R.id.user_name);
-        if(user!=null){
-            if(!TextUtils.isEmpty(user.getUserName())){
+        View headerView = navigationView.getHeaderView(0);
+        userEmail = (TextView) headerView.findViewById(R.id.user_email);
+        userName = (TextView) headerView.findViewById(R.id.user_name);
+        if (user != null) {
+            if (!TextUtils.isEmpty(user.getUserName())) {
                 userName.setText(user.getUserName());
             }
-            if(!TextUtils.isEmpty(user.getUserEmail())){
+            if (!TextUtils.isEmpty(user.getUserEmail())) {
                 userEmail.setText(user.getUserEmail());
             }
         }
@@ -252,7 +255,7 @@ public class HomeActivity extends BaseActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
             getContext().startActivities(new Intent[]{new Intent(getContext(), HomeActivity.class)});
-            ((Activity)getContext()).finish();
+            ((Activity) getContext()).finish();
         } else if (id == R.id.nav_map) {
             fragment = new Map();
             openFragment(fragment);
@@ -302,7 +305,6 @@ public class HomeActivity extends BaseActivity
                         }
                         if (roasterCardList.size() >= 1)
                             rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
-
                         Utility.checkProgressDialog(progressDialog);
                     }
                     Utility.checkProgressDialog(progressDialog);
@@ -312,8 +314,11 @@ public class HomeActivity extends BaseActivity
                 } catch (Exception exception) {
                     Log.d(TAG, Constants.Exception.EXCEPTION);
                     Utility.checkProgressDialog(progressDialog);
-                }finally {
+                } finally {
                     Utility.checkProgressDialog(progressDialog);
+                    if(roasterCardList.size()==0){
+                        noResultFound.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -401,7 +406,7 @@ public class HomeActivity extends BaseActivity
     /**
      * Runs when the result of calling addGeofences() and removeGeofences() becomes available.
      * Either method can complete successfully or with an error.
-     *
+     * <p/>
      * Since this activity implements the {@link ResultCallback} interface, we are required to
      * define this method.
      *

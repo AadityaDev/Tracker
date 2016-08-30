@@ -69,12 +69,16 @@ public class MainActivity extends BaseActivity
     private User user;
     private TextView userName;
     private TextView userEmail;
+    private TextView noResultFound;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        noResultFound = (TextView) findViewById(R.id.no_result_text);
+        noResultFound.setVisibility(View.INVISIBLE);
 
         userStore = new UserStore(getApplicationContext());
         user=userStore.getUserDetails();
@@ -209,6 +213,10 @@ public class MainActivity extends BaseActivity
                     Utility.checkProgressDialog(progressDialog);
                     message = Constants.ERROR_OCCURRED;
                     Utility.showErrorDialog(getContext(), message);
+                }
+                finally {
+                    if (employeeCardList.size()<=0)
+                        noResultFound.setVisibility(View.VISIBLE);
                 }
                 employeeCardAdapter.notifyItemInserted(employeeCardList.size() - 1);
                 Utility.checkProgressDialog(progressDialog);
