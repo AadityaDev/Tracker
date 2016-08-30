@@ -39,11 +39,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name=".receiver.LoactionReceiver">
-            <intent-filter>
-                <action android:name="android.location.PROVIDERS_CHANGED" />
-                <category android:name="android.intent.category.DEFAULT" />            </intent-filter>
-        </receiver>
+        <!--<receiver android:name=".receiver.LoactionReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.location.PROVIDERS_CHANGED" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -81,7 +82,10 @@
         <service android:name=".service.GeofenceTransitionsIntentService"
             android:enabled="true"/>
 
-        <service android:name=".GPSTracker"/>
+        <service android:name=".GPSTracker"
+            android:enabled="true"
+            android:exported="false"
+            />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -90,6 +94,26 @@
             android:name=".activities.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <receiver android:name=".receiver.PeriodicTaskReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+                <action android:name="com.skybee.tracker.PERIODIC_LOCATION_UPDATE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receiver.BootAndUpdateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.BackgroundService"
+            android:enabled="true"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

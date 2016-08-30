@@ -47,6 +47,7 @@ import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
+import com.skybee.tracker.service.BackgroundService;
 import com.skybee.tracker.service.GeofenceErrorMessages;
 import com.skybee.tracker.service.GeofenceTransitionsIntentService;
 import com.skybee.tracker.ui.adapters.RosterAdapter;
@@ -188,6 +189,9 @@ public class HomeActivity extends BaseActivity
 
         // Kick off the request to build GoogleApiClient.
         buildGoogleApiClient();
+
+        Intent startServiceIntent = new Intent(context, BackgroundService.class);
+        startService(startServiceIntent);
     }
 
     /**

@@ -39,6 +39,12 @@ public class UserStore {
         return user;
     }
 
+    public void saveCompanyId(@NonNull Long id) {
+        editor = sharedPreferences.edit();
+        editor.putLong(Constants.UserStore.COMPANY_ID, id);
+        editor.apply();
+    }
+
     public void saveId(@NonNull Long id) {
         editor = sharedPreferences.edit();
         editor.putLong(Constants.UserStore.USER_ID, id);
@@ -117,6 +123,10 @@ public class UserStore {
 
     double getDouble(final SharedPreferences prefs, final String key, final double defaultValue) {
         return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
+    }
+
+    public long getCompanyId(){
+        return sharedPreferences.getLong(Constants.UserStore.COMPANY_ID,0);
     }
 
     public void logoutUser(Context context) {

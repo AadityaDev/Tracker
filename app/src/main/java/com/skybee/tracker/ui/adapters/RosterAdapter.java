@@ -136,9 +136,10 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                                 attendancePojo.setLattitude(gpsTracker.getLatitude());
                                 attendancePojo.setLongitude(gpsTracker.getLongitude());
                                 attendancePojo.setLoginStatus(Constants.IS_PRESENT);
-                                userStore.saveCompanyLatitude(rosterList.get(position).getLatitude());
-                                userStore.saveCompanyLongitude(rosterList.get(position).getLongitude());
-                                userStore.saveCompanyRadius(rosterList.get(position).getRadius());
+                                userStore.saveCompanyLatitude(roaster.getLatitude());
+                                userStore.saveCompanyLongitude(roaster.getLongitude());
+                                userStore.saveCompanyRadius(roaster.getRadius());
+                                userStore.saveCompanyId(roaster.getCustomer_site_id());
                                 Log.d("Location Save", "Lat: " + gpsTracker.getLatitude() + "Longi: " + gpsTracker.getLongitude());
                             }
                             ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
