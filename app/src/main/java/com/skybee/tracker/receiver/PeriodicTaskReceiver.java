@@ -52,12 +52,12 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
         if (userStore.getUserDetails().getCompanyLatitude() != 0 && userStore.getUserDetails().getCompanyLongitude() != 0 && userStore.getUserDetails() != null) {
             float[] results = new float[1];
             Location.distanceBetween(userStore.getUserDetails().getCompanyLatitude(), userStore.getUserDetails().getCompanyLongitude(),
-                    userStore.getUserDetails().getCompanyLatitude(), userStore.getUserDetails().getCompanyLongitude(), results);
+                    userStore.getUserDetails().getUserLatitude(), userStore.getUserDetails().getUserLongitude(), results);
             float distanceInMeters = results[0];
             boolean isWithinRange = distanceInMeters < userStore.getUserDetails().getCompanyRadius();
             AttendancePojo attendancePojo = new AttendancePojo();
             attendancePojo.setLongitude(userStore.getUserDetails().getUserLongitude());
-            attendancePojo.setLattitude(userStore.getUserDetails().getCompanyLongitude());
+            attendancePojo.setLattitude(userStore.getUserDetails().getUserLatitude());
             attendancePojo.setCustomer_site_id(userStore.getCompanyId());
             Utility.saveNotPresent(context, attendancePojo);
 
