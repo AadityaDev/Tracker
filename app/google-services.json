@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "235219237476",
-    "project_id": "tracker-86c83"
+    "firebase_url": "https://tracker-86c83.firebaseio.com",
+    "project_id": "tracker-86c83",
+    "storage_bucket": "tracker-86c83.appspot.com"
   },
   "client": [
     {
@@ -13,12 +15,24 @@
       },
       "oauth_client": [
         {
+          "client_id": "235219237476-ss5r19462h5cqkhqhgv3ecs1pgb4du67.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skybee.tracker",
+            "certificate_hash": "1727C0D8E192D1E01C438E4DAD431A37CB431F89"
+          }
+        },
+        {
           "client_id": "235219237476-vm8jfndhtigu1dfb182vptr6h7pfjrgh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.skybee.tracker",
             "certificate_hash": "67AB88E063DC4C2C0A9C8C2B13B0AF5F23D86993"
           }
+        },
+        {
+          "client_id": "235219237476-0bv46eaiujn0067ghvhjj3auju8d2d26.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "235219237476-acsunp6rai7g6pdltq7135kd0vnc7h9q.apps.googleusercontent.com",
@@ -35,11 +49,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235219237476-0bv46eaiujn0067ghvhjj3auju8d2d26.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

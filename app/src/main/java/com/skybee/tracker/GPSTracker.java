@@ -1,6 +1,5 @@
 package com.skybee.tracker;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -13,13 +12,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 public class GPSTracker extends Service implements LocationListener {
-    private final Context mContext;
+    private Context mContext;
 
     // flag for GPS Status
     boolean isGPSEnabled = false;
@@ -41,6 +38,9 @@ public class GPSTracker extends Service implements LocationListener {
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
+
+    public GPSTracker() {
+    }
 
     public GPSTracker(Context context) {
         this.mContext = context;
