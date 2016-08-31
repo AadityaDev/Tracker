@@ -11,10 +11,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.appsee.Appsee;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -22,10 +23,13 @@ import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.skybee.tracker.AndroidApplication;
+import com.skybee.tracker.R;
+
+import io.fabric.sdk.android.Fabric;
 
 public class BaseActivity<T> extends FragmentActivity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        LocationListener,BaseFragment.OnFragmentInteractionListener {
+        LocationListener, BaseFragment.OnFragmentInteractionListener {
 
     private final String TAG = this.getClass().getSimpleName();
     protected Context context;
@@ -40,6 +44,8 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
         }
         context = this;
         application = (AndroidApplication) getApplicationContext();
+        Fabric.with(context, new Crashlytics());
+        Appsee.start(getString(R.string.com_appsee_apikey));
         super.onCreate(savedInstanceState);
 //        createLocationRequest();
         googleApiClient = new GoogleApiClient.Builder(context)
