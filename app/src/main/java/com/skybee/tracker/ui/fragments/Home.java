@@ -131,13 +131,18 @@ public class Home extends BaseFragment {
                         }
                         if (roasterCardList.size() >= 1)
                             rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
-                        Utility.checkProgressDialog(progressDialog);
                     }
                 } catch (JSONException jsonException) {
                     Log.d(getTAG(), Constants.Exception.JSON_EXCEPTION);
+                    errorMessage=Constants.ERROR_OCCURRED;
                     Utility.checkProgressDialog(progressDialog);
+                    Utility.showErrorDialog(context, errorMessage);
                 } catch (Exception exception) {
                     Log.d(getTAG(), Constants.Exception.EXCEPTION);
+                    errorMessage=Constants.ERROR_OCCURRED;
+                    Utility.checkProgressDialog(progressDialog);
+                    Utility.showErrorDialog(context, errorMessage);
+                }finally {
                     Utility.checkProgressDialog(progressDialog);
                 }
             }

@@ -96,6 +96,7 @@ public class RejectedRoaster extends BaseFragment {
                     Log.d(getTAG(), Constants.Exception.EXCEPTION);
                     Utility.checkProgressDialog(progressDialog);
                 }
+                Utility.checkProgressDialog(progressDialog);
             }
 
             @Override

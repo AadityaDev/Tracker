@@ -97,7 +97,7 @@ public class AcceptedRoaster extends BaseFragment {
                     Log.d(getTAG(), Constants.Exception.EXCEPTION);
                     Utility.checkProgressDialog(progressDialog);
                 }
-
+                Utility.checkProgressDialog(progressDialog);
             }
 
             @Override
@@ -105,7 +105,6 @@ public class AcceptedRoaster extends BaseFragment {
                 Utility.checkProgressDialog(progressDialog);
                 errorMessage = Constants.ERROR_OCCURRED;
                 Utility.showErrorDialog(context, errorMessage);
-
             }
         }, ExecutorUtils.getUIThread());
     }

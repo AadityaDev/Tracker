@@ -320,7 +320,7 @@ public class HomeActivity extends BaseActivity
                     Utility.checkProgressDialog(progressDialog);
                 } finally {
                     Utility.checkProgressDialog(progressDialog);
-                    if(roasterCardList.size()==0){
+                    if (roasterCardList.size() == 0) {
                         noResultFound.setVisibility(View.VISIBLE);
                     }
                 }
@@ -330,7 +330,7 @@ public class HomeActivity extends BaseActivity
             public void onFailure(Throwable t) {
                 Utility.checkProgressDialog(progressDialog);
                 errorMessage = Constants.ERROR_OCCURRED;
-                Utility.showErrorDialog(getApplicationContext(), errorMessage);
+                Utility.showErrorDialog(HomeActivity.this, errorMessage);
             }
         }, ExecutorUtils.getUIThread());
     }
@@ -410,7 +410,7 @@ public class HomeActivity extends BaseActivity
     /**
      * Runs when the result of calling addGeofences() and removeGeofences() becomes available.
      * Either method can complete successfully or with an error.
-     * <p/>
+     * <p>
      * Since this activity implements the {@link ResultCallback} interface, we are required to
      * define this method.
      *
