@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
+import com.skybee.tracker.Utility;
 import com.skybee.tracker.activities.LoginActivity;
+import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseFragment;
+import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
 
@@ -23,11 +27,15 @@ public class Setting extends BaseFragment {
     private TextView userEmail;
     private TextView userImageText;
     private User user;
+    private GPSTracker gpsTracker;
+    private UserStore userStore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        userStore = new UserStore(context);
+        gpsTracker = new GPSTracker(context);
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         userName = (TextView) view.findViewById(R.id.user_name);
         userEmail = (TextView) view.findViewById(R.id.user_email);
@@ -52,12 +60,17 @@ public class Setting extends BaseFragment {
     }
 
     public void logout() {
-        UserStore userStore = new UserStore(getContext());
+        AttendancePojo attendancePojo = new AttendancePojo();
+        attendancePojo.setLongitude(userStore.getUserDetails().getUserLongitude());
+        attendancePojo.setLattitude(userStore.getUserDetails().getUserLatitude());
+        attendancePojo.setCustomer_site_id(userStore.getCompanyId());
+        attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.LOGOUT);
+        Utility.saveNotPresent(context, attendancePojo);
         userStore.logoutUser(getContext());
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        ((Activity)getContext()).finish();
+        ((Activity) getContext()).finish();
     }
 
 }

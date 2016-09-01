@@ -1,9 +1,5 @@
 package com.skybee.tracker.constants;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.HashMap;
-
 public class Constants {
 
     public static final int PAGE_NUMBER = 0;
@@ -17,7 +13,6 @@ public class Constants {
     public static final long DEFAULT_RADIUS = 500;
     public static final String ERROR = "Error";
     public static final String ERROR_OCCURRED = "Error Occured!";
-    public static final int IS_PRESENT = 1;
 
     public class AuthType {
         public static final String ADMIN_SIGN_UP = "AdminSignUp";
@@ -122,8 +117,13 @@ public class Constants {
     public static final float GEOFENCE_RADIUS_IN_METERS = 1209; // 1 mile, 1.6 km
 
     public static final String INTENT_ACTION = "com.skybee.tracker.PERIODIC_LOCATION_UPDATE";
-    public static final String LOCATION_SERVICE_STORE="LocationServiceStore";
-    public static final String BACKGROUND_SERVICE_BATTERY_CONTROL="BatteryControl";
-    public static final String IS_BOUNDARY_CROSSED="BoundaryCrossed";
+    public static final String LOCATION_SERVICE_STORE = "LocationServiceStore";
+    public static final String BACKGROUND_SERVICE_BATTERY_CONTROL = "BatteryControl";
+    public static final String IS_BOUNDARY_CROSSED = "BoundaryCrossed";
 
+    public static final class LOGIN_STATUS {
+        public static final int ABSENT = 0;
+        public static final int PRESENT = 1;
+        public static final int LOGOUT = 2;
+    }
 }

@@ -135,7 +135,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                                 userStore.saveLongitude(gpsTracker.getLongitude());
                                 attendancePojo.setLattitude(gpsTracker.getLatitude());
                                 attendancePojo.setLongitude(gpsTracker.getLongitude());
-                                attendancePojo.setLoginStatus(Constants.IS_PRESENT);
+                                attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.PRESENT);
                                 userStore.saveCompanyLatitude(roaster.getLatitude());
                                 userStore.saveCompanyLongitude(roaster.getLongitude());
                                 userStore.saveCompanyRadius(roaster.getRadius());

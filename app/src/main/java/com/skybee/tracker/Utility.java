@@ -13,6 +13,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.skybee.tracker.activities.HomeActivity;
+import com.skybee.tracker.activities.MainActivity;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.AttendancePojo;
@@ -181,7 +182,7 @@ public class Utility {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\nDownload app from this url."
-                + "\nhttp://track.snoowa.com/app/"
+                + "\nhttps://play.google.com/store/apps/details?id=com.skybee.tracker&hl=en"
                 + "\nRegistration Code: " + registrationCode);
         context.startActivity(Intent.createChooser(sharingIntent, "Share registration code with employee."));
     }
