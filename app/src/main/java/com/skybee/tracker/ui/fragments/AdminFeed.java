@@ -1,7 +1,6 @@
 package com.skybee.tracker.ui.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -37,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentInteractionListener{
+public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentInteractionListener {
 
     private final String TAG = this.getClass().getSimpleName();
     private ErrorDialog errorDialog;
@@ -57,11 +55,11 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
         View view = inflater.inflate(R.layout.fragment_admin_feed, container, false);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.show();
-        floatingActionButton=(FloatingActionButton)view.findViewById(R.id.shareRegistrationCode);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.shareRegistrationCode);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utility.shareRegistrationCode(getContext(),getLocalUser().getRegistrationCode());
+                Utility.shareRegistrationCode(getContext(), getLocalUser().getRegistrationCode());
             }
         });
         employeeCards = (RecyclerView) view.findViewById(R.id.employee_list);
@@ -119,18 +117,18 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
                         }
                     }
                 } catch (Exception e) {
-                    progressDialog.dismiss();
+                    Utility.checkProgressDialog(progressDialog);
                     message = Constants.ERROR_OCCURRED;
                     Utility.showErrorDialog(getContext(), message);
                 }
                 employeeCardAdapter.notifyItemInserted(employeeCardList.size() - 1);
-                progressDialog.dismiss();
+                Utility.checkProgressDialog(progressDialog);
             }
 
             @Override
             public void onFailure(Throwable t) {
                 Log.d(TAG, "Error!");
-                progressDialog.dismiss();
+                Utility.checkProgressDialog(progressDialog);
                 if (t != null) {
                     if (t.getMessage() != null) {
                         message = t.getMessage();
@@ -157,15 +155,15 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
                         for (int i = 0; i < resultRosterList.length(); i++) {
                             JSONObject roasterJsonObject = resultRosterList.getJSONObject(i);
                             if (roasterJsonObject != null) {
-                                Gson gson=new Gson();
-                                final RosterPojo rosterPojo =gson.fromJson(roasterJsonObject.toString(),RosterPojo.class);
-                                if(rosterPojo !=null){
+                                Gson gson = new Gson();
+                                final RosterPojo rosterPojo = gson.fromJson(roasterJsonObject.toString(), RosterPojo.class);
+                                if (rosterPojo != null) {
                                     roasterCardList.add(rosterPojo);
                                 }
                             }
                         }
-                        if(roasterCardList.size()>=1)
-                            rosterAdapter.notifyItemInserted(roasterCardList.size()-1);
+                        if (roasterCardList.size() >= 1)
+                            rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
                     }
                 } catch (JSONException jsonException) {
                     Log.d(getTAG(), Constants.Exception.JSON_EXCEPTION);
@@ -178,7 +176,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
             @Override
             public void onFailure(Throwable t) {
                 Log.d(TAG, "Error!");
-                progressDialog.dismiss();
+                Utility.checkProgressDialog(progressDialog);
                 if (t != null) {
                     if (t.getMessage() != null) {
                         message = t.getMessage();

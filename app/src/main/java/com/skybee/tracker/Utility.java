@@ -139,7 +139,7 @@ public class Utility {
                 } else {
                     errorMessage = Constants.ERROR_OCCURRED;
                 }
-                progressDialog.dismiss();
+                Utility.checkProgressDialog(progressDialog);
                 showErrorDialog(context, errorMessage);
             }
         }, ExecutorUtils.getUIThread());
@@ -152,8 +152,12 @@ public class Utility {
     }
 
     public static void showErrorDialog(@NonNull Context context, @NonNull String messsage) {
-        errorDialog = new ErrorDialog(context, messsage);
-        errorDialog.show();
+        try {
+            errorDialog = new ErrorDialog(context, messsage);
+            errorDialog.show();
+        } catch (Exception e) {
+
+        }
     }
 
     public static void saveUserDetailsPreference(@NonNull Context context, @NonNull User user) {
@@ -239,8 +243,8 @@ public class Utility {
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
                             Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_LONG).show();
-                            context.startActivity(new Intent(context,HomeActivity.class));
-                            ((Activity)context).finish();
+                            context.startActivity(new Intent(context, HomeActivity.class));
+                            ((Activity) context).finish();
                         }
                     }
                 } catch (JSONException jsonException) {

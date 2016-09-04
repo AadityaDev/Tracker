@@ -226,7 +226,7 @@ public class MainActivity extends BaseActivity
             @Override
             public void onFailure(Throwable t) {
                 Log.d(TAG, "Error!");
-                progressDialog.dismiss();
+                Utility.checkProgressDialog(progressDialog);
                 if (t != null) {
                     if (t.getMessage() != null) {
                         message = t.getMessage();

@@ -55,14 +55,14 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
                     userStore.getUserDetails().getUserLatitude(), userStore.getUserDetails().getUserLongitude(), results);
             float distanceInMeters = results[0];
             boolean isWithinRange = distanceInMeters < userStore.getUserDetails().getCompanyRadius();
-            if (!isWithinRange) {
-                AttendancePojo attendancePojo = new AttendancePojo();
-                attendancePojo.setLongitude(userStore.getUserDetails().getUserLongitude());
-                attendancePojo.setLattitude(userStore.getUserDetails().getUserLatitude());
-                attendancePojo.setCustomer_site_id(userStore.getCompanyId());
-                attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.ABSENT);
-                Utility.saveNotPresent(context, attendancePojo);
-            }
+
+            AttendancePojo attendancePojo = new AttendancePojo();
+            attendancePojo.setLongitude(userStore.getUserDetails().getUserLongitude());
+            attendancePojo.setLattitude(userStore.getUserDetails().getUserLatitude());
+            attendancePojo.setCustomer_site_id(userStore.getCompanyId());
+            attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.ABSENT);
+            Utility.saveNotPresent(context, attendancePojo);
+
         }
     }
 
