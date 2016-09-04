@@ -9,12 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.appsee.Appsee;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -44,8 +44,6 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
         }
         context = this;
         application = (AndroidApplication) getApplicationContext();
-        Fabric.with(context, new Crashlytics());
-        Appsee.start(getString(R.string.com_appsee_apikey));
         super.onCreate(savedInstanceState);
 //        createLocationRequest();
         googleApiClient = new GoogleApiClient.Builder(context)

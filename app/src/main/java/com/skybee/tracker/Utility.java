@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
@@ -145,7 +146,7 @@ public class Utility {
         }, ExecutorUtils.getUIThread());
     }
 
-    public static JSONObject getUserResultObject(String body) throws JSONException {
+    public static JSONObject getUserResultObject(@NonNull String body) throws JSONException {
         JSONObject jsonObject = new JSONObject(body);
         JSONObject result = jsonObject.getJSONObject(Constants.JsonConstants.DATA);
         return result;
@@ -191,14 +192,19 @@ public class Utility {
         context.startActivity(Intent.createChooser(sharingIntent, "Share registration code with employee."));
     }
 
-    public static void checkProgressDialog(ProgressDialog progressDialog) {
-        if (progressDialog != null) {
-            if (progressDialog.isShowing())
-                progressDialog.dismiss();
+    public static void checkProgressDialog(@NonNull ProgressDialog progressDialog) {
+        try {
+            if (progressDialog != null) {
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+            }
+        } catch (Exception e) {
+
         }
     }
 
-    public static void rosterAction(final Context context, String url, String userAction, final ProgressDialog progressDialog, long[] ids) {
+    public static void rosterAction(@NonNull final Context context, @NonNull String url,@NonNull String userAction,
+                                    @NonNull final ProgressDialog progressDialog,@NonNull long[] ids) {
         UserStore userStore = new UserStore(context);
         User user = new User();
         user = userStore.getUserDetails();
@@ -292,7 +298,7 @@ public class Utility {
         }, ExecutorUtils.getUIThread());
     }
 
-    public static void populateGeofenceList(List<Geofence> geofenceList, @NonNull User user) {
+    public static void populateGeofenceList(@NonNull List<Geofence> geofenceList, @NonNull User user) {
         if (geofenceList == null)
             geofenceList = new ArrayList<>();
         geofenceList.add(new Geofence.Builder()

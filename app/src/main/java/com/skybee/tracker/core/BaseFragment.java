@@ -4,10 +4,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
-import com.appsee.Appsee;
 import com.crashlytics.android.Crashlytics;
 import com.skybee.tracker.AndroidApplication;
 import com.skybee.tracker.R;
@@ -29,8 +29,6 @@ public class BaseFragment<T> extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         context = getActivity();
         UserStore userStore = new UserStore(context);
-        Fabric.with(context, new Crashlytics());
-        Appsee.start(getString(R.string.com_appsee_apikey));
         user = new User();
         user = userStore.getUserDetails();
         super.onCreate(savedInstanceState);
