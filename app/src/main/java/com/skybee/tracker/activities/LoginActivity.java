@@ -52,9 +52,11 @@ public class LoginActivity extends BaseActivity {
         UserStore userStore = new UserStore(getApplicationContext());
         user = userStore.getUserDetails();
         Log.d("Token", userStore.getUserDetails().getAuthToken());
-        if (!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())) {
-            Utility.startActivity(getApplicationContext(), user.isAdmin());
-            finish();
+        if (userStore != null && userStore.getUserDetails() != null) {
+            if (!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())) {
+                Utility.startActivity(getApplicationContext(), user.isAdmin());
+                finish();
+            }
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);

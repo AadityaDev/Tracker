@@ -63,6 +63,7 @@
 
         <activity
             android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,6 +74,7 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activities.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -89,10 +91,12 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.HomeActivity"
             android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <receiver android:name=".receiver.PeriodicTaskReceiver">

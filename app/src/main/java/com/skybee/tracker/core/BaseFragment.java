@@ -31,6 +31,8 @@ public class BaseFragment<T> extends Fragment {
         UserStore userStore = new UserStore(context);
         user = new User();
         user = userStore.getUserDetails();
+        MultiDex.install(application);
+        Fabric.with(application, new Crashlytics());
         super.onCreate(savedInstanceState);
     }
 

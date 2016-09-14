@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -27,7 +28,7 @@ import com.skybee.tracker.R;
 
 import io.fabric.sdk.android.Fabric;
 
-public class BaseActivity<T> extends FragmentActivity implements View.OnClickListener,
+public class BaseActivity<T> extends AppCompatActivity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener, BaseFragment.OnFragmentInteractionListener {
 
@@ -45,6 +46,8 @@ public class BaseActivity<T> extends FragmentActivity implements View.OnClickLis
         context = this;
         application = (AndroidApplication) getApplicationContext();
         super.onCreate(savedInstanceState);
+        MultiDex.install(application);
+        Fabric.with(application, new Crashlytics());
 //        createLocationRequest();
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API)
