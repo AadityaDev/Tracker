@@ -2,6 +2,7 @@ package com.skybee.tracker.constants;
 
 public class Constants {
 
+    public static final int NOTIFICATION_ID = 9999;
     public static final int PAGE_NUMBER = 0;
     public static final int PAGE_SIZE = 10;
     public static final int NUMBER_OF_CARDS = 3;
@@ -13,6 +14,10 @@ public class Constants {
     public static final long DEFAULT_RADIUS = 500;
     public static final String ERROR = "Error";
     public static final String ERROR_OCCURRED = "Error Occured!";
+    public static final String AND = "&";
+    public static final String QUESTION_MARK = "?";
+    public static final String PAGE_NUMER_TEXT = "pageNumber=";
+    public static final String PAGE_SIZE_TEXT = "pageSize=";
 
     public class AuthType {
         public static final String ADMIN_SIGN_UP = "AdminSignUp";

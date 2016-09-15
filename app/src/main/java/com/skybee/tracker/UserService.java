@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
+import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.RosterAction;
 import com.skybee.tracker.model.User;
@@ -147,6 +148,21 @@ public class UserService {
                 Gson gson = new Gson();
                 String params = gson.toJson(attendancePojo);
                 Request request = RequestGenerator.postWithToken(url, params, user.getAuthToken());
+                String body = RequestHandler.makeRequestAndValidate(request);
+                JSONObject result = new JSONObject(body);
+                return result;
+            }
+        });
+    }
+
+    public ListenableFuture<JSONObject> getAttendance(@NonNull final String url, @NonNull final User user,
+                                                      @NonNull final int pageNumber, @NonNull final int pageSize) {
+        return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                Gson gson = new Gson();
+                Request request = RequestGenerator.get(url+Constants.QUESTION_MARK+ Constants.PAGE_NUMER_TEXT+pageNumber
+                        +Constants.AND+Constants.PAGE_SIZE_TEXT+pageSize,user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
                 JSONObject result = new JSONObject(body);
                 return result;

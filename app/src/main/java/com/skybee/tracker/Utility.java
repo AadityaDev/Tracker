@@ -1,11 +1,14 @@
 package com.skybee.tracker;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
@@ -14,6 +17,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.skybee.tracker.activities.HomeActivity;
+import com.skybee.tracker.activities.LoginActivity;
 import com.skybee.tracker.activities.MainActivity;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
@@ -203,8 +207,8 @@ public class Utility {
         }
     }
 
-    public static void rosterAction(@NonNull final Context context, @NonNull String url,@NonNull String userAction,
-                                    @NonNull final ProgressDialog progressDialog,@NonNull long[] ids) {
+    public static void rosterAction(@NonNull final Context context, @NonNull String url, @NonNull String userAction,
+                                    @NonNull final ProgressDialog progressDialog, @NonNull long[] ids) {
         UserStore userStore = new UserStore(context);
         User user = new User();
         user = userStore.getUserDetails();
@@ -325,4 +329,42 @@ public class Utility {
                 .build());
     }
 
+    public static void showNotificationMessage(@NonNull Context context, @NonNull String message, @NonNull String title) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                        .setContentTitle(title)
+                        .setContentText(message);
+
+        Intent resultIntent = null;
+        UserStore userStore = new UserStore(context);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        if (userStore != null) {
+            if (userStore.getUserDetails() != null) {
+                if (userStore.getUserDetails().getAuthToken() != null) {
+                    resultIntent = new Intent(context, HomeActivity.class);
+                    stackBuilder.addParentStack(LoginActivity.class);
+                } else {
+                    resultIntent = new Intent(context, LoginActivity.class);
+                    stackBuilder.addParentStack(LoginActivity.class);
+                }
+            } else {
+                resultIntent = new Intent(context, LoginActivity.class);
+                stackBuilder.addParentStack(LoginActivity.class);
+            }
+        } else {
+            resultIntent = new Intent(context, LoginActivity.class);
+            stackBuilder.addParentStack(LoginActivity.class);
+        }
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(Constants.NOTIFICATION_ID, mBuilder.build());
+    }
 }

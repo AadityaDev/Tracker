@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.skybee.tracker.EmployeeRegisterActivity;
 import com.skybee.tracker.R;
 import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.API;
@@ -90,7 +91,7 @@ public class LoginActivity extends BaseActivity {
         registerText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                Intent intent = new Intent(view.getContext(), EmployeeRegisterActivity.class);
                 startActivity(intent);
             }
         });

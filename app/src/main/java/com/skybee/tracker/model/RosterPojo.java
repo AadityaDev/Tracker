@@ -6,6 +6,7 @@ public class RosterPojo {
     private long customer_site_id;
     private long site_id;
     private long employee_id;
+    private int login_status;
     private String date;
     private String date_to;
     private String day;
@@ -30,7 +31,7 @@ public class RosterPojo {
     private String TaskName;
     private String total_hours;
     private transient boolean isSelected;
-
+    private transient boolean isAttendanceCard;
 
     public long getRoster_id() {
         return this.roster_id;
@@ -70,6 +71,14 @@ public class RosterPojo {
 
     public void setEmployee_id(long employee_id) {
         this.employee_id = employee_id;
+    }
+
+    public int getLogin_status() {
+        return login_status;
+    }
+
+    public void setLogin_status(int login_status) {
+        this.login_status = login_status;
     }
 
     public String getDate() {
@@ -262,5 +271,13 @@ public class RosterPojo {
 
     public void setSelected(boolean selected) {
         this.isSelected = selected;
+    }
+
+    public boolean isAttendanceCard() {
+        return isAttendanceCard;
+    }
+
+    public void setAttendanceCard(boolean attendanceCard) {
+        isAttendanceCard = attendanceCard;
     }
 }

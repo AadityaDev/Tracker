@@ -13,6 +13,7 @@ public class API {
     public static final String ACCEPTED_ROSTER_ACTION = SERVER_BASE+"indextrackmzapp.php/acceptresectroster";
     public static final String CUSTOMER_SITES = SERVER_BASE+"indextrackmzapp.php/customersites";
     public static final String SAVE_ATTENDANCE = SERVER_BASE+"indextrackmzapp.php/addattendance";
+    public static final String ATTENDANCE_LIST = SERVER_BASE+"indextrackmzapp.php/myattendance";
 
     public class Headers {
         public static final String ACCEPT_KEY = "Accept";

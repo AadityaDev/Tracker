@@ -2,6 +2,7 @@ package com.skybee.tracker.ui.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
+import com.skybee.tracker.ui.EndlessRecyclerViewScrollListener;
 import com.skybee.tracker.ui.adapters.RosterAdapter;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
 
@@ -62,12 +64,21 @@ public class Roster extends BaseFragment {
         roasterCardList = new ArrayList<>();
         rosterAdapter = new RosterAdapter(roasterCardList, true);
         roasterCards.setAdapter(rosterAdapter);
-        getRoasterList();
+        roasterCards.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                progressDialog.show();
+                getRoasterList(page,Constants.PAGE_SIZE);
+            }
+        });
+        getRoasterList(Constants.PAGE_NUMBER,Constants.PAGE_SIZE);
         return view;
     }
 
-    public void getRoasterList() {
-        ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ROSTER_LIST, user);
+    public void getRoasterList(@NonNull int pageNumber,@NonNull int pageSize) {
+        ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ROSTER_LIST
+                +Constants.QUESTION_MARK+Constants.PAGE_NUMER_TEXT+pageNumber
+                +Constants.AND+Constants.PAGE_SIZE_TEXT+pageSize, user);
         Futures.addCallback(getRoaster, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {

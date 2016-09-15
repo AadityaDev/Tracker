@@ -31,6 +31,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
     private GPSTracker gpsTracker;
     public List<RosterPojo> rosterList;
     private boolean isActionCard;
+    private boolean isAttendanceCard;
     private int isSiteCard;
     private UserStore userStore;
 
@@ -41,6 +42,11 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
     public RosterAdapter(List<RosterPojo> rosterList, boolean isActionCard) {
         this.rosterList = rosterList;
         this.isActionCard = isActionCard;
+    }
+
+    public RosterAdapter(List<RosterPojo> rosterList, boolean isActionCard, boolean isAttendanceCard) {
+        this.rosterList = rosterList;
+        this.isAttendanceCard = isAttendanceCard;
     }
 
     public RosterAdapter(Context context, List<RosterPojo> rosterList, int isSiteCard) {
@@ -58,6 +64,8 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             itemView = layoutInflater.inflate(R.layout.roster_cutomer_detail_card, parent, false);
         } else if (isActionCard == true) {
             itemView = layoutInflater.inflate(R.layout.roster_no_action_card, parent, false);
+        } else if (isAttendanceCard == true) {
+            itemView = layoutInflater.inflate(R.layout.attendance_list_item, parent, false);
         } else {
             itemView = layoutInflater.inflate(R.layout.roster_accept_card, parent, false);
         }
@@ -70,6 +78,17 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         if (roaster != null) {
             if (roaster.getCUSTOMERNAME() != null) {
                 holder.customerCompanyName.setText(roaster.getCUSTOMERNAME());
+            } else if (!TextUtils.isEmpty(roaster.getCompany_name())) {
+                holder.customerCompanyName.setText(roaster.getCompany_name());
+            }
+            if (holder.status != null) {
+                if(roaster.getLogin_status()==0){
+                    holder.status.setText("ABSENT");
+                }else if(roaster.getLogin_status()==1){
+                    holder.status.setText("PRESENT");
+                }else if(roaster.getLogin_status()==2){
+                    holder.status.setText("LOGOUT");
+                }
             }
             if (!TextUtils.isEmpty(roaster.getCustomerName()) && holder.customerName != null) {
                 holder.customerName.setText(roaster.getCustomerName());
@@ -91,6 +110,8 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             }
             if (!TextUtils.isEmpty(roaster.getAddress())) {
                 holder.locationText.setText(roaster.getAddress());
+            } else if (holder.locationText != null) {
+                holder.locationText.setText("Lat: " + roaster.getLatitude() + " Long: " + roaster.getLongitude());
             }
             if (holder.customerCall != null && !TextUtils.isEmpty(roaster.getMobile())) {
                 holder.customerCall.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +186,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private TextView workDay;
         private TextView locationText;
         private TextView customerName;
+        private TextView status;
         private ImageView customerCall;
         private CardView markAttendance;
         private CardView acceptRoster;
@@ -180,6 +202,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             workDay = (TextView) itemView.findViewById(R.id.work_day);
             locationText = (TextView) itemView.findViewById(R.id.location_text);
             customerName = (TextView) itemView.findViewById(R.id.customer_name);
+            status = (TextView) itemView.findViewById(R.id.status);
             customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
             acceptRoster = (CardView) itemView.findViewById(R.id.accept_roster);
             rejectRoster = (CardView) itemView.findViewById(R.id.reject_roster);

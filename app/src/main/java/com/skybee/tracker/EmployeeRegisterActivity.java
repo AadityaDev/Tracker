@@ -1,31 +1,52 @@
-package com.skybee.tracker.activities;
+package com.skybee.tracker;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.app.Activity;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentResolver;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.skybee.tracker.R;
-import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseActivity;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
 
-public class RegisterActivity extends BaseActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.Manifest.permission.READ_CONTACTS;
+
+public class EmployeeRegisterActivity extends BaseActivity{
 
     private final String TAG = this.getClass().getSimpleName();
     // UI references.
@@ -35,18 +56,18 @@ public class RegisterActivity extends BaseActivity {
     private EditText passwordView;
     private EditText registrationKeyView;
     private ProgressDialog progressDialog;
+    private View mProgressView;
+    private View mLoginFormView;
     private View progressView;
     private View loginFormView;
-//    private RadioGroup radioGroup;
-//    private RadioButton userType;
     private TextView selectAll;
     private ImageView backButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
+        setContentView(R.layout.activity_employee_register);
+        // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         passwordView = (EditText) findViewById(R.id.password);
         nameView = (EditText) findViewById(R.id.user_name);
@@ -69,14 +90,15 @@ public class RegisterActivity extends BaseActivity {
         loginFormView = findViewById(R.id.login_form);
         progressView = findViewById(R.id.login_progress);
         backButton = (ImageView) findViewById(R.id.back_button);
-        backButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//        backButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
+//        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
 
     private void attemptLogin() {
         // Reset errors.
@@ -147,8 +169,8 @@ public class RegisterActivity extends BaseActivity {
 //                user.setAdmin(true);
 //                Utility.authenticate(getContext(), progressDialog, API.ADMIN_SIGN_UP, user);
 //            } else {
-                user.setAdmin(false);
-                Utility.authenticate(getContext(), progressDialog, API.EMPLOYEE_SIGN_UP, user);
+            user.setAdmin(false);
+            Utility.authenticate(getContext(), progressDialog, API.EMPLOYEE_SIGN_UP, user);
 //            }
         }
     }

@@ -76,4 +76,5 @@
     <string name="geofences_added">Geofences added</string>
     <string name="geofences_removed">Geofences removed</string>
     <string name="com_appsee_apikey" translatable="false">2600a1390f744014ba8ee643949d7432</string>
+    <string name="title_activity_employee_register">Sign in</string>
 </resources>

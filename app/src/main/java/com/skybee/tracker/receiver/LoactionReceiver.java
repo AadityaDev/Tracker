@@ -17,11 +17,8 @@ public class LoactionReceiver extends BroadcastReceiver {
         if (intent.getAction().matches("android.location.PROVIDERS_CHANGED")) {
             Toast.makeText(context, "in android.location.PROVIDERS_CHANGED",
                     Toast.LENGTH_SHORT).show();
-
             Intent pushIntent = new Intent(context, GeofenceTransitionsIntentService.class);
             context.startService(pushIntent);
-
-
         }
 
     }

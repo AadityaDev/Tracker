@@ -36,6 +36,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
+import com.skybee.tracker.Attendance;
 import com.skybee.tracker.Factory;
 import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
@@ -255,7 +256,7 @@ public class HomeActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+//            int w=(int)8
         if (id == R.id.nav_home) {
             // Handle the camera action
             getContext().startActivities(new Intent[]{new Intent(getContext(), HomeActivity.class)});
@@ -271,6 +272,9 @@ public class HomeActivity extends BaseActivity
             openFragment(fragment);
         } else if (id == R.id.nav_settings) {
             fragment = new Setting();
+            openFragment(fragment);
+        }else if(id==R.id.nav_attendance){
+            fragment=new Attendance();
             openFragment(fragment);
         }
 

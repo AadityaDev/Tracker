@@ -1,4 +1,5 @@
-package com.skybee.tracker.ui.fragments;
+package com.skybee.tracker;
+
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -14,9 +15,6 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
-import com.skybee.tracker.Factory;
-import com.skybee.tracker.R;
-import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseFragment;
@@ -35,8 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RejectedRoaster extends BaseFragment {
-
+public class Attendance extends BaseFragment {
     private ProgressDialog progressDialog;
     private ErrorDialog errorDialog;
     private String errorMessage;
@@ -46,39 +43,43 @@ public class RejectedRoaster extends BaseFragment {
     private RosterAdapter rosterAdapter;
     private User user;
 
+    public Attendance() {
+        // Required empty public constructor
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         UserStore userStore = new UserStore(getContext());
         user = new User();
         user = userStore.getUserDetails();
-        View view = inflater.inflate(R.layout.fragment_rejected_roaster, container, false);
+        View view = inflater.inflate(R.layout.fragment_attendance, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
         progressDialog.show();
-        roasterCards = (RecyclerView) view.findViewById(R.id.rejected_roaster_list);
+        roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         roasterCards.setLayoutManager(linearLayoutManager);
         roasterCardList = new ArrayList<>();
-        rosterAdapter = new RosterAdapter(roasterCardList);
+        rosterAdapter = new RosterAdapter(roasterCardList,false,true);
         roasterCards.setAdapter(rosterAdapter);
+        getAcceptedRoasterList(Constants.PAGE_NUMBER, Constants.PAGE_SIZE);
         roasterCards.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 progressDialog.show();
-                getRejectedRoasterList(page,Constants.PAGE_SIZE);
+                getAcceptedRoasterList(page, Constants.PAGE_SIZE);
             }
         });
-        getRejectedRoasterList(Constants.PAGE_NUMBER,Constants.PAGE_SIZE);
         return view;
     }
 
-    public void getRejectedRoasterList(@NonNull int pageNumber, @NonNull int pageSize) {
-        ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.REJECTED_ROSTER_LIST
-                +Constants.QUESTION_MARK+Constants.PAGE_NUMER_TEXT+pageNumber
-                +Constants.AND+Constants.PAGE_SIZE_TEXT+pageSize, user);
+    public void getAcceptedRoasterList(@NonNull int pageNumber, @NonNull int pageSize) {
+        ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ATTENDANCE_LIST
+                + Constants.QUESTION_MARK + Constants.PAGE_NUMER_TEXT + pageNumber
+                + Constants.AND + Constants.PAGE_SIZE_TEXT + pageSize, user);
         Futures.addCallback(getRoaster, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
