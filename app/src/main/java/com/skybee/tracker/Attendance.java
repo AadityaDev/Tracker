@@ -4,8 +4,10 @@ package com.skybee.tracker;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,7 @@ public class Attendance extends BaseFragment {
     private List<RosterPojo> roasterCardList;
     private RosterAdapter rosterAdapter;
     private User user;
+    private ActionBar actionBar;
 
     public Attendance() {
         // Required empty public constructor
@@ -51,10 +54,12 @@ public class Attendance extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         UserStore userStore = new UserStore(getContext());
         user = new User();
         user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_attendance, container, false);
+        View toolbarView = (View) inflater.inflate(R.layout.app_bar_home, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
         progressDialog.show();
         roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
@@ -63,7 +68,7 @@ public class Attendance extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         roasterCards.setLayoutManager(linearLayoutManager);
         roasterCardList = new ArrayList<>();
-        rosterAdapter = new RosterAdapter(roasterCardList,false,true);
+        rosterAdapter = new RosterAdapter(roasterCardList, false, true);
         roasterCards.setAdapter(rosterAdapter);
         getAcceptedRoasterList(Constants.PAGE_NUMBER, Constants.PAGE_SIZE);
         roasterCards.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {

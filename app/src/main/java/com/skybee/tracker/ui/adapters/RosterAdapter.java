@@ -2,8 +2,6 @@ package com.skybee.tracker.ui.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.skybee.tracker.GPSTracker;
@@ -82,17 +79,17 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 holder.customerCompanyName.setText(roaster.getCompany_name());
             }
             if (holder.status != null) {
-                if(roaster.getLogin_status()==0){
+                if (roaster.getLogin_status() == 0) {
                     holder.status.setText("ABSENT");
-                }else if(roaster.getLogin_status()==1){
+                } else if (roaster.getLogin_status() == 1) {
                     holder.status.setText("PRESENT");
-                }else if(roaster.getLogin_status()==2){
+                } else if (roaster.getLogin_status() == 2) {
                     holder.status.setText("LOGOUT");
                 }
             }
-            if (!TextUtils.isEmpty(roaster.getCustomerName()) && holder.customerName != null) {
-                holder.customerName.setText(roaster.getCustomerName());
-            }
+//            if (!TextUtils.isEmpty(roaster.getCustomerName()) && holder.customerName != null) {
+//                holder.customerName.setText(roaster.getCustomerName());
+//            }
             if (!TextUtils.isEmpty(roaster.getTaskName())) {
                 holder.taskName.setText(roaster.getTaskName());
             }
@@ -113,22 +110,22 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             } else if (holder.locationText != null) {
                 holder.locationText.setText("Lat: " + roaster.getLatitude() + " Long: " + roaster.getLongitude());
             }
-            if (holder.customerCall != null && !TextUtils.isEmpty(roaster.getMobile())) {
-                holder.customerCall.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Uri number = Uri.parse("tel:" + roaster.getMobile());
-                        Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
-                        view.getContext().startActivity(callIntent);
-                    }
-                });
-            }
+//            if (holder.customerCall != null && !TextUtils.isEmpty(roaster.getMobile())) {
+//                holder.customerCall.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Uri number = Uri.parse("tel:" + roaster.getMobile());
+//                        Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+//                        view.getContext().startActivity(callIntent);
+//                    }
+//                });
+//            }
             if (holder.acceptRoster != null) {
                 holder.acceptRoster.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Utility.rosterAction(holder.context, API.ACCEPTED_ROSTER_ACTION, API.Roster.CONFIRMED,
-                                new ProgressDialog(holder.context), new long[]{rosterList.get(position).getRoster_id()});
+                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id());
                     }
                 });
             }
@@ -137,7 +134,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     @Override
                     public void onClick(View view) {
                         Utility.rosterAction(holder.context, API.ACCEPTED_ROSTER_ACTION, API.Roster.REJECTED,
-                                new ProgressDialog(holder.context), new long[]{rosterList.get(position).getRoster_id()});
+                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id());
                     }
                 });
             }
@@ -185,9 +182,9 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private TextView workTime;
         private TextView workDay;
         private TextView locationText;
-        private TextView customerName;
+        //        private TextView customerName;
         private TextView status;
-        private ImageView customerCall;
+        //        private ImageView customerCall;
         private CardView markAttendance;
         private CardView acceptRoster;
         private CardView rejectRoster;
@@ -201,9 +198,9 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             workTime = (TextView) itemView.findViewById(R.id.work_time);
             workDay = (TextView) itemView.findViewById(R.id.work_day);
             locationText = (TextView) itemView.findViewById(R.id.location_text);
-            customerName = (TextView) itemView.findViewById(R.id.customer_name);
+//            customerName = (TextView) itemView.findViewById(R.id.customer_name);
             status = (TextView) itemView.findViewById(R.id.status);
-            customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
+//            customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
             acceptRoster = (CardView) itemView.findViewById(R.id.accept_roster);
             rejectRoster = (CardView) itemView.findViewById(R.id.reject_roster);
             markAttendance = (CardView) itemView.findViewById(R.id.mark_attendance);

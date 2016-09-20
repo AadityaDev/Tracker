@@ -1,5 +1,6 @@
 package com.skybee.tracker.core;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class BaseFragment<T> extends Fragment {
     private OnFragmentInteractionListener onFragmentInteractionListener;
     private User user;
     private TextView selectAll;
+    private ActionBar actionBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class BaseFragment<T> extends Fragment {
         UserStore userStore = new UserStore(context);
         user = new User();
         user = userStore.getUserDetails();
+        actionBar=getActivity().getActionBar();
         MultiDex.install(application);
         Fabric.with(application, new Crashlytics());
         super.onCreate(savedInstanceState);
@@ -75,4 +78,7 @@ public class BaseFragment<T> extends Fragment {
         return user;
     }
 
+    public ActionBar getActionBar(){
+        return actionBar;
+    }
 }

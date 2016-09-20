@@ -110,7 +110,7 @@ public class UserService {
         });
     }
 
-    public ListenableFuture<JSONObject> acceptOrRejectRoster(@NonNull final String url, @NonNull final User user, @NonNull final String userAction, @NonNull final long[] ids) {
+    public ListenableFuture<JSONObject> acceptOrRejectRoster(@NonNull final String url, @NonNull final User user, @NonNull final String userAction, @NonNull final long ids) {
         return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
             @Override
             public JSONObject call() throws Exception {

@@ -2,12 +2,13 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="96dp"
     android:layout_marginTop="@dimen/dimen_8dp"
     android:orientation="vertical"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/dimen_4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen_8dp"
@@ -17,6 +18,7 @@
         android:layout_marginStart="@dimen/dimen_16dp">
 
         <TextView
+            android:layout_marginTop="@dimen/dimen_4dp"
             android:id="@+id/customer_company_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,25 +34,6 @@
             android:textSize="@dimen/dimen_16sp"
             android:layout_below="@+id/customer_company_name" />
 
-        <ImageView
-            android:id="@+id/location_icon"
-            android:layout_width="@dimen/dimen_18dp"
-            android:layout_height="@dimen/dimen_18dp"
-            android:layout_marginTop="@dimen/dimen_4dp"
-            android:src="@drawable/ic_place_24dp"
-            android:layout_below="@+id/work_date" />
-
-        <TextView
-            android:id="@+id/location_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_4dp"
-            android:layout_toEndOf="@+id/location_icon"
-            android:layout_toRightOf="@+id/location_icon"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dimen_16sp"
-            android:layout_below="@+id/work_date" />
-        
         <TextView
             android:id="@+id/status"
             android:layout_width="match_parent"
@@ -58,7 +41,6 @@
             android:layout_marginTop="@dimen/dimen_8dp"
             android:textColor="@color/black"
             android:textSize="@dimen/dimen_16sp"
-            android:layout_below="@+id/location_icon"
-            />
+            android:layout_below="@+id/work_date" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

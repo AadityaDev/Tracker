@@ -1,14 +1,14 @@
 package com.skybee.tracker.model;
 
 public class RosterAction {
-    private long[] roster_id;
+    private long roster_id;
     private String status;
 
-    public long[] getRoster_id() {
+    public long getRoster_id() {
         return this.roster_id;
     }
 
-    public void setRoster_id(long[] roster_id) {
+    public void setRoster_id(long roster_id) {
         this.roster_id = roster_id;
     }
 

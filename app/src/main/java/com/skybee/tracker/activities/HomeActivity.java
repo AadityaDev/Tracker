@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,11 +117,14 @@ public class HomeActivity extends BaseActivity
      * Used to persist application state about whether geofences were added.
      */
     private SharedPreferences mSharedPreferences;
+    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_home);
+
         userStore = new UserStore(getApplicationContext());
         user = userStore.getUserDetails();
 
@@ -132,13 +136,13 @@ public class HomeActivity extends BaseActivity
         // Def
         LAT_LNG_HASH_MAP.put("LOCATION", new LatLng(user.getCompanyLatitude(), user.getCompanyLongitude()));
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitle("Mark Attendance");
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -259,21 +263,28 @@ public class HomeActivity extends BaseActivity
 //            int w=(int)8
         if (id == R.id.nav_home) {
             // Handle the camera action
+            toolbar.setTitle("Mark Attendance");
             getContext().startActivities(new Intent[]{new Intent(getContext(), HomeActivity.class)});
             ((Activity) getContext()).finish();
         } else if (id == R.id.nav_map) {
+            toolbar.setTitle("Map");
             fragment = new Map();
             openFragment(fragment);
         } else if (id == R.id.nav_date) {
+            toolbar.setTitle("Rosters");
             fragment = new Roasters();
             openFragment(fragment);
         } else if (id == R.id.nav_profile) {
+            toolbar.setTitle("Profile");
             fragment = new Profile();
             openFragment(fragment);
-        } else if (id == R.id.nav_settings) {
-            fragment = new Setting();
-            openFragment(fragment);
-        }else if(id==R.id.nav_attendance){
+        }
+//        else if (id == R.id.nav_settings) {
+//            fragment = new Setting();
+//            openFragment(fragment);
+//        }
+        else if(id==R.id.nav_attendance){
+            toolbar.setTitle("Attendance");
             fragment=new Attendance();
             openFragment(fragment);
         }

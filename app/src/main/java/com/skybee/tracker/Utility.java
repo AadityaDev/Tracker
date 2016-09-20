@@ -208,11 +208,11 @@ public class Utility {
     }
 
     public static void rosterAction(@NonNull final Context context, @NonNull String url, @NonNull String userAction,
-                                    @NonNull final ProgressDialog progressDialog, @NonNull long[] ids) {
+                                    @NonNull final ProgressDialog progressDialog, @NonNull long id) {
         UserStore userStore = new UserStore(context);
         User user = new User();
         user = userStore.getUserDetails();
-        ListenableFuture<JSONObject> getRosterActionResult = Factory.getUserService().acceptOrRejectRoster(url, user, userAction, ids);
+        ListenableFuture<JSONObject> getRosterActionResult = Factory.getUserService().acceptOrRejectRoster(url, user, userAction, id);
         Futures.addCallback(getRosterActionResult, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {

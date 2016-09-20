@@ -60,6 +60,7 @@ public class Home extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().getActionBar().setTitle("MARK ATTENDANCE");
         UserStore userStore = new UserStore(getContext());
         user = new User();
         user = userStore.getUserDetails();

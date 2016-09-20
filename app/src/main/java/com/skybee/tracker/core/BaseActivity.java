@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,7 @@ public class BaseActivity<T> extends AppCompatActivity implements View.OnClickLi
     protected AndroidApplication application;
     private FusedLocationProviderApi fusedLocationProviderApi = LocationServices.FusedLocationApi;
     private GoogleApiClient googleApiClient;
+    private android.app.ActionBar actionBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class BaseActivity<T> extends AppCompatActivity implements View.OnClickLi
         context = this;
         application = (AndroidApplication) getApplicationContext();
         super.onCreate(savedInstanceState);
+        actionBar=getActionBar();
         MultiDex.install(application);
         Fabric.with(application, new Crashlytics());
 //        createLocationRequest();
@@ -149,5 +152,9 @@ public class BaseActivity<T> extends AppCompatActivity implements View.OnClickLi
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    public android.app.ActionBar getActionBar(){
+        return actionBar;
     }
 }
