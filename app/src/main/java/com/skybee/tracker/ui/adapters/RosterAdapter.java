@@ -2,10 +2,14 @@ package com.skybee.tracker.ui.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.style.TtsSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +25,7 @@ import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
+import com.skybee.tracker.ui.fragments.Map;
 
 import java.util.List;
 
@@ -97,7 +102,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             if (!TextUtils.isEmpty(roaster.getDate()) && !TextUtils.isEmpty(roaster.getDate_to())) {
                 holder.workDate.setText("Date: " + roaster.getDate() + " - " + roaster.getDate_to());
             }
-            if((roaster.getDate()==null)&&!(TextUtils.isEmpty(roaster.getCreated()))&&(holder.workDate!=null)){
+            if ((roaster.getDate() == null) && !(TextUtils.isEmpty(roaster.getCreated())) && (holder.workDate != null)) {
                 holder.workDate.setText(roaster.getCreated());
             }
             if (!TextUtils.isEmpty(roaster.getTime_from()) && !TextUtils.isEmpty(roaster.getTime_to())) {
@@ -114,7 +119,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             } else if (holder.locationText != null) {
                 holder.locationText.setText("Lat: " + roaster.getLatitude() + " Long: " + roaster.getLongitude());
             }
-            if(!TextUtils.isEmpty(roaster.getCOMPANY())&&holder.customerNameText!=null){
+            if (!TextUtils.isEmpty(roaster.getCOMPANY()) && holder.customerNameText != null) {
                 holder.customerNameText.setText(roaster.getCOMPANY());
             }
 //            if (holder.customerCall != null && !TextUtils.isEmpty(roaster.getMobile())) {
@@ -132,7 +137,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     @Override
                     public void onClick(View view) {
                         Utility.rosterAction(holder.context, API.ACCEPTED_ROSTER_ACTION, API.Roster.CONFIRMED,
-                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id(),true);
+                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id(), true);
                     }
                 });
             }
@@ -141,12 +146,46 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     @Override
                     public void onClick(View view) {
                         Utility.rosterAction(holder.context, API.ACCEPTED_ROSTER_ACTION, API.Roster.REJECTED,
-                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id(),false);
+                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id(), false);
                     }
                 });
             }
-            if(holder.cardView!=null){
-
+            if (holder.markOffDuty != null) {
+                holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AttendancePojo attendancePojo = new AttendancePojo();
+                        if (roaster.getCustomer_site_id() != 0)
+                            attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
+                            attendancePojo.setLattitude(roaster.getLatitude());
+                            attendancePojo.setLongitude(roaster.getLongitude());
+                            attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.OFF_DUTY);
+                            attendancePojo.setCompany_name(roaster.getCOMPANY());
+                            ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
+                            Utility.saveOffDuty(holder.context, attendancePojo, progressDialog);
+                    }
+                });
+            }
+            if (holder.cardView != null) {
+                holder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Fragment fragment = new Map();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("company", roaster.getCOMPANY());
+                        bundle.putDouble("Lat", roaster.getLatitude());
+                        bundle.putDouble("Long", roaster.getLongitude());
+                        fragment.setArguments(bundle);
+                        FragmentManager fragmentManager;
+                        FragmentTransaction fragmentTransaction;
+                        fragmentManager = ((FragmentActivity) holder.context).getSupportFragmentManager();
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frame_view, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                });
             }
             if (holder.markAttendance != null) {
                 holder.markAttendance.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +239,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private CardView acceptRoster;
         private CardView rejectRoster;
         private CardView cardView;
+        private CardView markOffDuty;
 
         public RoasterViewHolder(Context context, View itemView) {
             super(itemView);
@@ -211,13 +251,14 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             workDay = (TextView) itemView.findViewById(R.id.work_day);
             locationText = (TextView) itemView.findViewById(R.id.location_text);
 //            customerName = (TextView) itemView.findViewById(R.id.customer_name);
-            customerNameText=(TextView)itemView.findViewById(R.id.customer_name);
+            customerNameText = (TextView) itemView.findViewById(R.id.customer_name);
             status = (TextView) itemView.findViewById(R.id.status);
 //            customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
             acceptRoster = (CardView) itemView.findViewById(R.id.accept_roster);
             rejectRoster = (CardView) itemView.findViewById(R.id.reject_roster);
             markAttendance = (CardView) itemView.findViewById(R.id.mark_attendance);
-            cardView=(CardView)itemView.findViewById(R.id.card);
+            cardView = (CardView) itemView.findViewById(R.id.card);
+            markOffDuty = (CardView) itemView.findViewById(R.id.mark_attendance_off);
         }
     }
 }

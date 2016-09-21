@@ -16,6 +16,7 @@ import com.skybee.tracker.network.RequestHandler;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.concurrent.Callable;
 
 import okhttp3.Request;
@@ -161,9 +162,24 @@ public class UserService {
             @Override
             public JSONObject call() throws Exception {
                 Gson gson = new Gson();
-                Request request = RequestGenerator.get(url+Constants.QUESTION_MARK+ Constants.PAGE_NUMER_TEXT+pageNumber
-                        +Constants.AND+Constants.PAGE_SIZE_TEXT+pageSize,user.getAuthToken());
+                Request request = RequestGenerator.get(url + Constants.QUESTION_MARK + Constants.PAGE_NUMER_TEXT + pageNumber
+                        + Constants.AND + Constants.PAGE_SIZE_TEXT + pageSize, user.getAuthToken());
                 String body = RequestHandler.makeRequestAndValidate(request);
+                JSONObject result = new JSONObject(body);
+                return result;
+            }
+        });
+    }
+
+    public ListenableFuture<JSONObject> updateUserDetails(@NonNull final User user, @NonNull final String url, @NonNull final File file) {
+        return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                Gson gson = new Gson();
+                String userString = gson.toJson(user);
+                Request request = RequestGenerator.multipartPost(url, file,user.getAuthToken());
+                String body = RequestHandler.makeRequestAndValidate(request);
+                Log.d(TAG, body);
                 JSONObject result = new JSONObject(body);
                 return result;
             }

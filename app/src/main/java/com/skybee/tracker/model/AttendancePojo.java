@@ -6,6 +6,7 @@ public class AttendancePojo {
     double longitude;
     String address;
     int LoginStatus;
+    transient String company_name;
 
     public long getCustomer_site_id() {
         return this.customer_site_id;
@@ -45,5 +46,13 @@ public class AttendancePojo {
 
     public void setLoginStatus(int loginStatus) {
         this.LoginStatus = loginStatus;
+    }
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
     }
 }

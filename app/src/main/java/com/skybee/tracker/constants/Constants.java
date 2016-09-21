@@ -131,5 +131,6 @@ public class Constants {
         public static final int ABSENT = 0;
         public static final int PRESENT = 1;
         public static final int LOGOUT = 2;
+        public static final int OFF_DUTY = 3;
     }
 }

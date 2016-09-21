@@ -219,7 +219,7 @@ public class Utility {
     }
 
     public static void rosterAction(@NonNull final Context context, @NonNull String url, @NonNull String userAction,
-                                    @NonNull final ProgressDialog progressDialog, @NonNull long id,@NonNull final boolean isAccepted) {
+                                    @NonNull final ProgressDialog progressDialog, @NonNull long id, @NonNull final boolean isAccepted) {
         UserStore userStore = new UserStore(context);
         User user = new User();
         user = userStore.getUserDetails();
@@ -231,9 +231,9 @@ public class Utility {
                     Utility.checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
-                            if(isAccepted){
+                            if (isAccepted) {
                                 Toast.makeText(context, "Your roster attendance is marked", Toast.LENGTH_SHORT).show();
-                            }else {
+                            } else {
                                 Toast.makeText(context, "Your roster attendance is rejected", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -307,6 +307,7 @@ public class Utility {
                         }
                     }
                 } catch (JSONException jsonException) {
+
                 } catch (Exception exception) {
                 }
             }
@@ -316,6 +317,42 @@ public class Utility {
             }
         }, ExecutorUtils.getUIThread());
     }
+
+    public static void saveOffDuty(@NonNull final Context context, @NonNull AttendancePojo attendancePojo, @NonNull final ProgressDialog progressDialog) {
+        UserStore userStore = new UserStore(context);
+        User user = new User();
+        user = userStore.getUserDetails();
+        ListenableFuture<JSONObject> saveLocationResult = Factory.getUserService().markAttendance(API.OFF_DUTY, user, attendancePojo);
+        Futures.addCallback(saveLocationResult, new FutureCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    checkProgressDialog(progressDialog);
+                    if (result.has(Constants.JsonConstants.MESSAGE)) {
+                        if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
+                            Toast.makeText(context, "Your off duty is marked", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (JSONException jsonException) {
+                    errorMessage = Constants.ERROR_OCCURRED;
+                    Utility.checkProgressDialog(progressDialog);
+                    showErrorDialog(context, errorMessage);
+                } catch (Exception exception) {
+                    errorMessage = Constants.ERROR_OCCURRED;
+                    Utility.checkProgressDialog(progressDialog);
+                    showErrorDialog(context, errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                errorMessage = Constants.ERROR_OCCURRED;
+                Utility.checkProgressDialog(progressDialog);
+                showErrorDialog(context, errorMessage);
+            }
+        }, ExecutorUtils.getUIThread());
+    }
+
 
     public static void populateGeofenceList(@NonNull List<Geofence> geofenceList, @NonNull User user) {
         if (geofenceList == null)

@@ -28,6 +28,7 @@ import com.skybee.tracker.core.BaseFragment;
 public class Map extends BaseFragment implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
+    private String title;
     private static View view;
     private Marker myLocation;
     private GPSTracker gpsTracker;
@@ -44,24 +45,21 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
         }
         try {
             view = inflater.inflate(R.layout.fragment_map, container, false);
+            if(getArguments()!=null){
+                latitude=getArguments().getDouble("Lat");
+                longitude=getArguments().getDouble("Long");
+                title=getArguments().getString("company");
+            }else{
+                gpsTracker=new GPSTracker(context);
+                latitude=gpsTracker.getLatitude();
+                longitude=gpsTracker.getLongitude();
+                title="My Location";
+            }
         } catch (InflateException e) {
         /* map is already there, just return view as it is */
         }
-        gpsTracker=new GPSTracker(context);
-        latitude=gpsTracker.getLatitude();
-        longitude=gpsTracker.getLongitude();
-        return view;
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(gpsTracker.canGetLocation()){
-            latitude=gpsTracker.getLatitude();
-            longitude=gpsTracker.getLongitude();
-        }else {
-            gpsTracker.showSettingsAlert(context);
-        }
+        return view;
     }
 
     @Override
@@ -93,7 +91,7 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
             mMap.getUiSettings().setCompassEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             LatLng latLng=new LatLng(latitude,longitude);
-            myLocation=mMap.addMarker(new MarkerOptions().position(latLng).title("Me"));
+            myLocation=mMap.addMarker(new MarkerOptions().position(latLng).title(title));
             myLocation.setTag(0);
             CameraUpdate myLocation= CameraUpdateFactory.newLatLngZoom(latLng,5);
             mMap.setOnMarkerClickListener(this);

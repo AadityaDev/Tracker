@@ -6,7 +6,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.skybee.tracker.constants.API;
 
+import java.io.File;
+
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
@@ -64,5 +67,16 @@ public class RequestGenerator {
         Gson gson = new Gson();
         String s = gson.toJson(builder.put(body));
         return builder.put(body).build();
+    }
+
+    public static Request multipartPost(@NonNull String url, @NonNull File file, @NonNull String authToken) {
+        Request.Builder builder = new Request.Builder().url(url);
+        addDefaultHeaders(builder);
+        builder.addHeader(API.Headers.AUTHORIZATION_KEY, authToken);
+        builder.addHeader(API.Headers.CONTENT_TYPE, API.Headers.ACCEPT_JSON);
+        MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
+        multipartBuilder.addFormDataPart("profile_pic", file.getName(), RequestBody.create(MediaType.parse("html/text"), file));
+        multipartBuilder.setType(MultipartBody.FORM);
+        return builder.post(multipartBuilder.build()).build();
     }
 }
