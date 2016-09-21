@@ -7,6 +7,8 @@ public class RosterPojo {
     private long site_id;
     private long employee_id;
     private int login_status;
+    public String created;
+    public String COMPANY;
     private String date;
     private String date_to;
     private String day;
@@ -39,6 +41,14 @@ public class RosterPojo {
 
     public void setRoster_id(long roster_id) {
         this.roster_id = roster_id;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 
     public long getCustomer_id() {
@@ -79,6 +89,14 @@ public class RosterPojo {
 
     public void setLogin_status(int login_status) {
         this.login_status = login_status;
+    }
+
+    public String getCOMPANY() {
+        return COMPANY;
+    }
+
+    public void setCOMPANY(String COMPANY) {
+        this.COMPANY = COMPANY;
     }
 
     public String getDate() {

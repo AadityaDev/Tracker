@@ -18,10 +18,19 @@
         android:layout_marginStart="@dimen/dimen_16dp">
 
         <TextView
+            android:id="@+id/customer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_20sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:layout_marginTop="@dimen/dimen_4dp"
             android:id="@+id/customer_company_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/customer_name"
             android:textColor="@color/black"
             android:textSize="@dimen/dimen_20sp" />
 

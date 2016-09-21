@@ -97,6 +97,9 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             if (!TextUtils.isEmpty(roaster.getDate()) && !TextUtils.isEmpty(roaster.getDate_to())) {
                 holder.workDate.setText("Date: " + roaster.getDate() + " - " + roaster.getDate_to());
             }
+            if((roaster.getDate()==null)&&!(TextUtils.isEmpty(roaster.getCreated()))&&(holder.workDate!=null)){
+                holder.workDate.setText(roaster.getCreated());
+            }
             if (!TextUtils.isEmpty(roaster.getTime_from()) && !TextUtils.isEmpty(roaster.getTime_to())) {
                 holder.workTime.setText("Time: " + roaster.getTime_from() + " - " + roaster.getTime_to());
             }
@@ -111,8 +114,8 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             } else if (holder.locationText != null) {
                 holder.locationText.setText("Lat: " + roaster.getLatitude() + " Long: " + roaster.getLongitude());
             }
-            if(!TextUtils.isEmpty(roaster.getCUSTOMERNAME())&&holder.customerNameText!=null){
-                holder.customerNameText.setText(roaster.getCUSTOMERNAME());
+            if(!TextUtils.isEmpty(roaster.getCOMPANY())&&holder.customerNameText!=null){
+                holder.customerNameText.setText(roaster.getCOMPANY());
             }
 //            if (holder.customerCall != null && !TextUtils.isEmpty(roaster.getMobile())) {
 //                holder.customerCall.setOnClickListener(new View.OnClickListener() {
