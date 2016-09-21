@@ -54,7 +54,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_feed, container, false);
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.show();
+        Utility.showProgressDialog(progressDialog);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.shareRegistrationCode);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

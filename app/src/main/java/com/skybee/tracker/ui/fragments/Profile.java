@@ -47,7 +47,7 @@ public class Profile extends BaseFragment {
         userImage = (ImageView) view.findViewById(R.id.user_image);
         userName = (TextView) view.findViewById(R.id.user_name);
         userCompany = (TextView) view.findViewById(R.id.user_company);
-        userLocation = (TextView) view.findViewById(R.id.location_text);
+//        userLocation = (TextView) view.findViewById(R.id.location_text);
         userEmail = (TextView) view.findViewById(R.id.email_text);
         userMobileNumber = (TextView) view.findViewById(R.id.mobile_num_text);
         userImageText=(TextView)view.findViewById(R.id.user_image_text);
@@ -78,8 +78,10 @@ public class Profile extends BaseFragment {
                 userEmail.setText(user.getUserEmail());
             if(user.getUserMobileNumber()!=null)
                 userMobileNumber.setText(user.getUserMobileNumber());
-            if(user.getUserLatitude()!=0&&user.getUserLongitude()!=0)
-                userLocation.setText(user.getUserLongitude()+" "+user.getUserLatitude());
+            if(!TextUtils.isEmpty(user.getUserCompany()))
+                userCompany.setText(user.getUserCompany());
+            else
+                userCompany.setText("");
         }
         return view;
     }

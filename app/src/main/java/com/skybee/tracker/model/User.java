@@ -14,6 +14,7 @@ public class User {
     private String userMobileNumber;
     private String userName;
     private String userPassword;
+    private String userCompany;
     private transient int login_type;
     private String device_id;
     private transient double companyLatitude;
@@ -114,6 +115,14 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public String getUserCompany() {
+        return userCompany;
+    }
+
+    public void setUserCompany(String userCompany) {
+        this.userCompany = userCompany;
     }
 
     public int getLogin_type() {

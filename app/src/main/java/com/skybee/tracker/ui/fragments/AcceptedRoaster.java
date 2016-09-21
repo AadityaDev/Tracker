@@ -56,7 +56,7 @@ public class AcceptedRoaster extends BaseFragment {
         user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_accepted_roaster, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
-        progressDialog.show();
+        Utility.showProgressDialog(progressDialog);
         roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -68,7 +68,7 @@ public class AcceptedRoaster extends BaseFragment {
         roasterCards.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                progressDialog.show();
+                Utility.showProgressDialog(progressDialog);
                 getAcceptedRoasterList(page,Constants.PAGE_SIZE);
             }
         });

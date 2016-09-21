@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity
         }
 
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.show();
+        Utility.showProgressDialog(progressDialog);
         floatingActionButton=(FloatingActionButton)findViewById(R.id.shareRegistrationCode);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -61,7 +61,7 @@ public class Attendance extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_attendance, container, false);
         View toolbarView = (View) inflater.inflate(R.layout.app_bar_home, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
-        progressDialog.show();
+        Utility.showProgressDialog(progressDialog);
         roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -74,7 +74,7 @@ public class Attendance extends BaseFragment {
         roasterCards.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                progressDialog.show();
+                Utility.showProgressDialog(progressDialog);
                 getAcceptedRoasterList(page, Constants.PAGE_SIZE);
             }
         });

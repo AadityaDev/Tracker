@@ -207,8 +207,19 @@ public class Utility {
         }
     }
 
+    public static void showProgressDialog(@NonNull ProgressDialog progressDialog) {
+        try {
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing())
+                    progressDialog.show();
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
     public static void rosterAction(@NonNull final Context context, @NonNull String url, @NonNull String userAction,
-                                    @NonNull final ProgressDialog progressDialog, @NonNull long id) {
+                                    @NonNull final ProgressDialog progressDialog, @NonNull long id,@NonNull final boolean isAccepted) {
         UserStore userStore = new UserStore(context);
         User user = new User();
         user = userStore.getUserDetails();
@@ -220,7 +231,11 @@ public class Utility {
                     Utility.checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
-                            Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_SHORT).show();
+                            if(isAccepted){
+                                Toast.makeText(context, "Your roster attendance is marked", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(context, "Your roster attendance is rejected", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 } catch (JSONException jsonException) {

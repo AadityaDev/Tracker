@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,7 @@ public class Roster extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_roster, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
-        progressDialog.show();
+        Utility.showProgressDialog(progressDialog);
         roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -67,18 +68,18 @@ public class Roster extends BaseFragment {
         roasterCards.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                progressDialog.show();
-                getRoasterList(page,Constants.PAGE_SIZE);
+                Utility.showProgressDialog(progressDialog);
+                getRoasterList(page, Constants.PAGE_SIZE);
             }
         });
-        getRoasterList(Constants.PAGE_NUMBER,Constants.PAGE_SIZE);
+        getRoasterList(Constants.PAGE_NUMBER, Constants.PAGE_SIZE);
         return view;
     }
 
-    public void getRoasterList(@NonNull int pageNumber,@NonNull int pageSize) {
+    public void getRoasterList(@NonNull int pageNumber, @NonNull int pageSize) {
         ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ROSTER_LIST
-                +Constants.QUESTION_MARK+Constants.PAGE_NUMER_TEXT+pageNumber
-                +Constants.AND+Constants.PAGE_SIZE_TEXT+pageSize, user);
+                + Constants.QUESTION_MARK + Constants.PAGE_NUMER_TEXT + pageNumber
+                + Constants.AND + Constants.PAGE_SIZE_TEXT + pageSize, user);
         Futures.addCallback(getRoaster, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -93,6 +94,10 @@ public class Roster extends BaseFragment {
                                 final RosterPojo rosterPojo = gson.fromJson(roasterJsonObject.toString(), RosterPojo.class);
                                 if (rosterPojo != null) {
                                     roasterCardList.add(rosterPojo);
+                                    UserStore userStore = new UserStore(context);
+                                    if (!TextUtils.isEmpty(rosterPojo.getCUSTOMERNAME())) {
+                                        userStore.saveUserCompany(rosterPojo.getCUSTOMERNAME());
+                                    }
                                 }
                             }
                         }

@@ -30,6 +30,7 @@ public class UserStore {
         user.setUserEmail(sharedPreferences.getString(Constants.UserStore.USER_EMAIL, EMPTY));
         user.setUserLatitude(getDouble(sharedPreferences, Constants.UserStore.LATITUDE, EMPTY_DOUBLE));
         user.setUserLongitude(getDouble(sharedPreferences, Constants.UserStore.LONGITUDE, EMPTY_DOUBLE));
+        user.setUserCompany(sharedPreferences.getString(Constants.UserStore.USER_COMPANY,EMPTY));
         user.setUserMobileNumber(sharedPreferences.getString(Constants.UserStore.USER_MOBILE_NUMBER, EMPTY));
         user.setUserName(sharedPreferences.getString(Constants.UserStore.USER_NAME, EMPTY));
         user.setUserPassword(sharedPreferences.getString(Constants.UserStore.USER_PASSWORD, EMPTY));
@@ -96,6 +97,12 @@ public class UserStore {
     public void saveUserName(@NonNull String userName) {
         editor = sharedPreferences.edit();
         editor.putString(Constants.UserStore.USER_NAME, userName);
+        editor.apply();
+    }
+
+    public void saveUserCompany(@NonNull String userCompany) {
+        editor = sharedPreferences.edit();
+        editor.putString(Constants.UserStore.USER_COMPANY, userCompany);
         editor.apply();
     }
 

@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -23,7 +25,7 @@ import com.skybee.tracker.LocationUtil;
 import com.skybee.tracker.R;
 import com.skybee.tracker.core.BaseFragment;
 
-public class Map extends BaseFragment implements OnMapReadyCallback,LocationListener {
+public class Map extends BaseFragment implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private static View view;
@@ -46,6 +48,8 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
         /* map is already there, just return view as it is */
         }
         gpsTracker=new GPSTracker(context);
+        latitude=gpsTracker.getLatitude();
+        longitude=gpsTracker.getLongitude();
         return view;
     }
 
@@ -84,15 +88,16 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
 
             return;
         } else {
-//            LocationUtil locationUtil=new LocationUtil(getContext());
-//            locationUtil.showCurrentLocation();
+            mMap=googleMap;
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setCompassEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.getMaxZoomLevel();
-            mMap.getMinZoomLevel();
             LatLng latLng=new LatLng(latitude,longitude);
             myLocation=mMap.addMarker(new MarkerOptions().position(latLng).title("Me"));
+            myLocation.setTag(0);
+            CameraUpdate myLocation= CameraUpdateFactory.newLatLngZoom(latLng,5);
+            mMap.setOnMarkerClickListener(this);
+            mMap.animateCamera(myLocation);
         }
     }
 
@@ -114,5 +119,10 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
     }
 }

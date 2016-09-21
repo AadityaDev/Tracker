@@ -72,7 +72,6 @@ public class HomeActivity extends BaseActivity
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
 
     private GPSTracker gpsTracker;
-
     private final String TAG = this.getClass().getSimpleName();
     private ErrorDialog errorDialog;
     private ProgressDialog progressDialog;
@@ -165,7 +164,7 @@ public class HomeActivity extends BaseActivity
         }
 
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
-        progressDialog.show();
+        Utility.showProgressDialog(progressDialog);
         timeCards = (RecyclerView) findViewById(R.id.time_list);
         timeCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());

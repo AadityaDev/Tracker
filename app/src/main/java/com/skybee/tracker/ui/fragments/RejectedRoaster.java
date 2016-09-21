@@ -55,7 +55,7 @@ public class RejectedRoaster extends BaseFragment {
         user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_rejected_roaster, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
-        progressDialog.show();
+        Utility.showProgressDialog(progressDialog);
         roasterCards = (RecyclerView) view.findViewById(R.id.rejected_roaster_list);
         roasterCards.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -67,18 +67,18 @@ public class RejectedRoaster extends BaseFragment {
         roasterCards.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                progressDialog.show();
-                getRejectedRoasterList(page,Constants.PAGE_SIZE);
+                Utility.showProgressDialog(progressDialog);
+                getRejectedRoasterList(page, Constants.PAGE_SIZE);
             }
         });
-        getRejectedRoasterList(Constants.PAGE_NUMBER,Constants.PAGE_SIZE);
+        getRejectedRoasterList(Constants.PAGE_NUMBER, Constants.PAGE_SIZE);
         return view;
     }
 
     public void getRejectedRoasterList(@NonNull int pageNumber, @NonNull int pageSize) {
         ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.REJECTED_ROSTER_LIST
-                +Constants.QUESTION_MARK+Constants.PAGE_NUMER_TEXT+pageNumber
-                +Constants.AND+Constants.PAGE_SIZE_TEXT+pageSize, user);
+                + Constants.QUESTION_MARK + Constants.PAGE_NUMER_TEXT + pageNumber
+                + Constants.AND + Constants.PAGE_SIZE_TEXT + pageSize, user);
         Futures.addCallback(getRoaster, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {

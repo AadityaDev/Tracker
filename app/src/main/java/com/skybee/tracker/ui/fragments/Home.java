@@ -21,13 +21,10 @@ import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.core.BaseFragment;
 import com.skybee.tracker.model.RosterPojo;
-import com.skybee.tracker.model.TimeCard;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.adapters.RosterAdapter;
-import com.skybee.tracker.ui.adapters.TimeCardAdapter;
-import com.skybee.tracker.ui.customview.ItemClickSupport;
 import com.skybee.tracker.ui.customview.StepperIndicator;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
 
@@ -36,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Home extends BaseFragment {
@@ -67,7 +63,7 @@ public class Home extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
-        progressDialog.show();
+        Utility.showProgressDialog(progressDialog);
         stepperIndicator = (StepperIndicator) view.findViewById(R.id.stepper_indicator);
         checkInText = (TextView) view.findViewById(R.id.check_in_heading);
         checkInText.setText(Constants.HeadingText.CHECK_IN);
@@ -81,7 +77,7 @@ public class Home extends BaseFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         timeCards.setLayoutManager(linearLayoutManager);
         roasterCardList = new ArrayList<>();
-        rosterAdapter = new RosterAdapter(getContext(),roasterCardList,Constants.isSiteCard);
+        rosterAdapter = new RosterAdapter(getContext(), roasterCardList, Constants.isSiteCard);
         timeCards.setAdapter(rosterAdapter);
         getCustomerSite();
 //        addTimeCard();
@@ -111,12 +107,12 @@ public class Home extends BaseFragment {
 //        timeCardList.add(timeCard);
 //    }
 
-    public void getCustomerSite(){
+    public void getCustomerSite() {
         ListenableFuture<JSONObject> getCustomerSites = Factory.getUserService().customerSites(API.CUSTOMER_SITES, user);
         Futures.addCallback(getCustomerSites, new FutureCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
-                try{
+                try {
                     if (result.has(Constants.JsonConstants.DATA)) {
                         JSONArray resultRosterList = new JSONArray();
                         resultRosterList = result.getJSONArray(Constants.JsonConstants.DATA);
@@ -135,15 +131,15 @@ public class Home extends BaseFragment {
                     }
                 } catch (JSONException jsonException) {
                     Log.d(getTAG(), Constants.Exception.JSON_EXCEPTION);
-                    errorMessage=Constants.ERROR_OCCURRED;
+                    errorMessage = Constants.ERROR_OCCURRED;
                     Utility.checkProgressDialog(progressDialog);
                     Utility.showErrorDialog(context, errorMessage);
                 } catch (Exception exception) {
                     Log.d(getTAG(), Constants.Exception.EXCEPTION);
-                    errorMessage=Constants.ERROR_OCCURRED;
+                    errorMessage = Constants.ERROR_OCCURRED;
                     Utility.checkProgressDialog(progressDialog);
                     Utility.showErrorDialog(context, errorMessage);
-                }finally {
+                } finally {
                     Utility.checkProgressDialog(progressDialog);
                 }
             }

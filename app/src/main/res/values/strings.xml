@@ -8,7 +8,7 @@
     <string name="add_check_in">Add CheckIn Time</string>
     <string name="add_check_out">Add CheckOut Time</string>
     <string name="add_check_lunch">Add Lunch Time</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Click Control</string>
     <string name="select_all_text">Select All</string>
 
     <!-- Strings related to login -->
@@ -30,7 +30,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="title_activity_register">Sign in</string>
+    <string name="title_activity_register">Register</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>

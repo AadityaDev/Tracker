@@ -38,6 +38,7 @@ public class Constants {
         public static final String USER_REGISTRATION_KEY = "registrationKey";
         public static final String LATITUDE = "latitude";
         public static final String LONGITUDE = "longitude";
+        public static final String USER_COMPANY = "userCompany";
         public static final String COMPANY_LATITUDE = "companyLatitude";
         public static final String COMPANY_LONGITUDE = "companyLongitude";
         public static final String COMPANY_RADIUS = "companyRadius";

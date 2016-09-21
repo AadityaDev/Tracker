@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.style.TtsSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +111,9 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             } else if (holder.locationText != null) {
                 holder.locationText.setText("Lat: " + roaster.getLatitude() + " Long: " + roaster.getLongitude());
             }
+            if(!TextUtils.isEmpty(roaster.getCUSTOMERNAME())&&holder.customerNameText!=null){
+                holder.customerNameText.setText(roaster.getCUSTOMERNAME());
+            }
 //            if (holder.customerCall != null && !TextUtils.isEmpty(roaster.getMobile())) {
 //                holder.customerCall.setOnClickListener(new View.OnClickListener() {
 //                    @Override
@@ -125,7 +129,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     @Override
                     public void onClick(View view) {
                         Utility.rosterAction(holder.context, API.ACCEPTED_ROSTER_ACTION, API.Roster.CONFIRMED,
-                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id());
+                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id(),true);
                     }
                 });
             }
@@ -134,9 +138,12 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     @Override
                     public void onClick(View view) {
                         Utility.rosterAction(holder.context, API.ACCEPTED_ROSTER_ACTION, API.Roster.REJECTED,
-                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id());
+                                new ProgressDialog(holder.context), rosterList.get(position).getRoster_id(),false);
                     }
                 });
+            }
+            if(holder.cardView!=null){
+
             }
             if (holder.markAttendance != null) {
                 holder.markAttendance.setOnClickListener(new View.OnClickListener() {
@@ -182,12 +189,14 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private TextView workTime;
         private TextView workDay;
         private TextView locationText;
+        private TextView customerNameText;
         //        private TextView customerName;
         private TextView status;
         //        private ImageView customerCall;
         private CardView markAttendance;
         private CardView acceptRoster;
         private CardView rejectRoster;
+        private CardView cardView;
 
         public RoasterViewHolder(Context context, View itemView) {
             super(itemView);
@@ -199,11 +208,13 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             workDay = (TextView) itemView.findViewById(R.id.work_day);
             locationText = (TextView) itemView.findViewById(R.id.location_text);
 //            customerName = (TextView) itemView.findViewById(R.id.customer_name);
+            customerNameText=(TextView)itemView.findViewById(R.id.customer_name);
             status = (TextView) itemView.findViewById(R.id.status);
 //            customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
             acceptRoster = (CardView) itemView.findViewById(R.id.accept_roster);
             rejectRoster = (CardView) itemView.findViewById(R.id.reject_roster);
             markAttendance = (CardView) itemView.findViewById(R.id.mark_attendance);
+            cardView=(CardView)itemView.findViewById(R.id.card);
         }
     }
 }
