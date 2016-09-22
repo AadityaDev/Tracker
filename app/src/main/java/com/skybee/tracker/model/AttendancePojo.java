@@ -6,7 +6,7 @@ public class AttendancePojo {
     double longitude;
     String address;
     int LoginStatus;
-    transient String company_name;
+    String company_name;
 
     public long getCustomer_site_id() {
         return this.customer_site_id;

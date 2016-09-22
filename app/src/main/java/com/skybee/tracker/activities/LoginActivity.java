@@ -53,6 +53,7 @@ public class LoginActivity extends BaseActivity {
         UserStore userStore = new UserStore(getApplicationContext());
         user = userStore.getUserDetails();
         Log.d("Token", userStore.getUserDetails().getAuthToken());
+        Log.d("Token", userStore.getUserDetails().getAuthToken());
         if (userStore != null && userStore.getUserDetails() != null) {
             if (!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())) {
                 Utility.startActivity(getApplicationContext(), user.isAdmin());
@@ -87,14 +88,14 @@ public class LoginActivity extends BaseActivity {
 
         loginFormView = findViewById(R.id.login_form);
         progressView = findViewById(R.id.login_progress);
-        registerText = (TextView) findViewById(R.id.register_text);
-        registerText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), EmployeeRegisterActivity.class);
-                startActivity(intent);
-            }
-        });
+//        registerText = (TextView) findViewById(R.id.register_text);
+//        registerText.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(view.getContext(), EmployeeRegisterActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 

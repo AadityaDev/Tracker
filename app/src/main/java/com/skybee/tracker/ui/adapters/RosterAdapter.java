@@ -91,6 +91,8 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     holder.status.setText("PRESENT");
                 } else if (roaster.getLogin_status() == 2) {
                     holder.status.setText("LOGOUT");
+                } else if (roaster.getLogin_status() == 3) {
+                    holder.status.setText("OFF DUTY");
                 }
             }
 //            if (!TextUtils.isEmpty(roaster.getCustomerName()) && holder.customerName != null) {
@@ -157,12 +159,14 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                         AttendancePojo attendancePojo = new AttendancePojo();
                         if (roaster.getCustomer_site_id() != 0)
                             attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
-                            attendancePojo.setLattitude(roaster.getLatitude());
-                            attendancePojo.setLongitude(roaster.getLongitude());
-                            attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.OFF_DUTY);
+                        attendancePojo.setLattitude(roaster.getLatitude());
+                        attendancePojo.setLongitude(roaster.getLongitude());
+                        attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.OFF_DUTY);
+                        if(!TextUtils.isEmpty(roaster.getCOMPANY())){
                             attendancePojo.setCompany_name(roaster.getCOMPANY());
-                            ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
-                            Utility.saveOffDuty(holder.context, attendancePojo, progressDialog);
+                        }
+                        ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
+                        Utility.saveOffDuty(holder.context, attendancePojo, progressDialog);
                     }
                 });
             }
@@ -188,32 +192,46 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 });
             }
             if (holder.markAttendance != null) {
-                holder.markAttendance.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AttendancePojo attendancePojo = new AttendancePojo();
-                        if (roaster.getCustomer_site_id() != 0)
-                            attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
-                        if (userStore != null && gpsTracker != null) {
-                            User user = new User();
-                            user = userStore.getUserDetails();
-                            if (gpsTracker.getLatitude() != 0 && gpsTracker.getLongitude() != 0) {
-                                userStore.saveLatitude(gpsTracker.getLatitude());
-                                userStore.saveLongitude(gpsTracker.getLongitude());
-                                attendancePojo.setLattitude(gpsTracker.getLatitude());
-                                attendancePojo.setLongitude(gpsTracker.getLongitude());
-                                attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.PRESENT);
-                                userStore.saveCompanyLatitude(roaster.getLatitude());
-                                userStore.saveCompanyLongitude(roaster.getLongitude());
-                                userStore.saveCompanyRadius(roaster.getRadius());
-                                userStore.saveCompanyId(roaster.getCustomer_site_id());
-                                Log.d("Location Save", "Lat: " + gpsTracker.getLatitude() + "Longi: " + gpsTracker.getLongitude());
-                            }
-                            ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
-                            Utility.saveAttendance(holder.context, attendancePojo, user, progressDialog);
+                if(roaster.isFlag()){
+                    holder.markAttendance.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
+                    holder.markAttendance.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
                         }
-                    }
-                });
+                    });
+                }else {
+                    holder.markAttendance.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            AttendancePojo attendancePojo = new AttendancePojo();
+                            if (roaster.getCustomer_site_id() != 0)
+                                attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
+                            if (userStore != null && gpsTracker != null) {
+                                User user = new User();
+                                user = userStore.getUserDetails();
+                                if (gpsTracker.getLatitude() != 0 && gpsTracker.getLongitude() != 0) {
+                                    userStore.saveLatitude(gpsTracker.getLatitude());
+                                    userStore.saveLongitude(gpsTracker.getLongitude());
+                                    attendancePojo.setLattitude(gpsTracker.getLatitude());
+                                    attendancePojo.setLongitude(gpsTracker.getLongitude());
+                                    attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.PRESENT);
+                                    if (!TextUtils.isEmpty(roaster.getCOMPANY())) {
+                                        attendancePojo.setCompany_name(roaster.getCOMPANY());
+                                    }
+                                    userStore.saveCompanyLatitude(roaster.getLatitude());
+                                    userStore.saveCompanyLongitude(roaster.getLongitude());
+                                    userStore.saveCompanyRadius(roaster.getRadius());
+                                    userStore.saveCompanyId(roaster.getCustomer_site_id());
+                                    Log.d("Location Save", "Lat: " + gpsTracker.getLatitude() + "Longi: " + gpsTracker.getLongitude());
+                                }
+                                ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
+                                Utility.saveAttendance(holder.context, attendancePojo, user, progressDialog,roaster,RosterAdapter.this);
+                            }
+                        }
+                    });
+                }
+
             }
         }
     }

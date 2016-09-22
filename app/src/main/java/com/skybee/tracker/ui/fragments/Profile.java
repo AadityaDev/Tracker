@@ -173,7 +173,7 @@ public class Profile extends BaseFragment {
                 Log.d(TAG, "URI Syntax error");
             } catch (IllegalArgumentException e) {
                 Log.d(TAG, "Illegal Argument");
-                Toast.makeText(getContext(), "Wrong resume format", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Wrong picture format", Toast.LENGTH_LONG).show();
             }
             Log.d(TAG, "File Path: " + path);
         }

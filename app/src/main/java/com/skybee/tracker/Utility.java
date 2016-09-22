@@ -22,11 +22,13 @@ import com.skybee.tracker.activities.MainActivity;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.AttendancePojo;
+import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.TimeCard;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.model.UserServer;
 import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
+import com.skybee.tracker.ui.adapters.RosterAdapter;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
 
 import org.json.JSONException;
@@ -232,9 +234,9 @@ public class Utility {
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
                             if (isAccepted) {
-                                Toast.makeText(context, "Your roster attendance is marked", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Job Accepted", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(context, "Your roster attendance is rejected", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Job Declined", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -258,7 +260,7 @@ public class Utility {
         }, ExecutorUtils.getUIThread());
     }
 
-    public static void saveAttendance(@NonNull final Context context, @NonNull AttendancePojo attendancePojo, @NonNull User user, @NonNull final ProgressDialog progressDialog) {
+    public static void saveAttendance(@NonNull final Context context, @NonNull AttendancePojo attendancePojo, @NonNull User user, @NonNull final ProgressDialog progressDialog, @NonNull final RosterPojo rosterPojo, @NonNull final RosterAdapter rosterAdapter) {
         ListenableFuture<JSONObject> saveLocationResult = Factory.getUserService().markAttendance(API.SAVE_ATTENDANCE, user, attendancePojo);
         Futures.addCallback(saveLocationResult, new FutureCallback<JSONObject>() {
             @Override
@@ -270,6 +272,8 @@ public class Utility {
                             Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_LONG).show();
                             context.startActivity(new Intent(context, HomeActivity.class));
                             ((Activity) context).finish();
+                            rosterPojo.setFlag(true);
+                            rosterAdapter.notifyDataSetChanged();
                         }
                     }
                 } catch (JSONException jsonException) {

@@ -34,6 +34,7 @@ public class RosterPojo {
     private String total_hours;
     private transient boolean isSelected;
     private transient boolean isAttendanceCard;
+    private transient boolean isFlag;
 
     public long getRoster_id() {
         return this.roster_id;
@@ -297,5 +298,13 @@ public class RosterPojo {
 
     public void setAttendanceCard(boolean attendanceCard) {
         isAttendanceCard = attendanceCard;
+    }
+
+    public boolean isFlag() {
+        return isFlag;
+    }
+
+    public void setFlag(boolean flag) {
+        isFlag = flag;
     }
 }

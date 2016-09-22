@@ -15,7 +15,7 @@
             android:title="ROSTER" />
         <item
             android:id="@+id/nav_attendance"
-            android:icon="@drawable/ic_emoticon_24dp"
+            android:icon="@drawable/ic_assignment"
             android:title="ATTENDANCE" />
         <item
             android:id="@+id/nav_profile"
