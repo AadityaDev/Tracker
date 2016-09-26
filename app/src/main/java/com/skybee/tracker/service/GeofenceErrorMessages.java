@@ -6,9 +6,6 @@ import android.content.res.Resources;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.skybee.tracker.R;
 
-/**
- * Created by Myrefers on 8/28/2016.
- */
 public class GeofenceErrorMessages {
     private GeofenceErrorMessages() {}
 

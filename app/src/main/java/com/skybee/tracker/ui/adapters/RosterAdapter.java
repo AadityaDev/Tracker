@@ -157,6 +157,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     @Override
                     public void onClick(View v) {
                         AttendancePojo attendancePojo = new AttendancePojo();
+                        attendancePojo.setRoster_id(roaster.getRoster_id());
                         if (roaster.getCustomer_site_id() != 0)
                             attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
                         attendancePojo.setLattitude(roaster.getLatitude());
@@ -205,6 +206,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                         @Override
                         public void onClick(View view) {
                             AttendancePojo attendancePojo = new AttendancePojo();
+                            attendancePojo.setRoster_id(roaster.getRoster_id());
                             if (roaster.getCustomer_site_id() != 0)
                                 attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
                             if (userStore != null && gpsTracker != null) {

@@ -1,12 +1,21 @@
 package com.skybee.tracker.model;
 
 public class AttendancePojo {
+    private long roster_id;
     long customer_site_id;
     double lattitude;
     double longitude;
     String address;
     int LoginStatus;
     String company_name;
+
+    public long getRoster_id() {
+        return roster_id;
+    }
+
+    public void setRoster_id(long roster_id) {
+        this.roster_id = roster_id;
+    }
 
     public long getCustomer_site_id() {
         return this.customer_site_id;

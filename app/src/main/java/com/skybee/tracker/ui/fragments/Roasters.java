@@ -24,7 +24,7 @@ public class Roasters extends BaseFragment {
     private ViewPager pager;
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
-    CharSequence Titles[] = {"ROSTER", "ACCEPTED", "REJECTED"};
+    CharSequence Titles[] = {"Published", "Accepted", "Rejected"};
     int NumbOfTabs = 3;
     private User user;
 

@@ -269,7 +269,7 @@ public class Utility {
                     checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
-                            Toast.makeText(context, "Your attendance is marked", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Your are clocked in to your duty ", Toast.LENGTH_LONG).show();
                             context.startActivity(new Intent(context, HomeActivity.class));
                             ((Activity) context).finish();
                             rosterPojo.setFlag(true);
@@ -334,7 +334,7 @@ public class Utility {
                     checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
-                            Toast.makeText(context, "Your off duty is marked", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Your are clocked out from your duty", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (JSONException jsonException) {

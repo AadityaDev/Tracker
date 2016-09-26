@@ -148,8 +148,7 @@
                         android:layout_toEndOf="@+id/accept_roster_image"
                         android:layout_toRightOf="@+id/accept_roster_image"
                         android:gravity="center"
-                        android:text="Accepted"
-                        android:textAllCaps="true"
+                        android:text="Accept"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen_16sp"
                         android:textStyle="bold" />
@@ -187,8 +186,7 @@
                     android:layout_toEndOf="@+id/reject_roster_image"
                     android:layout_toRightOf="@+id/reject_roster_image"
                     android:gravity="center"
-                    android:text="Rejected"
-                    android:textAllCaps="true"
+                    android:text="Decline"
                     android:textColor="@color/white"
                     android:textSize="@dimen/dimen_16sp"
                     android:textStyle="bold" />
