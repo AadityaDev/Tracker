@@ -32,6 +32,8 @@ public class RosterPojo {
     private long taskId;
     private String TaskName;
     private String total_hours;
+    private boolean mark_btn_status;
+    private boolean off_btn_status;
     private transient boolean isSelected;
     private transient boolean isAttendanceCard;
     private transient boolean isFlag;
@@ -280,8 +282,24 @@ public class RosterPojo {
         return total_hours;
     }
 
+    public boolean isMark_btn_status() {
+        return mark_btn_status;
+    }
+
+    public void setMark_btn_status(boolean mark_btn_status) {
+        this.mark_btn_status = mark_btn_status;
+    }
+
     public void setTotal_hours(String total_hours) {
         this.total_hours = total_hours;
+    }
+
+    public boolean isOff_btn_status() {
+        return off_btn_status;
+    }
+
+    public void setOff_btn_status(boolean off_btn_status) {
+        this.off_btn_status = off_btn_status;
     }
 
     public boolean isSelected() {

@@ -232,28 +232,6 @@ public class HomeActivity extends BaseActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -316,6 +294,12 @@ public class HomeActivity extends BaseActivity
                             if (roasterJsonObject != null) {
                                 Gson gson = new Gson();
                                 final RosterPojo rosterPojo = gson.fromJson(roasterJsonObject.toString(), RosterPojo.class);
+                                if(roasterJsonObject.has(Constants.JsonConstants.MARK_BUTTON_STATUS)&&roasterJsonObject.getInt(Constants.JsonConstants.MARK_BUTTON_STATUS)==1){
+                                    rosterPojo.setMark_btn_status(true);
+                                }
+                                if(roasterJsonObject.has(Constants.JsonConstants.OFF_BUTTON_STATUS)&&roasterJsonObject.getInt(Constants.JsonConstants.OFF_BUTTON_STATUS)==1){
+                                    rosterPojo.setOff_btn_status(true);
+                                }
                                 if (rosterPojo != null) {
                                     roasterCardList.add(rosterPojo);
                                 }

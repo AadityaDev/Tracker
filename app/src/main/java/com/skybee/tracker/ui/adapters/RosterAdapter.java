@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
@@ -153,23 +154,33 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 });
             }
             if (holder.markOffDuty != null) {
-                holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AttendancePojo attendancePojo = new AttendancePojo();
-                        attendancePojo.setRoster_id(roaster.getRoster_id());
-                        if (roaster.getCustomer_site_id() != 0)
-                            attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
-                        attendancePojo.setLattitude(roaster.getLatitude());
-                        attendancePojo.setLongitude(roaster.getLongitude());
-                        attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.OFF_DUTY);
-                        if(!TextUtils.isEmpty(roaster.getCOMPANY())){
-                            attendancePojo.setCompany_name(roaster.getCOMPANY());
+                if (roaster.isMark_btn_status()) {
+                    holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
+                    holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(holder.context, "Your duty ends today.", Toast.LENGTH_SHORT).show();
                         }
-                        ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
-                        Utility.saveOffDuty(holder.context, attendancePojo, progressDialog);
-                    }
-                });
+                    });
+                } else {
+                    holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AttendancePojo attendancePojo = new AttendancePojo();
+                            attendancePojo.setRoster_id(roaster.getRoster_id());
+                            if (roaster.getCustomer_site_id() != 0)
+                                attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
+                            attendancePojo.setLattitude(roaster.getLatitude());
+                            attendancePojo.setLongitude(roaster.getLongitude());
+                            attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.OFF_DUTY);
+                            if (!TextUtils.isEmpty(roaster.getCOMPANY())) {
+                                attendancePojo.setCompany_name(roaster.getCOMPANY());
+                            }
+                            ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
+                            Utility.saveOffDuty(holder.context, attendancePojo, progressDialog);
+                        }
+                    });
+                }
             }
             if (holder.cardView != null) {
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -193,15 +204,15 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 });
             }
             if (holder.markAttendance != null) {
-                if(roaster.isFlag()){
+                if (roaster.isMark_btn_status()) {
                     holder.markAttendance.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
                     holder.markAttendance.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            Toast.makeText(holder.context, "Your attendance is marked already.", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else {
+                } else {
                     holder.markAttendance.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -228,7 +239,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                                     Log.d("Location Save", "Lat: " + gpsTracker.getLatitude() + "Longi: " + gpsTracker.getLongitude());
                                 }
                                 ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
-                                Utility.saveAttendance(holder.context, attendancePojo, user, progressDialog,roaster,RosterAdapter.this);
+                                Utility.saveAttendance(holder.context, attendancePojo, user, progressDialog, roaster, RosterAdapter.this);
                             }
                         }
                     });
