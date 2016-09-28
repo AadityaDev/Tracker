@@ -154,7 +154,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 });
             }
             if (holder.markOffDuty != null) {
-                if (roaster.isMark_btn_status()) {
+                if (roaster.isOff_btn_status()) {
                     holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
                     holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
                         @Override
