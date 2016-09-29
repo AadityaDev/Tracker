@@ -46,13 +46,13 @@ public class Profile extends BaseFragment {
     private final String TAG=this.getClass().getSimpleName();
     private static final int SELECT_PICTURE = 1;
     private RelativeLayout logoutButton;
-//    private ImageView userImage;
+    private ImageView userImage;
     private TextView userName;
     private TextView userCompany;
     private TextView userLocation;
     private TextView userEmail;
     private TextView userMobileNumber;
-//    private TextView userImageText;
+    private TextView userImageText;
     private ImageView editName;
     private User user;
     private UserStore userStore;
@@ -65,19 +65,19 @@ public class Profile extends BaseFragment {
         userStore = new UserStore(context);
         gpsTracker = new GPSTracker(context);
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-//        userImage = (ImageView) view.findViewById(R.id.user_image);
-//        userImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showPictureChooser();
-//            }
-//        });
+        userImage = (ImageView) view.findViewById(R.id.user_image);
+        userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPictureChooser();
+            }
+        });
         userName = (TextView) view.findViewById(R.id.user_name);
         userCompany = (TextView) view.findViewById(R.id.user_company);
 //        userLocation = (TextView) view.findViewById(R.id.location_text);
         userEmail = (TextView) view.findViewById(R.id.email_text);
         userMobileNumber = (TextView) view.findViewById(R.id.mobile_num_text);
-//        userImageText=(TextView)view.findViewById(R.id.user_image_text);
+        userImageText=(TextView)view.findViewById(R.id.user_image_text);
         logoutButton = (RelativeLayout) view.findViewById(R.id.logout_section);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,10 +97,10 @@ public class Profile extends BaseFragment {
 //        });
         user=getLocalUser();
         if(user!=null){
-//            if(!TextUtils.isEmpty(user.getUserName())) {
-//                userName.setText(user.getUserName());
-////                userImageText.setText(String.valueOf(user.getUserName().charAt(0)));
-//            }
+            if(!TextUtils.isEmpty(user.getUserName())) {
+                userName.setText(user.getUserName());
+//                userImageText.setText(String.valueOf(user.getUserName().charAt(0)));
+            }
             if(user.getUserEmail()!=null)
                 userEmail.setText(user.getUserEmail());
             if(user.getUserMobileNumber()!=null)
