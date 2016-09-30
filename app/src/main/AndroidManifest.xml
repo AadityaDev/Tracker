@@ -126,7 +126,8 @@
 
         <activity
             android:name=".EmployeeRegisterActivity"
-            android:label="@string/title_activity_employee_register"></activity>
+            android:label="@string/title_activity_employee_register" />
+        <activity android:name=".activities.MapActivity"></activity>
     </application>
 
 </manifest>

@@ -19,7 +19,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -57,7 +56,6 @@ import com.skybee.tracker.ui.dialog.ErrorDialog;
 import com.skybee.tracker.ui.fragments.Map;
 import com.skybee.tracker.ui.fragments.Profile;
 import com.skybee.tracker.ui.fragments.Roasters;
-import com.skybee.tracker.ui.fragments.Setting;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -260,9 +258,9 @@ public class HomeActivity extends BaseActivity
 //            fragment = new Setting();
 //            openFragment(fragment);
 //        }
-        else if(id==R.id.nav_attendance){
+        else if (id == R.id.nav_attendance) {
             toolbar.setTitle("Attendance");
-            fragment=new Attendance();
+            fragment = new Attendance();
             openFragment(fragment);
         }
 
@@ -294,10 +292,10 @@ public class HomeActivity extends BaseActivity
                             if (roasterJsonObject != null) {
                                 Gson gson = new Gson();
                                 final RosterPojo rosterPojo = gson.fromJson(roasterJsonObject.toString(), RosterPojo.class);
-                                if(roasterJsonObject.has(Constants.JsonConstants.MARK_BUTTON_STATUS)&&roasterJsonObject.getInt(Constants.JsonConstants.MARK_BUTTON_STATUS)==1){
+                                if (roasterJsonObject.has(Constants.JsonConstants.MARK_BUTTON_STATUS) && roasterJsonObject.getInt(Constants.JsonConstants.MARK_BUTTON_STATUS) == 1) {
                                     rosterPojo.setMark_btn_status(true);
                                 }
-                                if(roasterJsonObject.has(Constants.JsonConstants.OFF_BUTTON_STATUS)&&roasterJsonObject.getInt(Constants.JsonConstants.OFF_BUTTON_STATUS)==1){
+                                if (roasterJsonObject.has(Constants.JsonConstants.OFF_BUTTON_STATUS) && roasterJsonObject.getInt(Constants.JsonConstants.OFF_BUTTON_STATUS) == 1) {
                                     rosterPojo.setOff_btn_status(true);
                                 }
                                 if (rosterPojo != null) {

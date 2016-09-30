@@ -22,6 +22,8 @@ public class RosterPojo {
     private String ShortName;
     private String CUSTOMERNAME;
     private String designation1;
+    private String TimeOne;
+    private String TimeTwo;
     private double latitude;
     private double longitude;
     private int radius;
@@ -204,6 +206,22 @@ public class RosterPojo {
 
     public void setDesignation1(String designation1) {
         this.designation1 = designation1;
+    }
+
+    public String getTimeOne() {
+        return TimeOne;
+    }
+
+    public void setTimeOne(String timeOne) {
+        TimeOne = timeOne;
+    }
+
+    public String getTimeTwo() {
+        return TimeTwo;
+    }
+
+    public void setTimeTwo(String timeTwo) {
+        TimeTwo = timeTwo;
     }
 
     public double getLatitude() {

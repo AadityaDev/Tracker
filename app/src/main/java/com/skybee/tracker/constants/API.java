@@ -13,7 +13,8 @@ public class API {
     public static final String ACCEPTED_ROSTER_ACTION = SERVER_BASE + "indextrackmzapp.php/acceptresectroster";
     public static final String CUSTOMER_SITES = SERVER_BASE + "indextrackmzapp.php/customersites";
     public static final String SAVE_ATTENDANCE = SERVER_BASE + "indextrackmzapp.php/addattendance";
-    public static final String ATTENDANCE_LIST = SERVER_BASE + "indextrackmzapp.php/myattendance";
+//    public static final String ATTENDANCE_LIST = SERVER_BASE + "indextrackmzapp.php/myattendance";
+public static final String ATTENDANCE_LIST = "http://www.eventsbyideation.com/v1/indextrackmzapp.php/attendancelist";
     public static final String OFF_DUTY = SERVER_BASE + "indextrackmzapp.php/addattendanceclickout";
     public static final String UPDATE_PROFILE = SERVER_BASE + "indextrackmzapp.php/userprofileupdate";
     public static final String PROFILE_URL = SERVER_BASE + "indextrackmzapp.php/profiledetails";

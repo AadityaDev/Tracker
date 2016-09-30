@@ -2,14 +2,12 @@ package com.skybee.tracker.ui.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +18,18 @@ import android.widget.Toast;
 import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
 import com.skybee.tracker.Utility;
+import com.skybee.tracker.activities.MapActivity;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
 import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
-import com.skybee.tracker.ui.fragments.Map;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterViewHolder> {
@@ -99,7 +101,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
 //            if (!TextUtils.isEmpty(roaster.getCustomerName()) && holder.customerName != null) {
 //                holder.customerName.setText(roaster.getCustomerName());
 //            }
-            if (!TextUtils.isEmpty(roaster.getTaskName())) {
+            if (holder.taskName!=null&&!TextUtils.isEmpty(roaster.getTaskName())) {
                 holder.taskName.setText(roaster.getTaskName());
             }
             if (!TextUtils.isEmpty(roaster.getDate()) && !TextUtils.isEmpty(roaster.getDate_to())) {
@@ -117,7 +119,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             if (!TextUtils.isEmpty(roaster.getTotal_hours())) {
                 holder.workDay.setText("Work Hours: " + roaster.getTotal_hours());
             }
-            if (!TextUtils.isEmpty(roaster.getAddress())) {
+            if (holder.locationText!=null&&!TextUtils.isEmpty(roaster.getAddress())) {
                 holder.locationText.setText(roaster.getAddress());
             } else if (holder.locationText != null) {
                 holder.locationText.setText("Lat: " + roaster.getLatitude() + " Long: " + roaster.getLongitude());
@@ -154,7 +156,15 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 });
             }
             if (holder.markOffDuty != null) {
-                if (roaster.isOff_btn_status()) {
+                if (roaster.isOff_btn_status() == false && roaster.isMark_btn_status()) {
+                    holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
+                    holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(holder.context, "Your start duty is not marked.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else if (roaster.isOff_btn_status()) {
                     holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
                     holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -186,22 +196,48 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Fragment fragment = new Map();
+//                        Fragment fragment = new Map();
                         Bundle bundle = new Bundle();
                         bundle.putString("company", roaster.getCOMPANY());
                         bundle.putDouble("Lat", roaster.getLatitude());
                         bundle.putDouble("Long", roaster.getLongitude());
-                        fragment.setArguments(bundle);
-                        FragmentManager fragmentManager;
-                        FragmentTransaction fragmentTransaction;
-                        fragmentManager = ((FragmentActivity) holder.context).getSupportFragmentManager();
-                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frame_view, fragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        Intent intent = new Intent(holder.context, MapActivity.class);
+                        intent.putExtras(bundle);
+                        holder.context.startActivity(intent);
+//                        fragment.setArguments(bundle);
+//                        FragmentManager fragmentManager;
+//                        FragmentTransaction fragmentTransaction;
+//                        fragmentManager = ((FragmentActivity) holder.context).getSupportFragmentManager();
+//                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                        fragmentTransaction = fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.frame_view, fragment);
+//                        fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
                     }
                 });
+            }
+            if(holder.clockInTime!=null&&!TextUtils.isEmpty(roaster.getTimeOne())){
+                holder.clockInTime.setText("Clock In Time: "+roaster.getTimeOne());
+            }
+            if(holder.clockOutTime!=null){
+                holder.clockOutTime.setText("Clock Out Time:"+roaster.getTimeTwo());
+            }
+            if(holder.totalTime!=null&&((!TextUtils.isEmpty(roaster.getTimeOne()))&&(!TextUtils.isEmpty(roaster.getTimeTwo())))){
+                try {
+                    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    Date date1=format.parse(roaster.getTimeOne().replace("-","/"));
+                    Date date2=format.parse(roaster.getTimeTwo().replace("-","/"));
+                    long diff = date2.getTime() - date1.getTime();
+
+                    long diffSeconds = diff / 1000 % 60;
+                    long diffMinutes = diff / (60 * 1000) % 60;
+                    long diffHours = diff / (60 * 60 * 1000) % 24;
+                    long diffDays = diff / (24 * 60 * 60 * 1000);
+                    holder.totalTime.setText("Total Time: "+diffHours +" hours " +diffMinutes+ " minutes");
+                }catch (Exception e){
+
+                }
+//                holder.totalTime.setText("Total Time: "+DateUtils.formatElapsedTime(Date.parse(roaster.getTimeTwo())-Date.parse(roaster.getTimeTwo())));
             }
             if (holder.markAttendance != null) {
                 if (roaster.isMark_btn_status()) {
@@ -244,7 +280,6 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                         }
                     });
                 }
-
             }
         }
     }
@@ -263,6 +298,9 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private TextView workDay;
         private TextView locationText;
         private TextView customerNameText;
+        private TextView clockInTime;
+        private TextView clockOutTime;
+        private TextView totalTime;
         //        private TextView customerName;
         private TextView status;
         //        private ImageView customerCall;
@@ -281,6 +319,9 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             workTime = (TextView) itemView.findViewById(R.id.work_time);
             workDay = (TextView) itemView.findViewById(R.id.work_day);
             locationText = (TextView) itemView.findViewById(R.id.location_text);
+            clockInTime=(TextView)itemView.findViewById(R.id.clock_in_date);
+            clockOutTime=(TextView)itemView.findViewById(R.id.clock_out_date);
+            totalTime=(TextView)itemView.findViewById(R.id.total_time);
 //            customerName = (TextView) itemView.findViewById(R.id.customer_name);
             customerNameText = (TextView) itemView.findViewById(R.id.customer_name);
             status = (TextView) itemView.findViewById(R.id.status);
