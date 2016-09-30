@@ -16,6 +16,7 @@ public class API {
     public static final String ATTENDANCE_LIST = SERVER_BASE + "indextrackmzapp.php/myattendance";
     public static final String OFF_DUTY = SERVER_BASE + "indextrackmzapp.php/addattendanceclickout";
     public static final String UPDATE_PROFILE = SERVER_BASE + "indextrackmzapp.php/userprofileupdate";
+    public static final String PROFILE_URL = SERVER_BASE + "indextrackmzapp.php/profiledetails";
 
     public class Headers {
         public static final String ACCEPT_KEY = "Accept";

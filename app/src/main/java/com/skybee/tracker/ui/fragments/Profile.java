@@ -1,10 +1,10 @@
 package com.skybee.tracker.ui.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +23,7 @@ import com.skybee.tracker.FileUtils;
 import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
 import com.skybee.tracker.Utility;
+import com.skybee.tracker.activities.HomeActivity;
 import com.skybee.tracker.activities.LoginActivity;
 import com.skybee.tracker.constants.API;
 import com.skybee.tracker.constants.Constants;
@@ -31,6 +32,8 @@ import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +41,14 @@ import org.json.JSONObject;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class Profile extends BaseFragment {
 
-    private final String TAG=this.getClass().getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
     private static final int SELECT_PICTURE = 1;
     private RelativeLayout logoutButton;
     private ImageView userImage;
@@ -57,6 +62,7 @@ public class Profile extends BaseFragment {
     private User user;
     private UserStore userStore;
     private GPSTracker gpsTracker;
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,9 +81,12 @@ public class Profile extends BaseFragment {
         userName = (TextView) view.findViewById(R.id.user_name);
         userCompany = (TextView) view.findViewById(R.id.user_company);
 //        userLocation = (TextView) view.findViewById(R.id.location_text);
+
+        progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
+        Utility.showProgressDialog(progressDialog);
         userEmail = (TextView) view.findViewById(R.id.email_text);
         userMobileNumber = (TextView) view.findViewById(R.id.mobile_num_text);
-        userImageText=(TextView)view.findViewById(R.id.user_image_text);
+        userImageText = (TextView) view.findViewById(R.id.user_image_text);
         logoutButton = (RelativeLayout) view.findViewById(R.id.logout_section);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,20 +105,7 @@ public class Profile extends BaseFragment {
 //            }
 //        });
         user=getLocalUser();
-        if(user!=null){
-            if(!TextUtils.isEmpty(user.getUserName())) {
-                userName.setText(user.getUserName());
-//                userImageText.setText(String.valueOf(user.getUserName().charAt(0)));
-            }
-            if(user.getUserEmail()!=null)
-                userEmail.setText(user.getUserEmail());
-            if(user.getUserMobileNumber()!=null)
-                userMobileNumber.setText(user.getUserMobileNumber());
-            if(!TextUtils.isEmpty(user.getUserCompany()))
-                userCompany.setText(user.getUserCompany());
-            else
-                userCompany.setText("");
-        }
+        getUserProfile();
         return view;
     }
 
@@ -128,7 +124,7 @@ public class Profile extends BaseFragment {
         ((Activity) getContext()).finish();
     }
 
-    private void showPictureChooser(){
+    private void showPictureChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -159,7 +155,7 @@ public class Profile extends BaseFragment {
                     public void onSuccess(JSONObject result) {
                         Log.d(TAG, "success");
                         try {
-                                Toast.makeText(getContext(), "Picture updated", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Picture updated", Toast.LENGTH_LONG).show();
                         } catch (Exception e) {
                         }
                     }
@@ -178,5 +174,82 @@ public class Profile extends BaseFragment {
             Log.d(TAG, "File Path: " + path);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void getUserProfile() {
+        ListenableFuture<JSONObject> getUserProfile = Factory.getUserService().getUserProfile(API.PROFILE_URL, user);
+        Futures.addCallback(getUserProfile, new FutureCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    if (!TextUtils.isEmpty(user.getUserCompany()))
+                        userCompany.setText(user.getUserCompany());
+                    else
+                        userCompany.setText("");
+
+                    if (result.has("message") && result.getString("message").equals("Success")) {
+                        JSONObject data = result.getJSONObject("data");
+                        if ((data.has("name")) && !(TextUtils.isEmpty(data.getString("name")))) {
+                            userName.setText(data.getString("name"));
+                        }
+                        if (data.has("email") && !(TextUtils.isEmpty(data.getString("email")))) {
+                            userEmail.setText(data.getString("email"));
+                        }
+                        if (data.has("mobile") && !(TextUtils.isEmpty(data.getString("mobile")))) {
+                            userMobileNumber.setText(data.getString("mobile"));
+                        }
+                        if (data.has("profile_pic") && !(TextUtils.isEmpty(data.getString("profile_pic")))) {
+                            final AtomicBoolean loaded = new AtomicBoolean();
+                            Picasso.with(context).load(Constants.IMAGE_PREFIX+data.getString("profile_pic"))
+                                    .into(userImage, new Callback.EmptyCallback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            loaded.set(true);
+                                            userImage.setVisibility(View.VISIBLE);
+                                            userImageText.setVisibility(View.INVISIBLE);
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            userImageText.setVisibility(View.VISIBLE);
+                                            userImage.setVisibility(View.INVISIBLE);
+                                        }
+                                    });
+                            if (!loaded.get()) {
+                                userImageText.setVisibility(View.VISIBLE);
+                                userImage.setVisibility(View.INVISIBLE);
+
+                            }
+                        } else {
+                            if (user != null) {
+                                if (!TextUtils.isEmpty(user.getUserName())) {
+                                    userName.setText(user.getUserName());
+                                }
+                                if (user.getUserEmail() != null)
+                                    userEmail.setText(user.getUserEmail());
+                                if (user.getUserMobileNumber() != null)
+                                    userMobileNumber.setText(user.getUserMobileNumber());
+                            }
+                        }
+                    }
+                } catch (JSONException jsonException) {
+                    Log.d(TAG, Constants.Exception.JSON_EXCEPTION);
+                    Utility.checkProgressDialog(progressDialog);
+                } catch (Exception exception) {
+                    Log.d(TAG, Constants.Exception.EXCEPTION);
+                    Utility.checkProgressDialog(progressDialog);
+                } finally {
+                    Log.d(TAG, Constants.Exception.EXCEPTION);
+                    Utility.checkProgressDialog(progressDialog);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Utility.checkProgressDialog(progressDialog);
+                Utility.showErrorDialog(context, Constants.ERROR_OCCURRED);
+            }
+        }, ExecutorUtils.getUIThread());
+
     }
 }

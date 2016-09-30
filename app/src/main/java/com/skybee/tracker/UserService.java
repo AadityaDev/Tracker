@@ -185,4 +185,17 @@ public class UserService {
             }
         });
     }
+
+    public ListenableFuture<JSONObject> getUserProfile(@NonNull final String url, @NonNull final User user) {
+        return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                Gson gson = new Gson();
+                Request request = RequestGenerator.get(url , user.getAuthToken());
+                String body = RequestHandler.makeRequestAndValidate(request);
+                JSONObject result = new JSONObject(body);
+                return result;
+            }
+        });
+    }
 }
