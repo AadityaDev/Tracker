@@ -212,13 +212,10 @@ public class Profile extends BaseFragment {
                                         @Override
                                         public void onError() {
                                             userImageText.setVisibility(View.VISIBLE);
-                                            userImage.setVisibility(View.INVISIBLE);
                                         }
                                     });
                             if (!loaded.get()) {
                                 userImageText.setVisibility(View.VISIBLE);
-                                userImage.setVisibility(View.INVISIBLE);
-
                             }
                         } else {
                             if (user != null) {

@@ -6,41 +6,41 @@
     android:padding="@dimen/dimen_16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <com.skybee.tracker.ui.customview.CircularImageView
-        android:id="@+id/imageView"
-        android:layout_width="@dimen/dimen_60dp"
-        android:layout_height="@dimen/dimen_60dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:background="@drawable/green_circle" />
+    <!--<com.skybee.tracker.ui.customview.CircularImageView-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_width="@dimen/dimen_60dp"-->
+        <!--android:layout_height="@dimen/dimen_60dp"-->
+        <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
+        <!--android:background="@drawable/green_circle" />-->
 
-    <TextView
-        android:id="@+id/image_view_text"
-        android:layout_width="@dimen/dimen_60dp"
-        android:layout_height="@dimen/dimen_60dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:maxLength="1"
-        android:gravity="center_vertical"
-        />
-
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/white"
-        android:layout_below="@+id/image_view_text"
-        android:layout_marginTop="@dimen/dimen_6dp"
-        android:textAllCaps="true"
-        />
+    <!--<TextView-->
+        <!--android:id="@+id/image_view_text"-->
+        <!--android:layout_width="@dimen/dimen_60dp"-->
+        <!--android:layout_height="@dimen/dimen_60dp"-->
+        <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
+        <!--android:maxLength="1"-->
+        <!--android:gravity="center_vertical"-->
+        <!--/>-->
 
     <TextView
         android:id="@+id/user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:layout_below="@+id/user_name"
         android:layout_marginTop="@dimen/dimen_6dp"
+        android:layout_marginBottom="@dimen/dimen_10dp"
+        android:layout_alignParentBottom="true"
         />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:layout_above="@+id/user_email"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

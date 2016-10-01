@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +24,6 @@ import com.skybee.tracker.model.AttendancePojo;
 import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,19 +86,19 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             }
             if (holder.status != null) {
                 if (roaster.getLogin_status() == 0) {
-                    holder.status.setText("ABSENT");
+//                    holder.status.setText("ABSENT");
                 } else if (roaster.getLogin_status() == 1) {
-                    holder.status.setText("PRESENT");
+                    holder.status.setText("Status : " + "PRESENT");
                 } else if (roaster.getLogin_status() == 2) {
-                    holder.status.setText("LOGOUT");
+                    holder.status.setText("Status : " + "LOGOUT");
                 } else if (roaster.getLogin_status() == 3) {
-                    holder.status.setText("OFF DUTY");
+                    holder.status.setText("Status : " + "OFF DUTY");
                 }
             }
 //            if (!TextUtils.isEmpty(roaster.getCustomerName()) && holder.customerName != null) {
 //                holder.customerName.setText(roaster.getCustomerName());
 //            }
-            if (holder.taskName!=null&&!TextUtils.isEmpty(roaster.getTaskName())) {
+            if (holder.taskName != null && !TextUtils.isEmpty(roaster.getTaskName())) {
                 holder.taskName.setText(roaster.getTaskName());
             }
             if (!TextUtils.isEmpty(roaster.getDate()) && !TextUtils.isEmpty(roaster.getDate_to())) {
@@ -119,7 +116,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             if (!TextUtils.isEmpty(roaster.getTotal_hours())) {
                 holder.workDay.setText("Work Hours: " + roaster.getTotal_hours());
             }
-            if (holder.locationText!=null&&!TextUtils.isEmpty(roaster.getAddress())) {
+            if (holder.locationText != null && !TextUtils.isEmpty(roaster.getAddress())) {
                 holder.locationText.setText(roaster.getAddress());
             } else if (holder.locationText != null) {
                 holder.locationText.setText("Lat: " + roaster.getLatitude() + " Long: " + roaster.getLongitude());
@@ -157,22 +154,6 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             }
             if (holder.markOffDuty != null) {
                 if (roaster.isOff_btn_status() == false && roaster.isMark_btn_status()) {
-                    holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
-                    holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(holder.context, "Your start duty is not marked.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else if (roaster.isOff_btn_status()) {
-                    holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
-                    holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(holder.context, "Your duty ends today.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
                     holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -188,6 +169,22 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                             }
                             ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
                             Utility.saveOffDuty(holder.context, attendancePojo, progressDialog);
+                        }
+                    });
+                } else if (roaster.isOff_btn_status()) {
+                    holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
+                    holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(holder.context, "Your duty ends today.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.answer_grey));
+                    holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(holder.context, "Your start duty is not marked.", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -216,25 +213,25 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     }
                 });
             }
-            if(holder.clockInTime!=null&&!TextUtils.isEmpty(roaster.getTimeOne())){
-                holder.clockInTime.setText("Clock In Time: "+roaster.getTimeOne());
+            if (holder.clockInTime != null && !TextUtils.isEmpty(roaster.getTimeOne())) {
+                holder.clockInTime.setText("Clock In Time: " + roaster.getTimeOne());
             }
-            if(holder.clockOutTime!=null){
-                holder.clockOutTime.setText("Clock Out Time:"+roaster.getTimeTwo());
+            if (holder.clockOutTime != null) {
+                holder.clockOutTime.setText("Clock Out Time:" + roaster.getTimeTwo());
             }
-            if(holder.totalTime!=null&&((!TextUtils.isEmpty(roaster.getTimeOne()))&&(!TextUtils.isEmpty(roaster.getTimeTwo())))){
+            if (holder.totalTime != null && ((!TextUtils.isEmpty(roaster.getTimeOne())) && (!TextUtils.isEmpty(roaster.getTimeTwo())))) {
                 try {
                     SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                    Date date1=format.parse(roaster.getTimeOne().replace("-","/"));
-                    Date date2=format.parse(roaster.getTimeTwo().replace("-","/"));
+                    Date date1 = format.parse(roaster.getTimeOne().replace("-", "/"));
+                    Date date2 = format.parse(roaster.getTimeTwo().replace("-", "/"));
                     long diff = date2.getTime() - date1.getTime();
 
                     long diffSeconds = diff / 1000 % 60;
                     long diffMinutes = diff / (60 * 1000) % 60;
                     long diffHours = diff / (60 * 60 * 1000) % 24;
                     long diffDays = diff / (24 * 60 * 60 * 1000);
-                    holder.totalTime.setText("Total Time: "+diffHours +" hours " +diffMinutes+ " minutes");
-                }catch (Exception e){
+                    holder.totalTime.setText("Total Time: " + diffHours + " hours " + diffMinutes + " minutes");
+                } catch (Exception e) {
 
                 }
 //                holder.totalTime.setText("Total Time: "+DateUtils.formatElapsedTime(Date.parse(roaster.getTimeTwo())-Date.parse(roaster.getTimeTwo())));
@@ -319,9 +316,9 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             workTime = (TextView) itemView.findViewById(R.id.work_time);
             workDay = (TextView) itemView.findViewById(R.id.work_day);
             locationText = (TextView) itemView.findViewById(R.id.location_text);
-            clockInTime=(TextView)itemView.findViewById(R.id.clock_in_date);
-            clockOutTime=(TextView)itemView.findViewById(R.id.clock_out_date);
-            totalTime=(TextView)itemView.findViewById(R.id.total_time);
+            clockInTime = (TextView) itemView.findViewById(R.id.clock_in_date);
+            clockOutTime = (TextView) itemView.findViewById(R.id.clock_out_date);
+            totalTime = (TextView) itemView.findViewById(R.id.total_time);
 //            customerName = (TextView) itemView.findViewById(R.id.customer_name);
             customerNameText = (TextView) itemView.findViewById(R.id.customer_name);
             status = (TextView) itemView.findViewById(R.id.status);
