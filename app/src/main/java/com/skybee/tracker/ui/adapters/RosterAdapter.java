@@ -84,17 +84,17 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             } else if (!TextUtils.isEmpty(roaster.getCompany_name())) {
                 holder.customerCompanyName.setText(roaster.getCompany_name());
             }
-            if (holder.status != null) {
-                if (roaster.getLogin_status() == 0) {
-//                    holder.status.setText("ABSENT");
-                } else if (roaster.getLogin_status() == 1) {
-                    holder.status.setText("Status : " + "PRESENT");
-                } else if (roaster.getLogin_status() == 2) {
-                    holder.status.setText("Status : " + "LOGOUT");
-                } else if (roaster.getLogin_status() == 3) {
-                    holder.status.setText("Status : " + "OFF DUTY");
-                }
-            }
+//            if (holder.status != null) {
+//                if (roaster.getLogin_status() == 0) {
+////                    holder.status.setText("ABSENT");
+//                } else if (roaster.getLogin_status() == 1) {
+//                    holder.status.setText("Status : " + "PRESENT");
+//                } else if (roaster.getLogin_status() == 2) {
+//                    holder.status.setText("Status : " + "LOGOUT");
+//                } else if (roaster.getLogin_status() == 3) {
+//                    holder.status.setText("Status : " + "OFF DUTY");
+//                }
+//            }
 //            if (!TextUtils.isEmpty(roaster.getCustomerName()) && holder.customerName != null) {
 //                holder.customerName.setText(roaster.getCustomerName());
 //            }
@@ -289,7 +289,6 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
     public static class RoasterViewHolder extends RecyclerView.ViewHolder {
         private Context context;
         private TextView customerCompanyName;
-        private TextView taskName;
         private TextView workDate;
         private TextView workTime;
         private TextView workDay;
@@ -298,6 +297,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
         private TextView clockInTime;
         private TextView clockOutTime;
         private TextView totalTime;
+        private TextView taskName;
         //        private TextView customerName;
         private TextView status;
         //        private ImageView customerCall;
@@ -321,7 +321,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             totalTime = (TextView) itemView.findViewById(R.id.total_time);
 //            customerName = (TextView) itemView.findViewById(R.id.customer_name);
             customerNameText = (TextView) itemView.findViewById(R.id.customer_name);
-            status = (TextView) itemView.findViewById(R.id.status);
+//            status = (TextView) itemView.findViewById(R.id.status);
 //            customerCall = (ImageView) itemView.findViewById(R.id.call_customer);
             acceptRoster = (CardView) itemView.findViewById(R.id.accept_roster);
             rejectRoster = (CardView) itemView.findViewById(R.id.reject_roster);
