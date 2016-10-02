@@ -176,7 +176,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(holder.context, "Your duty ends today.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(holder.context, "Your are already clocked out.", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
@@ -184,7 +184,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(holder.context, "Your start duty is not marked.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(holder.context, "Please clock in to start your duty.", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -230,7 +230,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     long diffMinutes = diff / (60 * 1000) % 60;
                     long diffHours = diff / (60 * 60 * 1000) % 24;
                     long diffDays = diff / (24 * 60 * 60 * 1000);
-                    holder.totalTime.setText("Total Time: " + diffHours + " hours " + diffMinutes + " minutes");
+                    holder.totalTime.setText("Worked Hours: " + diffHours + " hours " + diffMinutes + " minutes");
                 } catch (Exception e) {
 
                 }
@@ -242,7 +242,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     holder.markAttendance.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(holder.context, "Your attendance is marked already.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(holder.context, "Your are already clocked in.", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {

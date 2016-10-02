@@ -19,8 +19,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
+import com.skybee.tracker.core.BaseActivity;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener{
+public class MapActivity extends BaseActivity implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener{
 
     private GoogleMap mMap;
     private String title;
@@ -32,7 +33,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Bundle bundle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
@@ -45,6 +46,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             longitude=bundle.getDouble("Long");
             title=bundle.getString("company");
         }
+        getSupportActionBar().setTitle(title);
     }
 
     @Override
