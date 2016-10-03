@@ -7,6 +7,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
@@ -30,6 +34,7 @@ import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
 import com.skybee.tracker.ui.adapters.RosterAdapter;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
+import com.skybee.tracker.ui.fragments.Roasters;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -238,6 +243,8 @@ public class Utility {
                             } else {
                                 Toast.makeText(context, "Job Declined", Toast.LENGTH_SHORT).show();
                             }
+                            Fragment fragment = new Roasters();
+                            openFragment(context, fragment);
                         }
                     }
                 } catch (JSONException jsonException) {
@@ -335,6 +342,8 @@ public class Utility {
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
                             Toast.makeText(context, "Your are clocked out from your duty", Toast.LENGTH_SHORT).show();
+                            context.startActivity(new Intent(context, HomeActivity.class));
+                            ((Activity) context).finish();
                         }
                     }
                 } catch (JSONException jsonException) {
@@ -422,5 +431,16 @@ public class Utility {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(Constants.NOTIFICATION_ID, mBuilder.build());
+    }
+
+    public static void openFragment(@NonNull Context context, @NonNull final Fragment fragment) {
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_view, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
