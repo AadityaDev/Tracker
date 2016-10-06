@@ -61,8 +61,10 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
             attendancePojo.setLattitude(userStore.getUserDetails().getUserLatitude());
             attendancePojo.setCustomer_site_id(userStore.getCompanyId());
             attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.ABSENT);
+            if (userStore.getUserDetails() != null && userStore.getUserDetails().getRoster_id() != 0) {
+                attendancePojo.setRoster_id(userStore.getUserDetails().getRoster_id());
+            }
             Utility.saveNotPresent(context, attendancePojo);
-
         }
     }
 
@@ -76,7 +78,7 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarmIntent.setAction(Constants.INTENT_ACTION);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 60 * 60 * 1000, pendingIntent);
+            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 1 * 60 * 1000, pendingIntent);
         }
     }
 

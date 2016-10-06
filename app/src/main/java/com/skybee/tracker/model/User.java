@@ -17,6 +17,7 @@ public class User {
     private String userCompany;
     private transient int login_type;
     private String device_id;
+    private long roster_id;
     private transient double companyLatitude;
     private transient double companyLongitude;
     private transient long companyRadius;
@@ -139,6 +140,14 @@ public class User {
 
     public void setDevice_id(String device_id) {
         this.device_id = device_id;
+    }
+
+    public long getRoster_id() {
+        return roster_id;
+    }
+
+    public void setRoster_id(long roster_id) {
+        this.roster_id = roster_id;
     }
 
     public double getCompanyLatitude() {

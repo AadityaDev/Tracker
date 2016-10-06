@@ -8,6 +8,8 @@ public class AttendancePojo {
     String address;
     int LoginStatus;
     String company_name;
+    private String imei_in;
+    private String ip_in;
 
     public long getRoster_id() {
         return roster_id;
@@ -63,5 +65,21 @@ public class AttendancePojo {
 
     public void setCompany_name(String company_name) {
         this.company_name = company_name;
+    }
+
+    public String getImei_in() {
+        return imei_in;
+    }
+
+    public void setImei_in(String imei_in) {
+        this.imei_in = imei_in;
+    }
+
+    public String getIp_in() {
+        return ip_in;
+    }
+
+    public void setIp_in(String ip_in) {
+        this.ip_in = ip_in;
     }
 }

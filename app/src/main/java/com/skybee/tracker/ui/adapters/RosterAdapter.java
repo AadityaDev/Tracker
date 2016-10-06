@@ -162,6 +162,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                     holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            UserStore userStore = new UserStore(holder.context);
                             AttendancePojo attendancePojo = new AttendancePojo();
                             attendancePojo.setRoster_id(roaster.getRoster_id());
                             if (roaster.getCustomer_site_id() != 0)
@@ -169,6 +170,17 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                             attendancePojo.setLattitude(roaster.getLatitude());
                             attendancePojo.setLongitude(roaster.getLongitude());
                             attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.OFF_DUTY);
+                            if(!TextUtils.isEmpty(Utility.getIMEINumber(holder.context))&&
+                                    !TextUtils.isEmpty(Utility.getIMEINumber(holder.context))){
+                                attendancePojo.setImei_in(Utility.getIMEINumber(holder.context));
+                            }
+                            if(!TextUtils.isEmpty(Utility.getIPAddress(holder.context))&&
+                                    !TextUtils.isEmpty(Utility.getIPAddress(holder.context))){
+                                attendancePojo.setImei_in(Utility.getIPAddress(holder.context));
+                            }
+                            if (userStore.getUserDetails() != null) {
+                                attendancePojo.setRoster_id(userStore.getUserDetails().getRoster_id());
+                            }
                             if (!TextUtils.isEmpty(roaster.getCOMPANY())) {
                                 attendancePojo.setCompany_name(roaster.getCOMPANY());
                             }
@@ -267,13 +279,23 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                                     attendancePojo.setLattitude(gpsTracker.getLatitude());
                                     attendancePojo.setLongitude(gpsTracker.getLongitude());
                                     attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.PRESENT);
+                                    attendancePojo.setRoster_id(roaster.getRoster_id());
                                     if (!TextUtils.isEmpty(roaster.getCOMPANY())) {
                                         attendancePojo.setCompany_name(roaster.getCOMPANY());
+                                    }
+                                    if(!TextUtils.isEmpty(Utility.getIMEINumber(holder.context))&&
+                                            !TextUtils.isEmpty(Utility.getIMEINumber(holder.context))){
+                                        attendancePojo.setImei_in(Utility.getIMEINumber(holder.context));
+                                    }
+                                    if(!TextUtils.isEmpty(Utility.getIPAddress(holder.context))&&
+                                            !TextUtils.isEmpty(Utility.getIPAddress(holder.context))){
+                                        attendancePojo.setImei_in(Utility.getIPAddress(holder.context));
                                     }
                                     userStore.saveCompanyLatitude(roaster.getLatitude());
                                     userStore.saveCompanyLongitude(roaster.getLongitude());
                                     userStore.saveCompanyRadius(roaster.getRadius());
                                     userStore.saveCompanyId(roaster.getCustomer_site_id());
+                                    userStore.saveRosterId(roaster.getRoster_id());
                                     Log.d("Location Save", "Lat: " + gpsTracker.getLatitude() + "Longi: " + gpsTracker.getLongitude());
                                 }
                                 ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);

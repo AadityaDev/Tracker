@@ -312,6 +312,7 @@ public class HomeActivity extends BaseActivity
                     Log.d(TAG, Constants.Exception.JSON_EXCEPTION);
                     Utility.checkProgressDialog(progressDialog);
                 } catch (Exception exception) {
+                    Log.d(TAG,exception.getMessage());
                     Log.d(TAG, Constants.Exception.EXCEPTION);
                     Utility.checkProgressDialog(progressDialog);
                 } finally {

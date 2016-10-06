@@ -43,6 +43,7 @@ public class Constants {
         public static final String COMPANY_LONGITUDE = "companyLongitude";
         public static final String COMPANY_RADIUS = "companyRadius";
         public static final String IS_ADMIN = "isAdmin";
+        public static final String ROSTER_ID = "rosterId";
         public static final int PRIVATE_MODE = 0;
     }
 

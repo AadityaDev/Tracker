@@ -37,6 +37,7 @@ public class UserStore {
         user.setCompanyLatitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LATITUDE, EMPTY_DOUBLE));
         user.setCompanyLongitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LONGITUDE, EMPTY_DOUBLE));
         user.setCompanyRadius(sharedPreferences.getLong(Constants.UserStore.COMPANY_RADIUS,Constants.DEFAULT_RADIUS));
+        user.setRoster_id(sharedPreferences.getLong(Constants.UserStore.ROSTER_ID,Constants.EMPTY_LONG));
         return user;
     }
 
@@ -121,6 +122,12 @@ public class UserStore {
     public void saveCompanyRadius(@NonNull int companyRadius) {
         editor = sharedPreferences.edit();
         putDouble(editor, Constants.UserStore.COMPANY_RADIUS, companyRadius);
+        editor.apply();
+    }
+
+    public void saveRosterId(@NonNull long rosterId) {
+        editor = sharedPreferences.edit();
+        editor.putLong(Constants.UserStore.COMPANY_RADIUS, rosterId);
         editor.apply();
     }
 

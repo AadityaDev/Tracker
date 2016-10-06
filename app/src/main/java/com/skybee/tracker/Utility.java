@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +14,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.telephony.TelephonyManager;
+import android.text.format.Formatter;
 import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
@@ -39,8 +42,13 @@ import com.skybee.tracker.ui.fragments.Roasters;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static android.content.Context.WIFI_SERVICE;
 
 public class Utility {
 
@@ -329,8 +337,8 @@ public class Utility {
         }, ExecutorUtils.getUIThread());
     }
 
-    public static void saveOffDuty(@NonNull final Context context, @NonNull AttendancePojo attendancePojo, @NonNull final ProgressDialog progressDialog) {
-        UserStore userStore = new UserStore(context);
+    public static void saveOffDuty(@NonNull final Context context, @NonNull final AttendancePojo attendancePojo, @NonNull final ProgressDialog progressDialog) {
+        final UserStore userStore = new UserStore(context);
         User user = new User();
         user = userStore.getUserDetails();
         ListenableFuture<JSONObject> saveLocationResult = Factory.getUserService().markAttendance(API.OFF_DUTY, user, attendancePojo);
@@ -341,6 +349,7 @@ public class Utility {
                     checkProgressDialog(progressDialog);
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
+                            userStore.saveRosterId(attendancePojo.getRoster_id());
                             Toast.makeText(context, "Your are clocked out from your duty", Toast.LENGTH_SHORT).show();
                             context.startActivity(new Intent(context, HomeActivity.class));
                             ((Activity) context).finish();
@@ -442,5 +451,16 @@ public class Utility {
         fragmentTransaction.replace(R.id.frame_view, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public static String getIMEINumber(@NonNull Context context){
+        TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager.getDeviceId();
+    }
+
+    public static String getIPAddress(@NonNull Context context) {
+        WifiManager wm = (WifiManager) context.getSystemService(WIFI_SERVICE);
+        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+        return ip;
     }
 }
