@@ -2,12 +2,12 @@ package com.skybee.tracker.model;
 
 public class AttendancePojo {
     private long roster_id;
-    long customer_site_id;
-    double lattitude;
-    double longitude;
-    String address;
-    int LoginStatus;
-    String company_name;
+    private long customer_site_id;
+    private double lattitude;
+    private double longitude;
+    private String address;
+    private int LoginStatus;
+    private String company_name;
     private String imei_in;
     private String ip_in;
 

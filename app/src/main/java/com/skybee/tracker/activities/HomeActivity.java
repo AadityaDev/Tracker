@@ -126,6 +126,14 @@ public class HomeActivity extends BaseActivity
         user = userStore.getUserDetails();
 
         gpsTracker = new GPSTracker(context);
+        gpsTracker.canGetLocation();
+        if(gpsTracker.canGetLocation()){
+            Log.d(TAG,"CAn get Location");
+            Log.d(TAG, "Latitude "+gpsTracker.getLatitude());
+            Log.d(TAG, "Longitude "+gpsTracker.getLongitude());
+        }else {
+            Log.d(TAG,"Can not get location");
+        }
         if (gpsTracker.getLatitude() != 0 && gpsTracker.getLongitude() != 0) {
             userStore.saveLatitude(gpsTracker.getLatitude());
             userStore.saveLongitude(gpsTracker.getLongitude());
@@ -187,7 +195,7 @@ public class HomeActivity extends BaseActivity
         mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
 
         // Get the geofences used. Geofence data is hard coded in this sample.
-        populateGeofenceList();
+//        populateGeofenceList();
 
         // Kick off the request to build GoogleApiClient.
         buildGoogleApiClient();

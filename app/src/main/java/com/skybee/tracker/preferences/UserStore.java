@@ -127,7 +127,7 @@ public class UserStore {
 
     public void saveRosterId(@NonNull long rosterId) {
         editor = sharedPreferences.edit();
-        editor.putLong(Constants.UserStore.COMPANY_RADIUS, rosterId);
+        editor.putLong(Constants.UserStore.ROSTER_ID, rosterId);
         editor.apply();
     }
 

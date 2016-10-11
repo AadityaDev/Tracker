@@ -49,7 +49,7 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
             userStore.saveLatitude(gpsTracker.getLatitude());
             userStore.saveLongitude(gpsTracker.getLongitude());
         }
-        if (userStore.getUserDetails().getCompanyLatitude() != 0 && userStore.getUserDetails().getCompanyLongitude() != 0 && userStore.getUserDetails() != null) {
+        if (userStore.getUserDetails() != null) {
             float[] results = new float[1];
             Location.distanceBetween(userStore.getUserDetails().getCompanyLatitude(), userStore.getUserDetails().getCompanyLongitude(),
                     userStore.getUserDetails().getUserLatitude(), userStore.getUserDetails().getUserLongitude(), results);
@@ -61,9 +61,9 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
             attendancePojo.setLattitude(userStore.getUserDetails().getUserLatitude());
             attendancePojo.setCustomer_site_id(userStore.getCompanyId());
             attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.ABSENT);
-            if (userStore.getUserDetails() != null && userStore.getUserDetails().getRoster_id() != 0) {
-                attendancePojo.setRoster_id(userStore.getUserDetails().getRoster_id());
-            }
+            attendancePojo.setRoster_id(userStore.getUserDetails().getRoster_id());
+            attendancePojo.setImei_in(Utility.getIMEINumber(context));
+            attendancePojo.setIp_in(Utility.getIPAddress(context));
             Utility.saveNotPresent(context, attendancePojo);
         }
     }

@@ -25,22 +25,6 @@ public class UserService {
 
     private final String TAG = this.getClass().getSimpleName();
 
-//    public FutureTask<User> authenticateUser(Callable callable, @NonNull final User user) {
-//        FutureTask<User> futureTask = new FutureTask<User>(callable);
-//        ExecutorUtils.getUIThread().submit(new Callable<User>() {
-//            @Override
-//            public User call() throws Exception {
-//                Request request = RequestGenerator.post(API.ADMIN_REGISTER_URL, user.toString());
-//                String body = RequestHandler.makeRequestAndValidate(request);
-//                Log.d(TAG, body);
-//                Gson gson = new Gson();
-//                final User user = gson.fromJson(body, User.class);
-//                return user;
-//            }
-//        });
-//        return futureTask;
-//    }
-
     public ListenableFuture<JSONObject> authenticateUser(@NonNull final User user, @NonNull final String url) {
         return ExecutorUtils.getBackgroundPool().submit(new Callable<JSONObject>() {
             @Override
@@ -149,7 +133,9 @@ public class UserService {
                 Gson gson = new Gson();
                 String params = gson.toJson(attendancePojo);
                 Request request = RequestGenerator.postWithToken(url, params, user.getAuthToken());
+                Log.v(TAG,request.toString());
                 String body = RequestHandler.makeRequestAndValidate(request);
+                Log.v(TAG,body);
                 JSONObject result = new JSONObject(body);
                 return result;
             }

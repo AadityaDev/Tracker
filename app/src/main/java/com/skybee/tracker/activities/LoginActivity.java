@@ -146,11 +146,12 @@ public class LoginActivity extends BaseActivity {
             emailView.setError(getString(R.string.error_field_required));
             focusView = emailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            emailView.setError(getString(R.string.error_invalid_email));
-            focusView = emailView;
-            cancel = true;
         }
+//        else if (!isEmailValid(email)) {
+//            emailView.setError(getString(R.string.error_invalid_email));
+//            focusView = emailView;
+//            cancel = true;
+//        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
