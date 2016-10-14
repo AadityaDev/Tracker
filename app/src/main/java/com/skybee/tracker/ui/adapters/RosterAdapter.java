@@ -166,8 +166,10 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                             AttendancePojo attendancePojo = new AttendancePojo();
                             attendancePojo.setRoster_id(roaster.getRoster_id());
                             attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
-                            attendancePojo.setLattitude(roaster.getLatitude());
-                            attendancePojo.setLongitude(roaster.getLongitude());
+                            if(userStore.getUserDetails()!=null){
+                                attendancePojo.setLattitude(userStore.getUserDetails().getUserLatitude());
+                                attendancePojo.setLongitude(userStore.getUserDetails().getUserLongitude());
+                            }
                             attendancePojo.setLoginStatus(Constants.LOGIN_STATUS.OFF_DUTY);
                             if (!TextUtils.isEmpty(roaster.getCOMPANY())) {
                                 attendancePojo.setCompany_name(roaster.getCOMPANY());
