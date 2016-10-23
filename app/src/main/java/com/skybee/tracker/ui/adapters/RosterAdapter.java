@@ -113,7 +113,8 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 holder.workDate.setText(roaster.getCreated());
             }
             if (!TextUtils.isEmpty(roaster.getTime_from()) && !TextUtils.isEmpty(roaster.getTime_to())) {
-                holder.workTime.setText("Time: " + roaster.getTime_from() + " - " + roaster.getTime_to());
+
+                holder.workTime.setText("Time: " + Utility.convertTo24Hour(roaster.getTime_from()) + " - " + Utility.convertTo24Hour(roaster.getTime_to()));
             }
             if (!TextUtils.isEmpty(roaster.getDay()) && !TextUtils.isEmpty(roaster.getDay_to())) {
                 holder.workDay.setText("Day: " + roaster.getDay() + " - " + roaster.getDay_to());
@@ -159,6 +160,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             }
             if (holder.markOffDuty != null) {
                 if (roaster.isOff_btn_status() == false && roaster.isMark_btn_status()) {
+                    holder.markOffDuty.setCardBackgroundColor(holder.context.getResources().getColor(R.color.material_red));
                     holder.markOffDuty.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -166,7 +168,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                             AttendancePojo attendancePojo = new AttendancePojo();
                             attendancePojo.setRoster_id(roaster.getRoster_id());
                             attendancePojo.setCustomer_site_id(roaster.getCustomer_site_id());
-                            if(userStore.getUserDetails()!=null){
+                            if (userStore.getUserDetails() != null) {
                                 attendancePojo.setLattitude(userStore.getUserDetails().getUserLatitude());
                                 attendancePojo.setLongitude(userStore.getUserDetails().getUserLongitude());
                             }
@@ -174,10 +176,10 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                             if (!TextUtils.isEmpty(roaster.getCOMPANY())) {
                                 attendancePojo.setCompany_name(roaster.getCOMPANY());
                             }
-                            if(!TextUtils.isEmpty(Utility.getIMEINumber(holder.context))){
+                            if (!TextUtils.isEmpty(Utility.getIMEINumber(holder.context))) {
                                 attendancePojo.setImei_in(Utility.getIMEINumber(holder.context));
                             }
-                            if(!TextUtils.isEmpty(Utility.getIPAddress(holder.context))){
+                            if (!TextUtils.isEmpty(Utility.getIPAddress(holder.context))) {
                                 attendancePojo.setIp_in(Utility.getIPAddress(holder.context));
                             }
                             ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
@@ -280,12 +282,12 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                                 if (!TextUtils.isEmpty(roaster.getCOMPANY())) {
                                     attendancePojo.setCompany_name(roaster.getCOMPANY());
                                 }
-                                if(!TextUtils.isEmpty(Utility.getIMEINumber(holder.context))){
-                                    Log.d("RosterAdapter",Utility.getIMEINumber(holder.context));
+                                if (!TextUtils.isEmpty(Utility.getIMEINumber(holder.context))) {
+                                    Log.d("RosterAdapter", Utility.getIMEINumber(holder.context));
                                     attendancePojo.setImei_in(Utility.getIMEINumber(holder.context));
                                 }
-                                if(!TextUtils.isEmpty(Utility.getIPAddress(holder.context))){
-                                    Log.d("RosterAdapter",Utility.getIPAddress(holder.context));
+                                if (!TextUtils.isEmpty(Utility.getIPAddress(holder.context))) {
+                                    Log.d("RosterAdapter", Utility.getIPAddress(holder.context));
                                     attendancePojo.setIp_in(Utility.getIPAddress(holder.context));
                                 }
                                 attendancePojo.setRoster_id(roaster.getRoster_id());
@@ -294,10 +296,9 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                                 userStore.saveCompanyRadius(roaster.getRadius());
                                 userStore.saveCompanyId(roaster.getCustomer_site_id());
                                 userStore.saveRosterId(roaster.getRoster_id());
-                                if(!TextUtils.isEmpty(roaster.getCUSTOMERNAME())){
+                                if (!TextUtils.isEmpty(roaster.getCUSTOMERNAME())) {
                                     userStore.saveUserCompany(roaster.getCUSTOMERNAME());
-                                }else
-                                if(!TextUtils.isEmpty(roaster.getCOMPANY())){
+                                } else if (!TextUtils.isEmpty(roaster.getCOMPANY())) {
                                     userStore.saveUserCompany(roaster.getCUSTOMERNAME());
                                 }
                                 ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);

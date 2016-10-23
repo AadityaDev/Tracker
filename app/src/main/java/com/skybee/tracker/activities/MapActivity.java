@@ -95,7 +95,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback,Loca
             LatLng latLng=new LatLng(latitude,longitude);
             myLocation=mMap.addMarker(new MarkerOptions().position(latLng).title(title));
             myLocation.setTag(0);
-            CameraUpdate myLocation= CameraUpdateFactory.newLatLngZoom(latLng,5);
+            CameraUpdate myLocation= CameraUpdateFactory.newLatLngZoom(latLng,14);
             mMap.setOnMarkerClickListener(this);
             mMap.animateCamera(myLocation);
         }

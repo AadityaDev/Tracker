@@ -127,7 +127,7 @@ public class Home extends BaseFragment {
                             }
                         }
                         if (roasterCardList.size() >= 1)
-                            rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
+                            rosterAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException jsonException) {
                     Log.d(getTAG(), Constants.Exception.JSON_EXCEPTION);

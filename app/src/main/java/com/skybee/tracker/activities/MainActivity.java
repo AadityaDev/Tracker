@@ -221,7 +221,7 @@ public class MainActivity extends BaseActivity
                     if (employeeCardList.size()<=0)
                         noResultFound.setVisibility(View.VISIBLE);
                 }
-                employeeCardAdapter.notifyItemInserted(employeeCardList.size() - 1);
+                employeeCardAdapter.notifyDataSetChanged();
                 Utility.checkProgressDialog(progressDialog);
             }
 

@@ -35,6 +35,7 @@ import com.skybee.tracker.model.User;
 import com.skybee.tracker.model.UserServer;
 import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
+import com.skybee.tracker.service.BackgroundService;
 import com.skybee.tracker.ui.adapters.RosterAdapter;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
 import com.skybee.tracker.ui.fragments.Roasters;
@@ -44,8 +45,12 @@ import org.json.JSONObject;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.WIFI_SERVICE;
@@ -285,6 +290,7 @@ public class Utility {
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
                             Toast.makeText(context, "Your are clocked in to your duty ", Toast.LENGTH_LONG).show();
+                            context.startService(new Intent(context,BackgroundService.class));
                             context.startActivity(new Intent(context, HomeActivity.class));
                             ((Activity) context).finish();
                             rosterPojo.setFlag(true);
@@ -350,7 +356,8 @@ public class Utility {
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
                             userStore.saveRosterId(attendancePojo.getRoster_id());
-                            Toast.makeText(context, "Your are clocked out from your duty", Toast.LENGTH_SHORT).show();
+                            context.stopService(new Intent(context, BackgroundService.class));
+                            Toast.makeText(context, "You are clocked out from your duty", Toast.LENGTH_SHORT).show();
                             context.startActivity(new Intent(context, HomeActivity.class));
                             ((Activity) context).finish();
                         }
@@ -463,4 +470,18 @@ public class Utility {
         String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
         return ip;
     }
+    public static String convertTo24Hour(String Time) {
+        DateFormat f1 = new SimpleDateFormat("hh:mm a"); //11:00 pm
+        Date d = null;
+        try {
+            d = f1.parse(Time);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        DateFormat f2 = new SimpleDateFormat("HH:mm");
+        String x = f2.format(d); // "23:00"
+        return x;
+    }
+
 }

@@ -16,7 +16,7 @@
     <string name="admin_text">Admin</string>
     <string name="no_account_text">Don\'t have an account? register here.</string>
     <string name="prompt_user_name">Name</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Username</string>
     <string name="prompt_mobile">Mobile</string>
     <string name="prompt_registration_key">Registration Key</string>
     <string name="prompt_password">Password</string>

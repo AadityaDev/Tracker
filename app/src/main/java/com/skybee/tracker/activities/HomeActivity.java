@@ -312,7 +312,7 @@ public class HomeActivity extends BaseActivity
                             }
                         }
                         if (roasterCardList.size() >= 1)
-                            rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
+                            rosterAdapter.notifyDataSetChanged();
                         Utility.checkProgressDialog(progressDialog);
                     }
                     Utility.checkProgressDialog(progressDialog);

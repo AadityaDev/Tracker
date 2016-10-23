@@ -138,5 +138,7 @@ public class Constants {
         public static final int OFF_DUTY = 3;
     }
 
-    public static final String IMAGE_PREFIX="http://www.eventsbyideation.com/v1/";
+  //  public static final String IMAGE_PREFIX="http://www.eventsbyideation.com/v1/";
+    public static final String IMAGE_PREFIX="http://wapinnovation.net/roster/v1/";
+
 }

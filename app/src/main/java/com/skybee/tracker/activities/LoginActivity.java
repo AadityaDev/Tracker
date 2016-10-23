@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity {
 
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
+      //  populateAutoComplete();
 
         passwordView = (EditText) findViewById(R.id.password);
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
