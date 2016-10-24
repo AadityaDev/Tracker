@@ -261,6 +261,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                         }
                     });
                 } else {
+                    holder.markAttendance.setCardBackgroundColor(holder.context.getResources().getColor(R.color.material_green));
                     holder.markAttendance.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
