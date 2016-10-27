@@ -30,14 +30,15 @@ public class UserStore {
         user.setUserEmail(sharedPreferences.getString(Constants.UserStore.USER_EMAIL, EMPTY));
         user.setUserLatitude(getDouble(sharedPreferences, Constants.UserStore.LATITUDE, EMPTY_DOUBLE));
         user.setUserLongitude(getDouble(sharedPreferences, Constants.UserStore.LONGITUDE, EMPTY_DOUBLE));
-        user.setUserCompany(sharedPreferences.getString(Constants.UserStore.USER_COMPANY,EMPTY));
+        user.setUserCompany(sharedPreferences.getString(Constants.UserStore.USER_COMPANY, EMPTY));
         user.setUserMobileNumber(sharedPreferences.getString(Constants.UserStore.USER_MOBILE_NUMBER, EMPTY));
         user.setUserName(sharedPreferences.getString(Constants.UserStore.USER_NAME, EMPTY));
         user.setUserPassword(sharedPreferences.getString(Constants.UserStore.USER_PASSWORD, EMPTY));
         user.setCompanyLatitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LATITUDE, EMPTY_DOUBLE));
         user.setCompanyLongitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LONGITUDE, EMPTY_DOUBLE));
-        user.setCompanyRadius(sharedPreferences.getLong(Constants.UserStore.COMPANY_RADIUS,Constants.DEFAULT_RADIUS));
-        user.setRoster_id(sharedPreferences.getLong(Constants.UserStore.ROSTER_ID,Constants.EMPTY_LONG));
+        user.setCompanyRadius(sharedPreferences.getLong(Constants.UserStore.COMPANY_RADIUS, Constants.DEFAULT_RADIUS));
+        user.setRoster_id(sharedPreferences.getLong(Constants.UserStore.ROSTER_ID, Constants.EMPTY_LONG));
+        user.setImeiNumber(sharedPreferences.getString(Constants.UserStore.IMEI_NUMBER, Constants.EMPTY));
         return user;
     }
 
@@ -139,11 +140,21 @@ public class UserStore {
         return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
     }
 
-    public long getCompanyId(){
-        return sharedPreferences.getLong(Constants.UserStore.COMPANY_ID,0);
+    public long getCompanyId() {
+        return sharedPreferences.getLong(Constants.UserStore.COMPANY_ID, 0);
     }
 
-    public void logoutUser(Context context) {
+    public void saveIMEINumber(@NonNull String imei) {
+        editor = sharedPreferences.edit();
+        editor.putString(Constants.UserStore.IMEI_NUMBER, imei);
+        editor.apply();
+    }
+
+    public String getIMEINumber() {
+        return sharedPreferences.getString(Constants.UserStore.IMEI_NUMBER, Constants.EMPTY);
+    }
+
+    public void logoutUser(@NonNull Context context) {
         editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();

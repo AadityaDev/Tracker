@@ -43,13 +43,10 @@ import com.skybee.tracker.ui.fragments.Roasters;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -290,7 +287,7 @@ public class Utility {
                     if (result.has(Constants.JsonConstants.MESSAGE)) {
                         if (result.getString(Constants.JsonConstants.MESSAGE).equals(Constants.JsonConstants.SUCCESS)) {
                             Toast.makeText(context, "Your are clocked in to your duty ", Toast.LENGTH_LONG).show();
-                            context.startService(new Intent(context,BackgroundService.class));
+                            context.startService(new Intent(context, BackgroundService.class));
                             context.startActivity(new Intent(context, HomeActivity.class));
                             ((Activity) context).finish();
                             rosterPojo.setFlag(true);
@@ -460,8 +457,13 @@ public class Utility {
         fragmentTransaction.commit();
     }
 
-    public static String getIMEINumber(@NonNull Context context){
-        TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getIMEINumber(@NonNull Context context) {
+        UserStore userStore = new UserStore(context);
+        return userStore.getIMEINumber();
+    }
+
+    public static String getIMEINumberFromDevice(@NonNull Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return telephonyManager.getDeviceId();
     }
 
@@ -470,6 +472,7 @@ public class Utility {
         String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
         return ip;
     }
+
     public static String convertTo24Hour(String Time) {
         DateFormat f1 = new SimpleDateFormat("hh:mm a"); //11:00 pm
         Date d = null;

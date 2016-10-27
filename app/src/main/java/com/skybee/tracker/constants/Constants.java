@@ -30,6 +30,7 @@ public class Constants {
         public static final String IS_LOGGED_IN = "isLoggedIn";
         public static final String AUTH_TOKEN = "authToken";
         public static final String COMPANY_ID = "companyId";
+        public static final String IMEI_NUMBER = "IMEI";
         public static final String USER_ID = "userId";
         public static final String USER_NAME = "userName";
         public static final String USER_EMAIL = "userEmail";
@@ -88,8 +89,8 @@ public class Constants {
         public static final String MOBILE = "mobile";
         public static final String API_TOKEN = "api_token";
         public static final String SUCCESS = "Success";
-        public static final String MARK_BUTTON_STATUS="mark_btn_status";
-        public static final String OFF_BUTTON_STATUS="off_btn_status";
+        public static final String MARK_BUTTON_STATUS = "mark_btn_status";
+        public static final String OFF_BUTTON_STATUS = "off_btn_status";
     }
 
     public static final int rosterCard = 0;
@@ -138,7 +139,7 @@ public class Constants {
         public static final int OFF_DUTY = 3;
     }
 
-  //  public static final String IMAGE_PREFIX="http://www.eventsbyideation.com/v1/";
-    public static final String IMAGE_PREFIX="http://wapinnovation.net/roster/v1/";
+    //  public static final String IMAGE_PREFIX="http://www.eventsbyideation.com/v1/";
+    public static final String IMAGE_PREFIX = "http://wapinnovation.net/roster/v1/";
 
 }

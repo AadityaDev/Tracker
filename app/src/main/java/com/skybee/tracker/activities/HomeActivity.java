@@ -1,13 +1,16 @@
 package com.skybee.tracker.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -67,7 +70,8 @@ import java.util.List;
 
 public class HomeActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status>,
+        ActivityCompat.OnRequestPermissionsResultCallback {
 
     private GPSTracker gpsTracker;
     private final String TAG = this.getClass().getSimpleName();
@@ -87,6 +91,7 @@ public class HomeActivity extends BaseActivity
     private TextView userName;
     private TextView userEmail;
     private TextView noResultFound;
+    private final int REQUEST_IMEI = 0;
 
     public static final HashMap<String, LatLng> LAT_LNG_HASH_MAP = new HashMap<String, LatLng>();
 
@@ -127,12 +132,12 @@ public class HomeActivity extends BaseActivity
 
         gpsTracker = new GPSTracker(context);
         gpsTracker.canGetLocation();
-        if(gpsTracker.canGetLocation()){
-            Log.d(TAG,"CAn get Location");
-            Log.d(TAG, "Latitude "+gpsTracker.getLatitude());
-            Log.d(TAG, "Longitude "+gpsTracker.getLongitude());
-        }else {
-            Log.d(TAG,"Can not get location");
+        if (gpsTracker.canGetLocation()) {
+            Log.d(TAG, "CAn get Location");
+            Log.d(TAG, "Latitude " + gpsTracker.getLatitude());
+            Log.d(TAG, "Longitude " + gpsTracker.getLongitude());
+        } else {
+            Log.d(TAG, "Can not get location");
         }
         if (gpsTracker.getLatitude() != 0 && gpsTracker.getLongitude() != 0) {
             userStore.saveLatitude(gpsTracker.getLatitude());
@@ -202,6 +207,16 @@ public class HomeActivity extends BaseActivity
 
         Intent startServiceIntent = new Intent(context, BackgroundService.class);
         startService(startServiceIntent);
+
+        if (TextUtils.isEmpty(user.getImeiNumber())) {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_PHONE_STATE},
+                        0);
+            }
+        }
+
     }
 
     /**
@@ -220,6 +235,20 @@ public class HomeActivity extends BaseActivity
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_IMEI) {
+            // Received permission result for camera permission.est.");
+            // Check if the only required permission has been granted
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Camera permission has been granted, preview can be displayed
+                userStore.saveIMEINumber(Utility.getIMEINumber(context));
+            } else {
+                Toast.makeText(context, "IMEI number is not available", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -320,7 +349,7 @@ public class HomeActivity extends BaseActivity
                     Log.d(TAG, Constants.Exception.JSON_EXCEPTION);
                     Utility.checkProgressDialog(progressDialog);
                 } catch (Exception exception) {
-                    Log.d(TAG,exception.getMessage());
+                    Log.d(TAG, exception.getMessage());
                     Log.d(TAG, Constants.Exception.EXCEPTION);
                     Utility.checkProgressDialog(progressDialog);
                 } finally {

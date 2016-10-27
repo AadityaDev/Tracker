@@ -21,6 +21,7 @@ public class User {
     private transient double companyLatitude;
     private transient double companyLongitude;
     private transient long companyRadius;
+    private transient String imeiNumber;
 
     public Long getId() {
         return id;
@@ -172,5 +173,13 @@ public class User {
 
     public void setCompanyRadius(long companyRadius) {
         this.companyRadius = companyRadius;
+    }
+
+    public String getImeiNumber() {
+        return imeiNumber;
+    }
+
+    public void setImeiNumber(String imeiNumber) {
+        this.imeiNumber = imeiNumber;
     }
 }
