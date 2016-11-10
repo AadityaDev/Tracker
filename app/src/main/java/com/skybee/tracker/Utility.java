@@ -16,6 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
@@ -473,18 +474,30 @@ public class Utility {
         return ip;
     }
 
-    public static String convertTo24Hour(String Time) {
+    public static String convertTo24Hour(@NonNull String time) {
         DateFormat f1 = new SimpleDateFormat("hh:mm a"); //11:00 pm
         Date d = null;
         try {
-            d = f1.parse(Time);
+            if(!isStringNullOrEmpty(time)){
+                d = f1.parse(time);
+            }
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            if (isStringNullOrEmpty(e.getMessage())) {
+                Log.d(TAG, "Parse error");
+            } else {
+                Log.d(TAG, e.getMessage());
+            }
         }
         DateFormat f2 = new SimpleDateFormat("HH:mm");
         String x = f2.format(d); // "23:00"
         return x;
     }
 
+    public static boolean isStringNullOrEmpty(String word) {
+        if ((word.isEmpty() == false) && (word != null)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

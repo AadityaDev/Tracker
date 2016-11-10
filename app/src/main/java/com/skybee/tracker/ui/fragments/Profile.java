@@ -147,6 +147,12 @@ public class Profile extends BaseFragment {
                     Toast.makeText(getContext(), "Picture uploaded", Toast.LENGTH_LONG).show();
                     getUserProfile();
                 } catch (Exception e) {
+                    if(Utility.isStringNullOrEmpty(e.getMessage())){
+                        Log.d(TAG,"Exception");
+                    }else {
+                        Log.d(TAG,e.getMessage());
+                    }
+
                 }
             }
 
@@ -222,7 +228,7 @@ public class Profile extends BaseFragment {
         ListenableFuture<JSONObject> getUserProfile = Factory.getUserService().getUserProfile(API.PROFILE_URL, user);
         Futures.addCallback(getUserProfile, new FutureCallback<JSONObject>() {
             @Override
-            public void onSuccess(JSONObject result) {
+            public void onSuccess(@NonNull JSONObject result) {
                 try {
                     if (!TextUtils.isEmpty(user.getUserCompany()))
                         userCompany.setText(user.getUserCompany());

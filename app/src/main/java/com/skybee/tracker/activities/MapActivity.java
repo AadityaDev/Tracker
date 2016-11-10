@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
+import com.skybee.tracker.Utility;
 import com.skybee.tracker.core.BaseActivity;
 
 public class MapActivity extends BaseActivity implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener{
@@ -46,7 +47,9 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback,Loca
             longitude=bundle.getDouble("Long");
             title=bundle.getString("company");
         }
-        getSupportActionBar().setTitle(title);
+        if((getSupportActionBar()!=null)&&(!Utility.isStringNullOrEmpty(title))){
+            getSupportActionBar().setTitle(title);
+        }
     }
 
     @Override

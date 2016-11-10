@@ -236,7 +236,7 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
             }
             if (holder.totalTime != null && ((!TextUtils.isEmpty(roaster.getTimeOne())) && (!TextUtils.isEmpty(roaster.getTimeTwo())))) {
                 try {
-                    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     Date date1 = format.parse(roaster.getTimeOne().replace("-", "/"));
                     Date date2 = format.parse(roaster.getTimeTwo().replace("-", "/"));
                     long diff = date2.getTime() - date1.getTime();
