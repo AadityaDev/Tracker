@@ -3,6 +3,7 @@ package com.skybee.tracker.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class Setting extends BaseFragment {
     private User user;
     private GPSTracker gpsTracker;
     private UserStore userStore;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +38,10 @@ public class Setting extends BaseFragment {
         // Inflate the layout for this fragment
         userStore = new UserStore(context);
         gpsTracker = new GPSTracker(context);
+
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
+        Utility.showSnackBar(getContext(),coordinatorLayout);
         userName = (TextView) view.findViewById(R.id.user_name);
         userEmail = (TextView) view.findViewById(R.id.user_email);
         userImageText = (TextView) view.findViewById(R.id.user_image_text);

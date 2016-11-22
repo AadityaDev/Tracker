@@ -6,8 +6,12 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -474,30 +478,71 @@ public class Utility {
         return ip;
     }
 
-    public static String convertTo24Hour(@NonNull String time) {
+    public static String convertTo24Hour(@NonNull String Time) {
         DateFormat f1 = new SimpleDateFormat("hh:mm a"); //11:00 pm
         Date d = null;
         try {
-            if(!isStringNullOrEmpty(time)){
-                d = f1.parse(time);
-            }
+            d = f1.parse(Time);
         } catch (ParseException e) {
-            if (isStringNullOrEmpty(e.getMessage())) {
-                Log.d(TAG, "Parse error");
-            } else {
-                Log.d(TAG, e.getMessage());
-            }
+            // TODO Auto-generated catch block
+            Log.d(TAG, e.getMessage());
         }
         DateFormat f2 = new SimpleDateFormat("HH:mm");
         String x = f2.format(d); // "23:00"
         return x;
     }
 
-    public static boolean isStringNullOrEmpty(String word) {
-        if ((word.isEmpty() == false) && (word != null)) {
-            return true;
+    public static boolean isNetworkAvailable(@NonNull Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static String customizedDate(@NonNull String date) {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MM yyyy");
+        String result = "";
+        try {
+            Date dat = inputDateFormat.parse(date);
+            result += outputDateFormat.format(dat);
+        } catch (Exception exception) {
+
+        } finally {
+            return result;
+        }
+    }
+
+    public static void showSnackBar(@NonNull Context context, @NonNull CoordinatorLayout coordinatorLayout) {
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Please check your internet connection", Snackbar.LENGTH_INDEFINITE);
+        if (isNetworkAvailable(context)) {
+            try {
+                snackbar.dismiss();
+            } catch (Exception e) {
+
+            }
         } else {
-            return false;
+            try {
+                if (!snackbar.isShown()) {
+                    snackbar.show();
+                }
+            } catch (Exception exception) {
+
+            }
+        }
+    }
+
+    public static String getLongDate(@NonNull String date) {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MM yyyy");
+        String result = "";
+        try {
+            Date dat = inputDateFormat.parse(date);
+            result += outputDateFormat.format(dat);
+        } catch (Exception exception) {
+
+        } finally {
+            return result;
         }
     }
 }

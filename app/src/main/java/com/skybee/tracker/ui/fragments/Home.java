@@ -2,6 +2,7 @@ package com.skybee.tracker.ui.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -52,6 +53,7 @@ public class Home extends BaseFragment {
     private RosterAdapter rosterAdapter;
     private int progress = 1;
     private User user;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +75,8 @@ public class Home extends BaseFragment {
         checkOutText.setText(Constants.HeadingText.CHECK_OUT);
         timeCards = (RecyclerView) view.findViewById(R.id.time_list);
         timeCards.setHasFixedSize(true);
+        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
+        Utility.showSnackBar(getContext(),coordinatorLayout);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         timeCards.setLayoutManager(linearLayoutManager);
@@ -80,6 +84,7 @@ public class Home extends BaseFragment {
         rosterAdapter = new RosterAdapter(getContext(), roasterCardList, Constants.isSiteCard);
         timeCards.setAdapter(rosterAdapter);
         getCustomerSite();
+
 //        addTimeCard();
 //        ItemClickSupport.addTo(timeCards).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
 //            @Override
@@ -108,6 +113,7 @@ public class Home extends BaseFragment {
 //    }
 
     public void getCustomerSite() {
+        Utility.showSnackBar(context,coordinatorLayout);
         ListenableFuture<JSONObject> getCustomerSites = Factory.getUserService().customerSites(API.CUSTOMER_SITES, user);
         Futures.addCallback(getCustomerSites, new FutureCallback<JSONObject>() {
             @Override

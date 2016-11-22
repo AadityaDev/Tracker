@@ -1,59 +1,60 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.skybee.tracker.ui.fragments.Home"
-    android:padding="@dimen/dimen_16dp"
-    android:layout_marginBottom="@dimen/dimen_50dp"
-    >
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.skybee.tracker.ui.fragments.Home">
 
     <RelativeLayout
-        android:id="@+id/activity_heading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/check_in_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textSize="@dimen/dimen_16sp"
-            />
-
-        <TextView
-            android:id="@+id/lunch_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_16sp"
-            android:layout_centerInParent="true"
-            />
-
-        <TextView
-            android:id="@+id/check_out_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textSize="@dimen/dimen_16sp"
-            />
-    </RelativeLayout>
-
-    <com.skybee.tracker.ui.customview.StepperIndicator
-        android:id="@+id/stepper_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:stpi_stepCount="3"
-        android:layout_below="@+id/activity_heading"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/time_list"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/stepper_indicator"
         android:layout_marginBottom="@dimen/dimen_50dp"
-        />
-</RelativeLayout>
+        android:padding="@dimen/dimen_16dp">
+
+        <RelativeLayout
+            android:id="@+id/activity_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/check_in_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <TextView
+                android:id="@+id/lunch_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <TextView
+                android:id="@+id/check_out_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/dimen_16sp" />
+        </RelativeLayout>
+
+        <com.skybee.tracker.ui.customview.StepperIndicator
+            android:id="@+id/stepper_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_heading"
+            app:stpi_stepCount="3" />
+
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/time_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/stepper_indicator"
+            android:layout_marginBottom="@dimen/dimen_50dp" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

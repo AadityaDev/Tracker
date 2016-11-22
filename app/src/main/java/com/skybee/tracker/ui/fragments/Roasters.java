@@ -1,6 +1,7 @@
 package com.skybee.tracker.ui.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.skybee.tracker.R;
+import com.skybee.tracker.Utility;
 import com.skybee.tracker.core.BaseFragment;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
@@ -27,7 +29,7 @@ public class Roasters extends BaseFragment {
     CharSequence Titles[] = {"Published", "Accepted", "Rejected"};
     int NumbOfTabs = 3;
     private User user;
-
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +39,7 @@ public class Roasters extends BaseFragment {
         user = new User();
         user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_rosters, container, false);
+        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
         //creating view pager adapter
 //        adapter = new ViewPagerAdapter(getFragmentManager(), Titles, NumbOfTabs);
 //        //Assign the viewpager view
@@ -56,6 +59,7 @@ public class Roasters extends BaseFragment {
 
         fragmentTabHost=(FragmentTabHost)view.findViewById(R.id.tabhost);
         fragmentTabHost.setup(getContext(),getChildFragmentManager(),R.id.realtabcontent);
+        Utility.showSnackBar(getContext(),coordinatorLayout);
         fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[0].toString()).setIndicator(Titles[0]),Roster.class,null);
         fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[1].toString()).setIndicator(Titles[1]),AcceptedRoaster.class,null);
         fragmentTabHost.addTab(fragmentTabHost.newTabSpec(Titles[2].toString()).setIndicator(Titles[2]),RejectedRoaster.class,null);

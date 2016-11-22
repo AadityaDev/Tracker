@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -120,6 +121,7 @@ public class HomeActivity extends BaseActivity
      */
     private SharedPreferences mSharedPreferences;
     private Toolbar toolbar;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,7 @@ public class HomeActivity extends BaseActivity
 
         userStore = new UserStore(getApplicationContext());
         user = userStore.getUserDetails();
+        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_layout);
 
         gpsTracker = new GPSTracker(context);
         gpsTracker.canGetLocation();
@@ -143,6 +146,8 @@ public class HomeActivity extends BaseActivity
             userStore.saveLatitude(gpsTracker.getLatitude());
             userStore.saveLongitude(gpsTracker.getLongitude());
         }
+        Utility.showSnackBar(context,coordinatorLayout);
+
         // Def
         LAT_LNG_HASH_MAP.put("LOCATION", new LatLng(user.getCompanyLatitude(), user.getCompanyLongitude()));
 
@@ -316,6 +321,7 @@ public class HomeActivity extends BaseActivity
     }
 
     public void getCustomerSite() {
+        Utility.showSnackBar(context,coordinatorLayout);
         ListenableFuture<JSONObject> getCustomerSites = Factory.getUserService().customerSites(API.CUSTOMER_SITES, user);
         Futures.addCallback(getCustomerSites, new FutureCallback<JSONObject>() {
             @Override
@@ -369,77 +375,77 @@ public class HomeActivity extends BaseActivity
         }, ExecutorUtils.getUIThread());
     }
 
-//    /**
-//     * Builds and returns a GeofencingRequest. Specifies the list of geofences to be monitored.
-//     * Also specifies how the geofence notifications are initially triggered.
-//     */
-//    private GeofencingRequest getGeofencingRequest() {
-//        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-//
-//        // The INITIAL_TRIGGER_ENTER flag indicates that geofencing service should trigger a
-//        // GEOFENCE_TRANSITION_ENTER notification when the geofence is added and if the device
-//        // is already inside that geofence.
-//        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-//
-//        // Add the geofences to be monitored by geofencing service.
-//        builder.addGeofences(mGeofenceList);
-//
-//        // Return a GeofencingRequest.
-//        return builder.build();
-//    }
-//
-//    /**
-//     * Adds geofences, which sets alerts to be notified when the device enters or exits one of the
-//     * specified geofences. Handles the success or failure results returned by addGeofences().
-//     */
-//    public void addGeofencesButtonHandler(View view) {
-//        if (!mGoogleApiClient.isConnected()) {
-//            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        try {
-//            LocationServices.GeofencingApi.addGeofences(
-//                    mGoogleApiClient,
-//                    // The GeofenceRequest object.
-//                    getGeofencingRequest(),
-//                    // A pending intent that that is reused when calling removeGeofences(). This
-//                    // pending intent is used to generate an intent when a matched geofence
-//                    // transition is observed.
-//                    getGeofencePendingIntent()
-//            ).setResultCallback(this); // Result processed in onResult().
-//        } catch (SecurityException securityException) {
-//            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
-//            logSecurityException(securityException);
-//        }
-//    }
-//
-//    /**
-//     * Removes geofences, which stops further notifications when the device enters or exits
-//     * previously registered geofences.
-//     */
-//    public void removeGeofencesButtonHandler(View view) {
-//        if (!mGoogleApiClient.isConnected()) {
-//            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        try {
-//            // Remove geofences.
-//            LocationServices.GeofencingApi.removeGeofences(
-//                    mGoogleApiClient,
-//                    // This is the same pending intent that was used in addGeofences().
-//                    getGeofencePendingIntent()
-//            ).setResultCallback(this); // Result processed in onResult().
-//        } catch (SecurityException securityException) {
-//            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
-//            logSecurityException(securityException);
-//        }
-//    }
-//
-//    private void logSecurityException(SecurityException securityException) {
-//        Log.e(TAG, "Invalid location permission. " +
-//                "You need to use ACCESS_FINE_LOCATION with geofences", securityException);
-//    }
+    /**
+     * Builds and returns a GeofencingRequest. Specifies the list of geofences to be monitored.
+     * Also specifies how the geofence notifications are initially triggered.
+     */
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+
+        // The INITIAL_TRIGGER_ENTER flag indicates that geofencing service should trigger a
+        // GEOFENCE_TRANSITION_ENTER notification when the geofence is added and if the device
+        // is already inside that geofence.
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+
+        // Add the geofences to be monitored by geofencing service.
+        builder.addGeofences(mGeofenceList);
+
+        // Return a GeofencingRequest.
+        return builder.build();
+    }
+
+    /**
+     * Adds geofences, which sets alerts to be notified when the device enters or exits one of the
+     * specified geofences. Handles the success or failure results returned by addGeofences().
+     */
+    public void addGeofencesButtonHandler(View view) {
+        if (!mGoogleApiClient.isConnected()) {
+            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            LocationServices.GeofencingApi.addGeofences(
+                    mGoogleApiClient,
+                    // The GeofenceRequest object.
+                    getGeofencingRequest(),
+                    // A pending intent that that is reused when calling removeGeofences(). This
+                    // pending intent is used to generate an intent when a matched geofence
+                    // transition is observed.
+                    getGeofencePendingIntent()
+            ).setResultCallback(this); // Result processed in onResult().
+        } catch (SecurityException securityException) {
+            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+            logSecurityException(securityException);
+        }
+    }
+
+    /**
+     * Removes geofences, which stops further notifications when the device enters or exits
+     * previously registered geofences.
+     */
+    public void removeGeofencesButtonHandler(View view) {
+        if (!mGoogleApiClient.isConnected()) {
+            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            // Remove geofences.
+            LocationServices.GeofencingApi.removeGeofences(
+                    mGoogleApiClient,
+                    // This is the same pending intent that was used in addGeofences().
+                    getGeofencePendingIntent()
+            ).setResultCallback(this); // Result processed in onResult().
+        } catch (SecurityException securityException) {
+            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+            logSecurityException(securityException);
+        }
+    }
+
+    private void logSecurityException(SecurityException securityException) {
+        Log.e(TAG, "Invalid location permission. " +
+                "You need to use ACCESS_FINE_LOCATION with geofences", securityException);
+    }
 
     /**
      * Runs when the result of calling addGeofences() and removeGeofences() becomes available.
@@ -452,29 +458,29 @@ public class HomeActivity extends BaseActivity
      *               removeGeofences() get called.
      */
     public void onResult(Status status) {
-//        if (status.isSuccess()) {
-//            // Update state and save in shared preferences.
-//            mGeofencesAdded = !mGeofencesAdded;
-//            SharedPreferences.Editor editor = mSharedPreferences.edit();
-//            editor.putBoolean(Constants.GEOFENCES_ADDED_KEY, mGeofencesAdded);
-//            editor.apply();
-//
-//            // Update the UI. Adding geofences enables the Remove Geofences button, and removing
-//            // geofences enables the Add Geofences button.
-////            setButtonsEnabledState();
-//
-//            Toast.makeText(
-//                    this,
-//                    getString(mGeofencesAdded ? R.string.geofences_added :
-//                            R.string.geofences_removed),
-//                    Toast.LENGTH_SHORT
-//            ).show();
-//        } else {
-//            // Get the status code for the error and log it using a user-friendly message.
-//            String errorMessage = GeofenceErrorMessages.getErrorString(this,
-//                    status.getStatusCode());
-//            Log.e(TAG, errorMessage);
-//        }
+        if (status.isSuccess()) {
+            // Update state and save in shared preferences.
+            mGeofencesAdded = !mGeofencesAdded;
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putBoolean(Constants.GEOFENCES_ADDED_KEY, mGeofencesAdded);
+            editor.apply();
+
+            // Update the UI. Adding geofences enables the Remove Geofences button, and removing
+            // geofences enables the Add Geofences button.
+//            setButtonsEnabledState();
+
+            Toast.makeText(
+                    this,
+                    getString(mGeofencesAdded ? R.string.geofences_added :
+                            R.string.geofences_removed),
+                    Toast.LENGTH_SHORT
+            ).show();
+        } else {
+            // Get the status code for the error and log it using a user-friendly message.
+            String errorMessage = GeofenceErrorMessages.getErrorString(this,
+                    status.getStatusCode());
+            Log.e(TAG, errorMessage);
+        }
     }
 
     /**
@@ -495,21 +501,21 @@ public class HomeActivity extends BaseActivity
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public void populateGeofenceList() {
-        for (java.util.Map.Entry<String, LatLng> entry : LAT_LNG_HASH_MAP.entrySet()) {
-            mGeofenceList.add(new Geofence.Builder()
-                    .setRequestId(entry.getKey())
-                    .setCircularRegion(
-                            user.getCompanyLatitude(),
-                            user.getCompanyLongitude(),
-                            user.getCompanyRadius()
-                    )
-                    .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                            Geofence.GEOFENCE_TRANSITION_EXIT)
-                    .build());
-        }
-    }
+//    public void populateGeofenceList() {
+//        for (java.util.Map.Entry<String, LatLng> entry : LAT_LNG_HASH_MAP.entrySet()) {
+//            mGeofenceList.add(new Geofence.Builder()
+//                    .setRequestId(entry.getKey())
+//                    .setCircularRegion(
+//                            user.getCompanyLatitude(),
+//                            user.getCompanyLongitude(),
+//                            user.getCompanyRadius()
+//                    )
+//                    .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+//                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+//                            Geofence.GEOFENCE_TRANSITION_EXIT)
+//                    .build());
+//        }
+//    }
 
     /**
      * Ensures that only one button is enabled at any time. The Add Geofences button is enabled

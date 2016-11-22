@@ -3,6 +3,7 @@ package com.skybee.tracker.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -41,12 +42,15 @@ public class RegisterActivity extends BaseActivity {
 //    private RadioButton userType;
     private TextView selectAll;
     private ImageView backButton;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_layout);
+        Utility.showSnackBar(context,coordinatorLayout);
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         passwordView = (EditText) findViewById(R.id.password);
         nameView = (EditText) findViewById(R.id.user_name);

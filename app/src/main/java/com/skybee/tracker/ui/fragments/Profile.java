@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,6 +73,7 @@ public class Profile extends BaseFragment {
     private UserStore userStore;
     private GPSTracker gpsTracker;
     private ProgressDialog progressDialog;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +82,8 @@ public class Profile extends BaseFragment {
         userStore = new UserStore(context);
         gpsTracker = new GPSTracker(context);
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
+        Utility.showSnackBar(getContext(),coordinatorLayout);
         userImage = (ImageView) view.findViewById(R.id.user_image);
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +142,7 @@ public class Profile extends BaseFragment {
         File file = new File(fileName);
         Log.d(TAG, file.toString());
         UserStore sessionStore = new UserStore(getContext());
+        Utility.showSnackBar(context,coordinatorLayout);
         ListenableFuture<JSONObject> uploadResume = Factory.getUserService().updateUserDetails(sessionStore.getUserDetails(), API.UPDATE_PROFILE, file);
         Futures.addCallback(uploadResume, new FutureCallback<JSONObject>() {
             @Override
@@ -147,12 +152,6 @@ public class Profile extends BaseFragment {
                     Toast.makeText(getContext(), "Picture uploaded", Toast.LENGTH_LONG).show();
                     getUserProfile();
                 } catch (Exception e) {
-                    if(Utility.isStringNullOrEmpty(e.getMessage())){
-                        Log.d(TAG,"Exception");
-                    }else {
-                        Log.d(TAG,e.getMessage());
-                    }
-
                 }
             }
 
@@ -225,10 +224,11 @@ public class Profile extends BaseFragment {
     }
 
     public void getUserProfile() {
+        Utility.showSnackBar(context,coordinatorLayout);
         ListenableFuture<JSONObject> getUserProfile = Factory.getUserService().getUserProfile(API.PROFILE_URL, user);
         Futures.addCallback(getUserProfile, new FutureCallback<JSONObject>() {
             @Override
-            public void onSuccess(@NonNull JSONObject result) {
+            public void onSuccess(JSONObject result) {
                 try {
                     if (!TextUtils.isEmpty(user.getUserCompany()))
                         userCompany.setText(user.getUserCompany());

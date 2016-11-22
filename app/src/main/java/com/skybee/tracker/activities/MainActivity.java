@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -73,11 +74,14 @@ public class MainActivity extends BaseActivity
     private TextView userName;
     private TextView userEmail;
     private TextView noResultFound;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         noResultFound = (TextView) findViewById(R.id.no_result_text);
@@ -175,6 +179,7 @@ public class MainActivity extends BaseActivity
     }
 
     public void getEmployeeList() {
+        Utility.showSnackBar(context,coordinatorLayout);
         ListenableFuture<JSONObject> getEmployees = Factory.getUserService().employeeList(API.EMPLOYEE_LIST, user);
         Futures.addCallback(getEmployees, new FutureCallback<JSONObject>() {
             @Override

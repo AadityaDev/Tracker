@@ -11,9 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.skybee.tracker.R;
+import com.skybee.tracker.Utility;
 
 public class ErrorDialog extends Dialog {
 
+    private Context context;
     private ErrorDialog errorDialog;
     private TextView errorMessage;
     private RelativeLayout ok;
@@ -33,7 +35,11 @@ public class ErrorDialog extends Dialog {
         getWindow().setLayout(android.view.ViewGroup.LayoutParams.FILL_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         errorMessage = (TextView) findViewById(R.id.error_message);
-        errorMessage.setText(message);
+        if(Utility.isNetworkAvailable(context)){
+            errorMessage.setText(message);
+        }else {
+            errorMessage.setText("Check your internet connection!");
+        }
         ok=(RelativeLayout)findViewById(R.id.ok_section);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override

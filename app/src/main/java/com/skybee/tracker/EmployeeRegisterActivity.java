@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -62,12 +63,14 @@ public class EmployeeRegisterActivity extends BaseActivity{
     private View loginFormView;
     private TextView selectAll;
     private ImageView backButton;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_register);
         // Set up the login form.
+        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_layout);
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         passwordView = (EditText) findViewById(R.id.password);
         nameView = (EditText) findViewById(R.id.user_name);
@@ -170,6 +173,7 @@ public class EmployeeRegisterActivity extends BaseActivity{
 //                Utility.authenticate(getContext(), progressDialog, API.ADMIN_SIGN_UP, user);
 //            } else {
             user.setAdmin(false);
+            Utility.showSnackBar(getContext(),coordinatorLayout);
             Utility.authenticate(getContext(), progressDialog, API.EMPLOYEE_SIGN_UP, user);
 //            }
         }

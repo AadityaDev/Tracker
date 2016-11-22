@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.LocationUtil;
 import com.skybee.tracker.R;
+import com.skybee.tracker.Utility;
 import com.skybee.tracker.core.BaseFragment;
 
 public class Map extends BaseFragment implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener {
@@ -34,6 +36,7 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
     private GPSTracker gpsTracker;
     private double latitude = 0;
     private double longitude = 0;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +48,8 @@ public class Map extends BaseFragment implements OnMapReadyCallback,LocationList
         }
         try {
             view = inflater.inflate(R.layout.fragment_map, container, false);
+            coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
+            Utility.showSnackBar(getContext(),coordinatorLayout);
             if(getArguments()!=null){
                 latitude=getArguments().getDouble("Lat");
                 longitude=getArguments().getDouble("Long");

@@ -10,7 +10,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -37,7 +36,7 @@ public class CircularImageView extends ImageView {
     }
 
 
-    public static Bitmap getRoundedCroppedBitmap(@NonNull Bitmap bitmap, int radius) {
+    public static Bitmap getRoundedCroppedBitmap(Bitmap bitmap, int radius) {
         Bitmap finalBitmap;
         if (bitmap.getWidth() != radius || bitmap.getHeight() != radius)
             finalBitmap = Bitmap.createScaledBitmap(bitmap, radius, radius,

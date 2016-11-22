@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback,Loca
     private double latitude = 0;
     private double longitude = 0;
     private Bundle bundle;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,15 +43,15 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback,Loca
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_layout);
+        Utility.showSnackBar(getContext(),coordinatorLayout);
         bundle=getIntent().getExtras();
         if(bundle!=null){
             latitude=bundle.getDouble("Lat");
             longitude=bundle.getDouble("Long");
             title=bundle.getString("company");
         }
-        if((getSupportActionBar()!=null)&&(!Utility.isStringNullOrEmpty(title))){
-            getSupportActionBar().setTitle(title);
-        }
+        getSupportActionBar().setTitle(title);
     }
 
     @Override

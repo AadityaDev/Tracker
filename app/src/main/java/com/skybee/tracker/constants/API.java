@@ -2,8 +2,8 @@ package com.skybee.tracker.constants;
 
 public class API {
 
-//   public static final String SERVER_BASE = "http://wapinnovation.net/roster/v1/";
-    public static final String SERVER_BASE = "http://www.eventsbyideation.com/v1/";
+   public static final String SERVER_BASE = "http://wapinnovation.net/roster/v1/";
+  //  public static final String SERVER_BASE = "http://www.eventsbyideation.com/v1/";
     public static final String ADMIN_SIGN_UP = SERVER_BASE + "indextrackmzapp.php/adminsignup";
     public static final String EMPLOYEE_SIGN_UP = SERVER_BASE + "indextrackmzapp.php/employeesignup";
     public static final String LOGIN = SERVER_BASE + "indextrackmzapp.php/login";

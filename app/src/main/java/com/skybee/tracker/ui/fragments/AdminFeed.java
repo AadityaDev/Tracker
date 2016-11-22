@@ -3,6 +3,7 @@ package com.skybee.tracker.ui.fragments;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,11 +49,13 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
     private UserCardAdapter employeeCardAdapter;
     private List<RosterPojo> roasterCardList;
     private RosterAdapter rosterAdapter;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_feed, container, false);
+        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
         progressDialog = new ProgressDialog(getContext());
         Utility.showProgressDialog(progressDialog);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.shareRegistrationCode);
@@ -80,6 +83,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
     }
 
     public void getEmployeeList() {
+        Utility.showSnackBar(context,coordinatorLayout);
         ListenableFuture<JSONObject> getEmployees = Factory.getUserService().employeeList(API.EMPLOYEE_LIST, getLocalUser());
         Futures.addCallback(getEmployees, new FutureCallback<JSONObject>() {
             @Override
@@ -144,6 +148,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
     }
 
     public void getRoasterList() {
+        Utility.showSnackBar(context,coordinatorLayout);
         ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ROSTER_LIST, getLocalUser());
         Futures.addCallback(getRoaster, new FutureCallback<JSONObject>() {
             @Override

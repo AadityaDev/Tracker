@@ -1,5 +1,6 @@
 package com.skybee.tracker.activities;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.ProgressDialog;
@@ -8,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -46,14 +49,13 @@ public class LoginActivity extends BaseActivity {
     private TextView registerText;
     private ProgressDialog progressDialog;
     private User user;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         //Check already logged in
         UserStore userStore = new UserStore(getApplicationContext());
         user = userStore.getUserDetails();
-        Log.d("Token", userStore.getUserDetails().getAuthToken());
-        Log.d("Token", userStore.getUserDetails().getAuthToken());
         if (userStore != null && userStore.getUserDetails() != null) {
             if (!TextUtils.isEmpty(userStore.getUserDetails().getAuthToken())) {
                 Utility.startActivity(getApplicationContext(), user.isAdmin());
@@ -63,9 +65,11 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
+        Utility.showSnackBar(context, coordinatorLayout);
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
-      //  populateAutoComplete();
+        //  populateAutoComplete();
 
         passwordView = (EditText) findViewById(R.id.password);
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -196,6 +200,15 @@ public class LoginActivity extends BaseActivity {
 
             // Get all emails from the user's contacts and copy them to a list.
             Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+            if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+            }
             Account[] accounts = AccountManager.get(getApplicationContext()).getAccounts();
             for (Account account : accounts) {
                 if (emailPattern.matcher(account.name).matches()) {

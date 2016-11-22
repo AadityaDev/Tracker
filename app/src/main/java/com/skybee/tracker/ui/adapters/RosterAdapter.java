@@ -30,12 +30,14 @@ import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.preferences.UserStore;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterViewHolder> {
 
+    private final String TAG=this.getClass().getSimpleName();
     private GPSTracker gpsTracker;
     public List<RosterPojo> rosterList;
     private boolean isActionCard;
@@ -107,10 +109,11 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 holder.taskName.setText(roaster.getTaskName());
             }
             if (!TextUtils.isEmpty(roaster.getDate()) && !TextUtils.isEmpty(roaster.getDate_to())) {
-                holder.workDate.setText("Date: " + roaster.getDate() + " - " + roaster.getDate_to());
+                holder.workDate.setText("Date: " + Utility.customizedDate(roaster.getDate())
+                            +" - " + Utility.customizedDate(roaster.getDate_to()));
             }
             if ((roaster.getDate() == null) && !(TextUtils.isEmpty(roaster.getCreated())) && (holder.workDate != null)) {
-                holder.workDate.setText(roaster.getCreated());
+                    holder.workDate.setText(Utility.customizedDate(roaster.getCreated()));
             }
             if (!TextUtils.isEmpty(roaster.getTime_from()) && !TextUtils.isEmpty(roaster.getTime_to())) {
 
@@ -229,10 +232,10 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                 });
             }
             if (holder.clockInTime != null && !TextUtils.isEmpty(roaster.getTimeOne())) {
-                holder.clockInTime.setText("Clock In Time: " + roaster.getTimeOne());
+                    holder.clockInTime.setText(Utility.customizedDate(roaster.getTimeOne()));
             }
             if (holder.clockOutTime != null) {
-                holder.clockOutTime.setText("Clock Out Time:" + roaster.getTimeTwo());
+                    holder.clockOutTime.setText("Clock Out Time:" + Utility.customizedDate(roaster.getTimeTwo()));
             }
             if (holder.totalTime != null && ((!TextUtils.isEmpty(roaster.getTimeOne())) && (!TextUtils.isEmpty(roaster.getTimeTwo())))) {
                 try {

@@ -3,6 +3,7 @@ package com.skybee.tracker.ui.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class AcceptedRoaster extends BaseFragment {
     private List<RosterPojo> roasterCardList;
     private RosterAdapter rosterAdapter;
     private User user;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +58,7 @@ public class AcceptedRoaster extends BaseFragment {
         user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_accepted_roaster, container, false);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
+        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
         Utility.showProgressDialog(progressDialog);
         roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
         roasterCards.setHasFixedSize(true);
@@ -77,6 +80,7 @@ public class AcceptedRoaster extends BaseFragment {
     }
 
     public void getAcceptedRoasterList(@NonNull int pageNumber, @NonNull int pageSize) {
+        Utility.showSnackBar(context,coordinatorLayout);
         ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ACCEPTED_ROSTER_LIST
                 +Constants.QUESTION_MARK+Constants.PAGE_NUMER_TEXT+pageNumber
                 +Constants.AND+Constants.PAGE_SIZE_TEXT+pageSize, user);
