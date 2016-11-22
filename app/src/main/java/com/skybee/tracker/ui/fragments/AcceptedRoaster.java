@@ -101,8 +101,7 @@ public class AcceptedRoaster extends BaseFragment {
                                 }
                             }
                         }
-                        if (roasterCardList.size() >= 1)
-                            rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
+                        rosterAdapter.notifyDataSetChanged();
                         Utility.checkProgressDialog(progressDialog);
                     }
                 } catch (JSONException jsonException) {

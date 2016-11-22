@@ -55,7 +55,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_feed, container, false);
-        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinator_layout);
         progressDialog = new ProgressDialog(getContext());
         Utility.showProgressDialog(progressDialog);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.shareRegistrationCode);
@@ -83,7 +83,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
     }
 
     public void getEmployeeList() {
-        Utility.showSnackBar(context,coordinatorLayout);
+        Utility.showSnackBar(context, coordinatorLayout);
         ListenableFuture<JSONObject> getEmployees = Factory.getUserService().employeeList(API.EMPLOYEE_LIST, getLocalUser());
         Futures.addCallback(getEmployees, new FutureCallback<JSONObject>() {
             @Override
@@ -125,7 +125,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
                     message = Constants.ERROR_OCCURRED;
                     Utility.showErrorDialog(getContext(), message);
                 }
-                employeeCardAdapter.notifyItemInserted(employeeCardList.size() - 1);
+                employeeCardAdapter.notifyDataSetChanged();
                 Utility.checkProgressDialog(progressDialog);
             }
 
@@ -148,7 +148,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
     }
 
     public void getRoasterList() {
-        Utility.showSnackBar(context,coordinatorLayout);
+        Utility.showSnackBar(context, coordinatorLayout);
         ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ROSTER_LIST, getLocalUser());
         Futures.addCallback(getRoaster, new FutureCallback<JSONObject>() {
             @Override
@@ -167,8 +167,7 @@ public class AdminFeed extends BaseFragment implements BaseFragment.OnFragmentIn
                                 }
                             }
                         }
-                        if (roasterCardList.size() >= 1)
-                            rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
+                        rosterAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException jsonException) {
                     Log.d(getTAG(), Constants.Exception.JSON_EXCEPTION);

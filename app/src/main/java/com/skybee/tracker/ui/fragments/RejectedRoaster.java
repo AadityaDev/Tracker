@@ -56,7 +56,7 @@ public class RejectedRoaster extends BaseFragment {
         user = new User();
         user = userStore.getUserDetails();
         View view = inflater.inflate(R.layout.fragment_rejected_roaster, container, false);
-        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinator_layout);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
         Utility.showProgressDialog(progressDialog);
         roasterCards = (RecyclerView) view.findViewById(R.id.rejected_roaster_list);
@@ -79,7 +79,7 @@ public class RejectedRoaster extends BaseFragment {
     }
 
     public void getRejectedRoasterList(@NonNull int pageNumber, @NonNull int pageSize) {
-        Utility.showSnackBar(context,coordinatorLayout);
+        Utility.showSnackBar(context, coordinatorLayout);
         ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.REJECTED_ROSTER_LIST
                 + Constants.QUESTION_MARK + Constants.PAGE_NUMER_TEXT + pageNumber
                 + Constants.AND + Constants.PAGE_SIZE_TEXT + pageSize, user);
@@ -100,8 +100,7 @@ public class RejectedRoaster extends BaseFragment {
                                 }
                             }
                         }
-                        if (roasterCardList.size() >= 1)
-                            rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
+                        rosterAdapter.notifyDataSetChanged();
                         Utility.checkProgressDialog(progressDialog);
                     }
                 } catch (JSONException jsonException) {

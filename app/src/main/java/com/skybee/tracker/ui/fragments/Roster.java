@@ -57,7 +57,7 @@ public class Roster extends BaseFragment {
         user = userStore.getUserDetails();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_roster, container, false);
-        coordinatorLayout=(CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinator_layout);
         progressDialog = ProgressDialog.show(getContext(), "", "Loading...", true);
         Utility.showProgressDialog(progressDialog);
         roasterCards = (RecyclerView) view.findViewById(R.id.accepted_roaster_list);
@@ -80,7 +80,7 @@ public class Roster extends BaseFragment {
     }
 
     public void getRoasterList(@NonNull int pageNumber, @NonNull int pageSize) {
-        Utility.showSnackBar(context,coordinatorLayout);
+        Utility.showSnackBar(context, coordinatorLayout);
         ListenableFuture<JSONObject> getRoaster = Factory.getUserService().roasterList(API.ROSTER_LIST
                 + Constants.QUESTION_MARK + Constants.PAGE_NUMER_TEXT + pageNumber
                 + Constants.AND + Constants.PAGE_SIZE_TEXT + pageSize, user);
@@ -106,7 +106,7 @@ public class Roster extends BaseFragment {
                             }
                         }
                         if (roasterCardList.size() >= 1)
-                            rosterAdapter.notifyItemInserted(roasterCardList.size() - 1);
+                            rosterAdapter.notifyDataSetChanged();
                         Utility.checkProgressDialog(progressDialog);
                     }
                 } catch (JSONException jsonException) {
