@@ -11,7 +11,7 @@ public class Constants {
     public static final Long EMPTY_LONG = 0l;
     public static final boolean EMPTY_BOOLEAN = false;
     public static final double EMPTY_DOUBLE = 0;
-    public static final long DEFAULT_RADIUS = 500;
+    public static final double DEFAULT_RADIUS = 50;
     public static final String ERROR = "Error";
     public static final String ERROR_OCCURRED = "Error Occured!";
     public static final String AND = "&";

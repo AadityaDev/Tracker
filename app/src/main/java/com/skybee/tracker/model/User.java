@@ -20,7 +20,7 @@ public class User {
     private long roster_id;
     private transient double companyLatitude;
     private transient double companyLongitude;
-    private transient long companyRadius;
+    private transient double companyRadius;
     private transient String imeiNumber;
 
     public Long getId() {
@@ -167,11 +167,11 @@ public class User {
         this.companyLongitude = companyLongitude;
     }
 
-    public long getCompanyRadius() {
+    public double getCompanyRadius() {
         return companyRadius;
     }
 
-    public void setCompanyRadius(long companyRadius) {
+    public void setCompanyRadius(double companyRadius) {
         this.companyRadius = companyRadius;
     }
 

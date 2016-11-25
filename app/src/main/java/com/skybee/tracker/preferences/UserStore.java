@@ -36,7 +36,7 @@ public class UserStore {
         user.setUserPassword(sharedPreferences.getString(Constants.UserStore.USER_PASSWORD, EMPTY));
         user.setCompanyLatitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LATITUDE, EMPTY_DOUBLE));
         user.setCompanyLongitude(getDouble(sharedPreferences, Constants.UserStore.COMPANY_LONGITUDE, EMPTY_DOUBLE));
-        user.setCompanyRadius(sharedPreferences.getLong(Constants.UserStore.COMPANY_RADIUS, Constants.DEFAULT_RADIUS));
+        user.setCompanyRadius(getDouble(sharedPreferences,Constants.UserStore.COMPANY_RADIUS, Constants.DEFAULT_RADIUS));
         user.setRoster_id(sharedPreferences.getLong(Constants.UserStore.ROSTER_ID, Constants.EMPTY_LONG));
         user.setImeiNumber(sharedPreferences.getString(Constants.UserStore.IMEI_NUMBER, Constants.EMPTY));
         return user;
@@ -120,7 +120,7 @@ public class UserStore {
         editor.apply();
     }
 
-    public void saveCompanyRadius(@NonNull int companyRadius) {
+    public void saveCompanyRadius(@NonNull double companyRadius) {
         editor = sharedPreferences.edit();
         putDouble(editor, Constants.UserStore.COMPANY_RADIUS, companyRadius);
         editor.apply();

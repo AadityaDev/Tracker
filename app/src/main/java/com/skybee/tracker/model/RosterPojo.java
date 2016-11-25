@@ -26,7 +26,7 @@ public class RosterPojo {
     private String TimeTwo;
     private double latitude;
     private double longitude;
-    private int radius;
+    private double radius;
     private String mobile;
     private String EmployeeName;
     private String address;
@@ -240,11 +240,11 @@ public class RosterPojo {
         this.longitude = longitude;
     }
 
-    public int getRadius() {
+    public double getRadius() {
         return this.radius;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 

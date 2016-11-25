@@ -398,7 +398,7 @@ public class Utility {
                 .setCircularRegion(
                         user.getCompanyLatitude(),
                         user.getCompanyLongitude(),
-                        user.getCompanyRadius()
+                        (float) user.getCompanyRadius()
                 )
                 // Set the expiration duration of the geofence. This geofence gets automatically
                 // removed after this period of time.
