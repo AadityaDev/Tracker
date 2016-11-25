@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -306,6 +307,12 @@ public class RosterAdapter extends RecyclerView.Adapter<RosterAdapter.RoasterVie
                                     userStore.saveUserCompany(roaster.getCUSTOMERNAME());
                                 }
                                 ProgressDialog progressDialog = ProgressDialog.show(holder.context, "", "Loading...", true);
+                                String ds="Lat: "+attendancePojo.getLattitude()+" Long: "+attendancePojo.getLongitude()+
+                                        " Company Name: " +attendancePojo.getCompany_name()+" Status: "+attendancePojo.getLoginStatus()+
+                                        " Imei: "+attendancePojo.getImei_in()+" IP: "+attendancePojo.getIp_in()+
+                                        " Roster id: "+attendancePojo.getRoster_id();
+                                Snackbar snackbar=Snackbar.make(holder.markAttendance,ds,Snackbar.LENGTH_INDEFINITE);
+                                snackbar.show();
                                 Utility.saveAttendance(holder.context, attendancePojo, user, progressDialog, roaster, RosterAdapter.this);
                             }
                         }

@@ -282,7 +282,7 @@ public class Utility {
         }, ExecutorUtils.getUIThread());
     }
 
-    public static void saveAttendance(@NonNull final Context context, @NonNull AttendancePojo attendancePojo, @NonNull User user, @NonNull final ProgressDialog progressDialog, @NonNull final RosterPojo rosterPojo, @NonNull final RosterAdapter rosterAdapter) {
+    public static void saveAttendance(@NonNull final Context context, @NonNull final AttendancePojo attendancePojo, @NonNull User user, @NonNull final ProgressDialog progressDialog, @NonNull final RosterPojo rosterPojo, @NonNull final RosterAdapter rosterAdapter) {
         ListenableFuture<JSONObject> saveLocationResult = Factory.getUserService().markAttendance(API.SAVE_ATTENDANCE, user, attendancePojo);
         Futures.addCallback(saveLocationResult, new FutureCallback<JSONObject>() {
             @Override
@@ -312,6 +312,7 @@ public class Utility {
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(context,"Error occured",Toast.LENGTH_LONG).show();
                 errorMessage = Constants.ERROR_OCCURRED;
                 Utility.checkProgressDialog(progressDialog);
                 showErrorDialog(context, errorMessage);

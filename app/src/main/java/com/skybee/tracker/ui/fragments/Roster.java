@@ -105,8 +105,7 @@ public class Roster extends BaseFragment {
                                 }
                             }
                         }
-                        if (roasterCardList.size() >= 1)
-                            rosterAdapter.notifyDataSetChanged();
+                        rosterAdapter.notifyDataSetChanged();
                         Utility.checkProgressDialog(progressDialog);
                     }
                 } catch (JSONException jsonException) {
