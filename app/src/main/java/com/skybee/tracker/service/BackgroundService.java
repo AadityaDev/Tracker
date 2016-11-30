@@ -14,7 +14,6 @@ import com.skybee.tracker.receiver.PeriodicTaskReceiver;
 public class BackgroundService extends Service {
 
     private static final String TAG = "BackgroundService";
-
     PeriodicTaskReceiver mPeriodicTaskReceiver = new PeriodicTaskReceiver();
 
     @Override

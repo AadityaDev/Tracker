@@ -484,8 +484,7 @@ public class Utility {
         Date d = null;
         try {
             d = f1.parse(Time);
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
+        } catch (@NonNull ParseException e) {
             Log.d(TAG, e.getMessage());
         }
         DateFormat f2 = new SimpleDateFormat("HH:mm");
@@ -546,4 +545,13 @@ public class Utility {
             return result;
         }
     }
+
+    public static boolean isNullOrEmpty(@NonNull String string){
+        if((string==null)||(string.isEmpty())){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 }

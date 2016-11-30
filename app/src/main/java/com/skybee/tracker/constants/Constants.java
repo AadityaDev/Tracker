@@ -2,6 +2,8 @@ package com.skybee.tracker.constants;
 
 public class Constants {
 
+    public static final long DISTANCE_IN_METER = 10;
+    public static final long UPDATE_TIME_MILLISECONDS = 1000 * 60 * 1;
     public static final int NOTIFICATION_ID = 9999;
     public static final int PAGE_NUMBER = 0;
     public static final int PAGE_SIZE = 10;
@@ -74,6 +76,7 @@ public class Constants {
         public static final String EXCEPTION = "Exception";
         public static final String JSON_EXCEPTION = "JsonException";
         public static final String HTTP_EXCEPTION = "HttpException";
+        public static final String SECURITY_EXCEPTION = "SecurityException";
     }
 
     public class JsonConstants {
@@ -113,20 +116,16 @@ public class Constants {
     public static final String SHARED_PREFERENCES_NAME = PACKAGE_NAME + ".SHARED_PREFERENCES_NAME";
     public static final String GEOFENCES_ADDED_KEY = PACKAGE_NAME + ".GEOFENCES_ADDED_KEY";
     public static final String GEOFENCES_LOCATION = "LOCATION";
-
     /**
      * Used to set an expiration time for a geofence. After this amount of time Location Services
      * stops tracking the geofence.
      */
-    public static final long GEOFENCE_EXPIRATION_IN_HOURS = 8;
-
+    public static final long GEOFENCE_EXPIRATION_IN_HOURS = 1;
     /**
      * For this sample, geofences expire after twelve hours.
      */
-    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS =
-            GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
+    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
     public static final float GEOFENCE_RADIUS_IN_METERS = 1209; // 1 mile, 1.6 km
-
     public static final String INTENT_ACTION = "com.skybee.tracker.PERIODIC_LOCATION_UPDATE";
     public static final String LOCATION_SERVICE_STORE = "LocationServiceStore";
     public static final String BACKGROUND_SERVICE_BATTERY_CONTROL = "BatteryControl";

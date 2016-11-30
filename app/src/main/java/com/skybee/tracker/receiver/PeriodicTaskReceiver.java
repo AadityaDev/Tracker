@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.common.base.Strings;
@@ -20,28 +21,28 @@ import com.skybee.tracker.preferences.UserStore;
 
 public class PeriodicTaskReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "PeriodicTaskReceiver";
+    private final String TAG = this.getClass().getSimpleName();
     private GPSTracker gpsTracker;
     private UserStore userStore;
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(@NonNull Context context,@NonNull Intent intent) {
         if (!Strings.isNullOrEmpty(intent.getAction())) {
             LocationServiceStore sharedPreferences = new LocationServiceStore(context);
             HomeActivity homeActivity = new HomeActivity();
-            if (intent.getAction().equals("android.intent.action.BATTERY_LOW")) {
-                sharedPreferences.saveIsBatteryOk(false);
-                stopPeriodicTaskHeartBeat(context);
-            } else if (intent.getAction().equals("android.intent.action.BATTERY_OKAY")) {
-                sharedPreferences.saveIsBatteryOk(true);
-                restartPeriodicTaskHeartBeat(context);
-            } else if (intent.getAction().equals(Constants.INTENT_ACTION)) {
+//            if (intent.getAction().equals("android.intent.action.BATTERY_LOW")) {
+//                sharedPreferences.saveIsBatteryOk(false);
+//                stopPeriodicTaskHeartBeat(context);
+//            } else if (intent.getAction().equals("android.intent.action.BATTERY_OKAY")) {
+//                sharedPreferences.saveIsBatteryOk(true);
+//                restartPeriodicTaskHeartBeat(context);
+//            } else if (intent.getAction().equals(Constants.INTENT_ACTION)) {
                 doPeriodicTask(context, homeActivity);
-            }
+//            }
         }
     }
 
-    private void doPeriodicTask(Context context, HomeActivity myApplication) {
+    private void doPeriodicTask(@NonNull Context context,@NonNull HomeActivity myApplication) {
         Log.d(TAG, "Repeat period task");
         userStore = new UserStore(context);
         gpsTracker = new GPSTracker(context);
@@ -68,7 +69,7 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
         }
     }
 
-    public void restartPeriodicTaskHeartBeat(Context context) {
+    public void restartPeriodicTaskHeartBeat(@NonNull Context context) {
         LocationServiceStore locationServiceStore = new LocationServiceStore(context);
         boolean isBatteryOk = locationServiceStore.getBatteryStatus();
         Intent alarmIntent = new Intent(context, PeriodicTaskReceiver.class);
@@ -78,11 +79,11 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarmIntent.setAction(Constants.INTENT_ACTION);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),  60 * 60 * 1000, pendingIntent);
+            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), Constants.UPDATE_TIME_MILLISECONDS, pendingIntent);
         }
     }
 
-    public void stopPeriodicTaskHeartBeat(Context context) {
+    public void stopPeriodicTaskHeartBeat(@NonNull Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(context, PeriodicTaskReceiver.class);
         alarmIntent.setAction(Constants.INTENT_ACTION);
