@@ -75,7 +75,7 @@ public class PeriodicTaskReceiver extends BroadcastReceiver {
         Intent alarmIntent = new Intent(context, PeriodicTaskReceiver.class);
         boolean isAlarmUp = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_NO_CREATE) != null;
 
-        if (isBatteryOk && !isAlarmUp) {
+        if (!isAlarmUp) {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarmIntent.setAction(Constants.INTENT_ACTION);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);

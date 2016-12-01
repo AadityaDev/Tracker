@@ -41,6 +41,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.skybee.tracker.Attendance;
 import com.skybee.tracker.Factory;
+import com.skybee.tracker.GPSTracker;
 import com.skybee.tracker.R;
 import com.skybee.tracker.Utility;
 import com.skybee.tracker.constants.API;
@@ -50,6 +51,7 @@ import com.skybee.tracker.model.RosterPojo;
 import com.skybee.tracker.model.User;
 import com.skybee.tracker.network.ExecutorUtils;
 import com.skybee.tracker.preferences.UserStore;
+import com.skybee.tracker.service.BackgroundService;
 import com.skybee.tracker.ui.adapters.RosterAdapter;
 import com.skybee.tracker.ui.dialog.ErrorDialog;
 import com.skybee.tracker.ui.fragments.Map;
@@ -67,7 +69,7 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private final String TAG = this.getClass().getSimpleName();
-
+    private GPSTracker gpsTracker;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private Location mLastLocation;
     // Google client to interact with Google API
@@ -113,6 +115,7 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         user = userStore.getUserDetails();
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
 
+        gpsTracker=new GPSTracker(HomeActivity.this);
         Utility.showSnackBar(context, coordinatorLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -154,14 +157,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         timeCards.setAdapter(rosterAdapter);
         getCustomerSite();
 
-        if (TextUtils.isEmpty(user.getImeiNumber())) {
-            if (ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-            }
-        }
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
                 + ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 + ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -170,9 +165,18 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                     Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE
             }, REQUEST_LOCATION);
-        } else {
             Snackbar snackbar = Snackbar.make(coordinatorLayout, "Provide permission to access location", Snackbar.LENGTH_LONG);
             snackbar.show();
+        } else {
+            if (TextUtils.isEmpty(user.getImeiNumber())) {
+                if (ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+                }
+            }
+            Intent intent=new Intent(HomeActivity.this, BackgroundService.class);
+            startService(intent);
         }
 
         if (checkPlayServices()) {
@@ -203,20 +207,12 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_IMEI) {
-//            // Received permission result for camera permission.est.");
-//            // Check if the only required permission has been granted
-//            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // Camera permission has been granted, preview can be displayed
-//                userStore.saveIMEINumber(Utility.getIMEINumberFromDevice(context));
-//            } else {
-//                Toast.makeText(context, "IMEI number is not available", Toast.LENGTH_LONG).show();
-//            }
-//        }
         switch (requestCode) {
             case READ_LOCATION:
-                userStore.saveIMEINumber(Utility.getIMEINumberFromDevice(HomeActivity.this));
-                displayLocation();
+                if (checkPermissionsAllowed(grantResults)) {
+                    userStore.saveIMEINumber(Utility.getIMEINumberFromDevice(HomeActivity.this));
+                    displayLocation();
+                }
                 break;
         }
     }
@@ -344,9 +340,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 double longitude = mLastLocation.getLongitude();
                 userStore.saveLatitude(latitude);
                 userStore.saveLongitude(longitude);
-            } else {
-                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Provide app location permission", Snackbar.LENGTH_INDEFINITE);
-                snackbar.show();
             }
         } catch (SecurityException e) {
             Log.d(TAG, e.getMessage());
@@ -372,9 +365,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    /**
-     * Creating google api client object
-     */
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -382,9 +372,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 .addApi(LocationServices.API).build();
     }
 
-    /**
-     * Creating location request object
-     */
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
@@ -393,20 +380,13 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
     }
 
-    /**
-     * Method to verify google play services on the device
-     */
     private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil
-                .isGooglePlayServicesAvailable(this);
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Toast.makeText(getApplicationContext(),
-                        "This device is not supported.", Toast.LENGTH_LONG)
-                        .show();
+                Toast.makeText(getApplicationContext(), "This device is not supported.", Toast.LENGTH_LONG).show();
                 finish();
             }
             return false;
@@ -414,32 +394,21 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    /**
-     * Starting the location updates
-     */
     protected void startLocationUpdates() {
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
-    /**
-     * Stopping location updates
-     */
     protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
-    /**
-     * Google api callback methods
-     */
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = "
-                + result.getErrorCode());
+        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 
     @Override
-    public void onConnected(Bundle arg0) {
+    public void onConnected(@NonNull Bundle arg0) {
         displayLocation();
         if (mRequestingLocationUpdates) {
             startLocationUpdates();
@@ -454,8 +423,22 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
-        Toast.makeText(getApplicationContext(), "Location changed!", Toast.LENGTH_SHORT).show();
-        // Displaying the new location on UI
         displayLocation();
     }
+
+    public static boolean checkPermissionsAllowed(int[] request) {
+        int numofPermissions = 0;
+        if (request != null) {
+            for (int i = 0; i < request.length; i++) {
+                if (request[i] == PackageManager.PERMISSION_GRANTED) {
+                    numofPermissions = numofPermissions + 1;
+                }
+            }
+            if (numofPermissions == request.length) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
